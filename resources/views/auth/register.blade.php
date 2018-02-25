@@ -1,77 +1,154 @@
-@extends('layouts.app')
+@extends('layouts.k_app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Register</div>
+<div class="panel panel-success">
+	<div class="panel-heading">
+		<ol class="breadcrumb">
+			<li><a href="home.php" style="font-size:18px;"><i class="fa fa-arrow-circle-left" aria-hidden="true" title="Go to home page"></i></a></li>
+		  	<li><a href="home.php">Home</a></li>
+		  	<li class="active">Join Us</li>
+		</ol>
+	</div>
+	<div class="panel-body">
+		<em>Join us now ... it's for free.</em>
+	    <br /><hr />
+	    <div class="row">
+	    	<div class="col-md-4">
+	    		<form class="form-horizontal" method="post" action="<?php echo route('register'); ?>">
 
-                <div class="panel-body">
-                    <form class="form-horizontal" method="POST" action="{{ route('register') }}">
-                        {{ csrf_field() }}
+	    			<input type="hidden" name="_token" value="<?php echo csrf_token() ?>" >
 
-                        <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
-                            <label for="name" class="col-md-4 control-label">Name</label>
+	    			<div class="form-group<?php echo $errors->has('user_firstname') ? ' has-error' : ''; ?>">
+					    <label for="" class="col-sm-3 control-label">First Name</label>
+					    <div class="col-sm-9">
+					      <input type="text" class="form-control"  placeholder="first Name" value="<?php echo old('user_firstname'); ?>" name="user_firstname" autofocus />
+	                         <?php 
 
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control" name="name" value="{{ old('name') }}" required autofocus>
+	                         	if($errors->has('user_firstname')){   ?>
 
-                                @if ($errors->has('name'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
+	                         		 <span class="help-block">
+	                                        <strong><?php echo $errors->first('user_firstname'); ?></strong>
+	                                 </span>
+	                        <?php }
+	                         ?>
+					    </div>
+				  	</div>
+
+
+				  	<div class="form-group<?php echo $errors->has('user_lastname') ? ' has-error' : ''; ?>">
+				    <label for="" class="col-sm-3 control-label">Last Name</label>
+				    <div class="col-sm-9">
+				      <input type="text" class="form-control" name="user_lastname" value="<?php echo old('user_lastname'); ?>" placeholder="Last Name" />
+				      		<?php 
+				      			if($errors->has('user_lastname')) {  ?>
+									<span class="help-block">
+                                        <strong><?php echo $errors->first('user_lastname'); ?></strong>
                                     </span>
-                                @endif
-                            </div>
-                        </div>
+				      		<?php }
+				      		?>
+				    </div>
+				  	</div>
 
-                        <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
-                            <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
 
-                                @if ($errors->has('email'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+					<div class="form-group<?php echo $errors->has('email') ? ' has-error' : ''; ?>">
+				     <label for="" class="col-sm-3 control-label">Phone Number Or Email</label>
+				    <div class="col-sm-9">
+				      <input type="text" class="form-control" name="email" value="<?php echo old('email'); ?>" placeholder="Phone Number Or Email" />
+				      		<?php
+				      			if ($errors->has('email')) { ?>
+				      				<span class="help-block">
+                                        <strong><?php echo $errors->first('email'); ?></strong>
                                     </span>
-                                @endif
-                            </div>
-                        </div>
+				      		<?php }
+				      		?>
+				    </div>
+				  	</div>
+					<div class="form-group<?php echo $errors->has('password') ? ' has-error' : ''; ?>">
+				     <label for="" class="col-sm-3 control-label">Password</label>
+				    <div class="col-sm-9">
+				      <input type="password" class="form-control" name="password" value="<?php echo old('password'); ?>" placeholder="Password" />
+				     
+	                         <?php
+	                         	if($errors->has('password'))  {  ?>
+	                         	    <span class="help-block">
+	                                     <strong><?php echo $errors->first('password'); ?></strong>
+	                                  </span>
 
-                        <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+	                         <?php	}
+	                         ?>
+				    </div>
+				  	</div>
 
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control" name="password" required>
 
-                                @if ($errors->has('password'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
+					<div class="form-group<?php echo $errors->has('password_confirmation') ? ' has-error' : ''; ?>">
+				     <label for="" class="col-sm-3 control-label">Password</label>
+				    <div class="col-sm-9">
+				      <input type="password" class="form-control" name="password_confirmation" value="<?php echo old('password_confirmation'); ?>" placeholder="password confirmation" />
+	                         <?php 
+	                         	 if($errors->has('password_confirmation')) { ?>
+	                         	 	 <span class="help-block">
+	                                        <strong><?php echo $errors->first('password_confirmation'); ?></strong>
+	                                    </span>
+	                         <?php	}
+
+	                         ?>
+				    </div>
+				  	</div>
+				  	<div class="form-group<?php echo $errors->has('accept_policy') ? ' has-error' : ''; ?>">
+	                    <div class="col-md-9 col-md-offset-3">
+	                        <div class="checkbox">
+	                            <label>
+	                                <input type="checkbox" name="accept_policy" /> <a href="#" data-toggle="modal" data-target="#myModal">Accept Policy</a>
+	                            </label>
+
+	                            <?php
+				      			if ($errors->has('accept_policy')) { ?>
+				      				<span class="help-block">
+                                        <strong><?php echo $errors->first('accept_policy'); ?></strong>
                                     </span>
-                                @endif
-                            </div>
-                        </div>
+				      		<?php }
+				      		?>
 
-                        <div class="form-group">
-                            <label for="password-confirm" class="col-md-4 control-label">Confirm Password</label>
+	                        </div>
+	                    </div>
+	                </div>
 
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <button type="submit" class="btn btn-primary">
-                                    Register
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+				  	<div class="form-group">
+				    <div class="col-sm-offset-3 col-sm-9">
+				      <button type="submit" class="btn btn-success">Register</button>
+				    </div>
+				  	</div>
+				</form>
+	    	</div>
+	    	<div class="col-md-4 text-right">
+	    		Or Join Us With
+	    		<div><a href="#" class="btn btn-primary" style="width:50%; margin:5px;"><i class="fa fa-facebook"></i>acebook</a></div>
+	    		<div><a href="#" class="btn btn-danger" style="width:50%; margin:5px;"><i class="fa fa-google"></i>oogle</a></div>
+	    		<br /><br />
+	    	</div>
+	    	<div class="col-md-4">
+	    		Already have an account? <a href="<?php echo URL::to('/login'); ?>">Login</a>
+	    	</div>
+	    
+	    </div>
+	</div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Privacy title</h4>
+      </div>
+      <div class="modal-body">
+        your text here
+      </div>
+    </div>
+  </div>
+</div>
+
+
 @endsection
