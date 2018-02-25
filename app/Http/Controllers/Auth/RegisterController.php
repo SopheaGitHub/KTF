@@ -120,8 +120,8 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-         $phoneno ="";
-         $email = "";
+         $phoneno =Null;
+         $email = Null;
 
         if(is_numeric($data['email'])){
              $phoneno  = $data['email'];
