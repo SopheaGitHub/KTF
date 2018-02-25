@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo asset('css/chat.css') ?>">
 
 	<!-- ===================> NOTIFY <=================================== -->
-	<link href="<?php echo asset('dist/styles/metro/notify-metro.css" rel="stylesheet') ?>" />
+	<link href="<?php echo asset('vendor\notifyjs/dist/styles/metro/notify-metro.css" rel="stylesheet') ?>" />
 	<!-- ===================> NOTIFY <=================================== -->
 
 	@yield('css')

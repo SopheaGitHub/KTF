@@ -1,5 +1,14 @@
 @extends('layouts.k_app')
 
+@section('css')
+<style type="text/css">
+	.contrat_title{
+		font-size: 18px;
+		color: #5cb85c;
+	}
+</style>
+@endsection
+
 @section('content')
 
 <div class="panel panel-success">
@@ -12,31 +21,25 @@
 		</ol>
 	</div>
 	<div class="panel-body">
-		<div><b>Congratulations</b></div>
+		<div class="contrat_title"><em>Congratulations!</em></div>
 	    <hr />
 
 	    <form class="form-horizontal">
+			
+	    	<div><b>Who you are ?</b></div>
 			<div class="row">
-				<div class="col-md-6">
-					<div class="form-group">
-					    <label for="" class="col-sm-3 control-label">Who you are ?</label>
-					    <div class="col-sm-12">
-					      	<div class="row">
-					      		<div class="col-md-2">
-					      		</div>
-					      		<div class="col-md-5">
-					      			<div class="category-box" data-toggle="modal" data-target="#myModal1"><i style="font-size:100px;" class="zmdi zmdi-flower-alt mdc-text-green"></i><br /> <b>Do you want to hire freelancer?</b></div>
-					      		</div>
-					      		<div class="col-md-5">
-					      			<div class="category-box" data-toggle="modal" data-target="#myModal2"><i style="font-size:100px;" class="zmdi zmdi-notifications-active animated infinite pulse zmdi-hc-fw mdc-text-blue"></i><br /><b>Are you a freelancer?</b></div>
-					      		</div>
-					      	</div>
-					    </div>
-				  	</div>
+				<a href="<?php echo URL::to('/freelancer/skill'); ?>">
+					<div class="col-md-3">
+		      			<div class="category-box" data-toggle="modal" data-target="#myModal1"><i style="font-size:100px;" class="zmdi zmdi-flower-alt mdc-text-green"></i><br /> <b>Do you want to hire freelancer?</b></div>
+		      		</div>
+	      		</a>
+	      		<a href="<?php echo URL::to('/freelancer/post_project_form'); ?>">
+		      		<div class="col-md-3">
+		      			<div class="category-box" data-toggle="modal" data-target="#myModal2"><i style="font-size:100px;" class="zmdi zmdi-notifications-active animated infinite pulse zmdi-hc-fw mdc-text-blue"></i><br /><b>Are you a freelancer?</b></div>
+		      		</div>
+	      		</a>
+			</div>
 
-					
-
-		  	
 		</form>
 
 	</div>
@@ -50,9 +53,12 @@
 	notify('success');
     function notify(style) {
     	var image = "<?php echo URL::to('/img/ic_success.png'); ?>";
+    	var title =" <?php echo $data->title; ?>";
+    	var message =" <?php echo $data->message; ?>";
+
         $.notify({
-            title: 'Alert',
-            text: 'Congratulation your registration successfully.',
+            title: title,
+            text: message,
             image: "<img src='"+image+"'/>"
         }, {
             style: 'metro',

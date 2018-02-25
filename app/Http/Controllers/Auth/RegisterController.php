@@ -29,7 +29,17 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/freelancer/skill';
+    protected $redirectTo = '/freelancer/success';
+
+
+
+
+    protected $data = null;
+
+
+    public function __construct(){
+        $this->data = new \stdClass();
+    }
 
 
     /**
@@ -109,22 +119,32 @@ class RegisterController extends Controller
      * @return \App\User
      */
     protected function create(array $data)
-
-        // if(is_numeric($data['email'])){
-        //      $phoneno  = $data['email'];
-        // }else{
-        //      $email     = $data['email'];
-        // }
-       
     {
+         $phoneno ="";
+         $email = "";
+
+        if(is_numeric($data['email'])){
+             $phoneno  = $data['email'];
+        }else{
+             $email     = $data['email'];
+        }
+
         return User::create([
             'user_firstname' => $data['user_firstname'],
             'user_lastname' => $data['user_lastname'],
             'username' => $data['email'],
-            'email' =>$email,
+            'email' => $email,
             'user_phoneno' =>  $phoneno,
             'password' => bcrypt($data['password']),
         ]);
+    }
+
+
+
+    protected function success(){
+        $this->data->title = 'Message';
+        $this->data->message = 'Congratulation your registration was successfully.';
+        return  view('freelancer.success', ['data'=>$this->data]);
     }
 
 

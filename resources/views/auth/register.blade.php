@@ -19,8 +19,8 @@
 	    			<input type="hidden" name="_token" value="<?php echo csrf_token() ?>" >
 
 	    			<div class="form-group<?php echo $errors->has('user_firstname') ? ' has-error' : ''; ?>">
-					    <label for="" class="col-sm-3 control-label">First Name</label>
-					    <div class="col-sm-9">
+					    <label for="" class="col-sm-5 control-label">First Name</label>
+					    <div class="col-sm-7">
 					      <input type="text" class="form-control"  placeholder="first Name" value="<?php echo old('user_firstname'); ?>" name="user_firstname" autofocus />
 	                         <?php 
 
@@ -36,8 +36,8 @@
 
 
 				  	<div class="form-group<?php echo $errors->has('user_lastname') ? ' has-error' : ''; ?>">
-				    <label for="" class="col-sm-3 control-label">Last Name</label>
-				    <div class="col-sm-9">
+				    <label for="" class="col-sm-5 control-label">Last Name</label>
+				    <div class="col-sm-7">
 				      <input type="text" class="form-control" name="user_lastname" value="<?php echo old('user_lastname'); ?>" placeholder="Last Name" />
 				      		<?php 
 				      			if($errors->has('user_lastname')) {  ?>
@@ -52,8 +52,8 @@
 
 
 					<div class="form-group<?php echo $errors->has('email') ? ' has-error' : ''; ?>">
-				     <label for="" class="col-sm-3 control-label">Phone Number Or Email</label>
-				    <div class="col-sm-9">
+				     <label for="" class="col-sm-5 control-label">Phone Number Or Email</label>
+				    <div class="col-sm-7">
 				      <input type="text" class="form-control" name="email" value="<?php echo old('email'); ?>" placeholder="Phone Number Or Email" />
 				      		<?php
 				      			if ($errors->has('email')) { ?>
@@ -65,8 +65,8 @@
 				    </div>
 				  	</div>
 					<div class="form-group<?php echo $errors->has('password') ? ' has-error' : ''; ?>">
-				     <label for="" class="col-sm-3 control-label">Password</label>
-				    <div class="col-sm-9">
+				     <label for="" class="col-sm-5 control-label">Password</label>
+				    <div class="col-sm-7">
 				      <input type="password" class="form-control" name="password" value="<?php echo old('password'); ?>" placeholder="Password" />
 				     
 	                         <?php
@@ -82,8 +82,8 @@
 
 
 					<div class="form-group<?php echo $errors->has('password_confirmation') ? ' has-error' : ''; ?>">
-				     <label for="" class="col-sm-3 control-label">Password</label>
-				    <div class="col-sm-9">
+				     <label for="" class="col-sm-5 control-label">Password</label>
+				    <div class="col-sm-7">
 				      <input type="password" class="form-control" name="password_confirmation" value="<?php echo old('password_confirmation'); ?>" placeholder="password confirmation" />
 	                         <?php 
 	                         	 if($errors->has('password_confirmation')) { ?>
@@ -96,7 +96,7 @@
 				    </div>
 				  	</div>
 				  	<div class="form-group<?php echo $errors->has('accept_policy') ? ' has-error' : ''; ?>">
-	                    <div class="col-md-9 col-md-offset-3">
+	                    <div class="col-md-7 col-md-offset-5">
 	                        <div class="checkbox">
 	                            <label>
 	                                <input type="checkbox" name="accept_policy" /> <a href="#" data-toggle="modal" data-target="#myModal">Accept Policy</a>
@@ -115,7 +115,7 @@
 	                </div>
 
 				  	<div class="form-group">
-				    <div class="col-sm-offset-3 col-sm-9">
+				    <div class="col-sm-offset-5 col-sm-7">
 				      <button type="submit" class="btn btn-success">Register</button>
 				    </div>
 				  	</div>

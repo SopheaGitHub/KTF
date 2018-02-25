@@ -11,13 +11,11 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
-
 Route::get('/', function () {
-    return view('freelancer\success');
+    return view('welcome');
 });
+
+
 
 Auth::routes();
 
@@ -32,6 +30,10 @@ Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback
 
 //==================> Freelancer <========================
 Route::get('/freelancer/skill','freelancer\SkillController@index');
+Route::get('/freelancer/success','Auth\RegisterController@success');
+Route::get('/freelancer/skill','Freelancer\SkillController@index');
+
+
 
 //==================> Freelancer <========================
 
