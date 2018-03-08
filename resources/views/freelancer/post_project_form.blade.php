@@ -1,6 +1,5 @@
 @extends('layouts.k_app')
 
-
 @section('content')
 <div class="panel panel-success">
 	<div class="panel-heading">
@@ -93,7 +92,6 @@
     </div>
   </div>
 </div>
-
 
 @endsection
 

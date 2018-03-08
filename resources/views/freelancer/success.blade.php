@@ -17,7 +17,7 @@
 			<li><a href="profile.php" style="font-size:18px;"><i class="fa fa-arrow-circle-left" aria-hidden="true" title="Go to profile"></i></a></li>
 		  	<li><a href="home.php">Home</a></li>
 		  	<li><a href="profile.php">Profile</a></li>
-		  	<li class="active">Signup Succcess</li>
+		  	<li class="active">Register Succcess</li>
 		</ol>
 	</div>
 	<div class="panel-body">
@@ -26,16 +26,16 @@
 
 	    <form class="form-horizontal">
 			
-	    	<div><b>Who you are ?</b></div>
+	    	<div><b>What can i help you?</b></div>
 			<div class="row">
 				<a href="<?php echo URL::to('/freelancer/skill'); ?>">
 					<div class="col-md-3">
-		      			<div class="category-box" data-toggle="modal" data-target="#myModal1"><i style="font-size:100px;" class="zmdi zmdi-flower-alt mdc-text-green"></i><br /> <b>Do you want to hire freelancer?</b></div>
+		      			<div class="category-box" data-toggle="modal" data-target="#myModal1"><i style="font-size:100px;" class="zmdi zmdi-flower-alt mdc-text-green"></i><br /> <b>I want to hire freelancer.</b></div>
 		      		</div>
 	      		</a>
 	      		<a href="<?php echo URL::to('/freelancer/post_project_form'); ?>">
 		      		<div class="col-md-3">
-		      			<div class="category-box" data-toggle="modal" data-target="#myModal2"><i style="font-size:100px;" class="zmdi zmdi-notifications-active animated infinite pulse zmdi-hc-fw mdc-text-blue"></i><br /><b>Are you a freelancer?</b></div>
+		      			<div class="category-box" data-toggle="modal" data-target="#myModal2"><i style="font-size:100px;" class="zmdi zmdi-notifications-active animated infinite pulse zmdi-hc-fw mdc-text-blue"></i><br /><b>I want to find work.</b></div>
 		      		</div>
 	      		</a>
 			</div>

@@ -1,0 +1,209 @@
+
+@extends('layouts.k_app')
+
+@section('content') 
+
+<div class="panel panel-success">
+	<div class="panel-heading">
+		<ol class="breadcrumb">
+			<li><a href="profile.php" style="font-size:18px;"><i class="fa fa-arrow-circle-left" aria-hidden="true" title="Go to profile"></i></a></li>
+		  	<li><a href="home.php">Home</a></li>
+		  	<li><a href="profile.php">Profile</a></li>
+		  	<li class="active">Skill</li>
+		</ol>
+	</div>
+	<div class="panel-body">
+		<div><em>Please tell us, what skill do you can?</em></div>
+	    <hr />
+
+	    <form class="form-horizontal" method="post" action="<?php echo $data->url_store; ?>" >
+	    	
+	    	<div class="add-skill"  type="hidden">
+
+	    	</div>
+
+	    	<input type="hidden" name="_token" value="{{ csrf_token() }}" >
+			<div class="row">
+				<div class="col-md-4">
+
+					<div class="form-group">
+					    <label for="" class="col-sm-3 control-label">Select Skill</label>
+					    <div class="col-sm-9">
+					      	<div class="row">
+					      	
+							<?php
+							    foreach ($data->main_categories as $key => $value) { ?>
+							      <div class="col-md-4">
+					      			<div class="category-box" data-toggle="modal" data-target="#skillmodel" data-value="<?php echo $value->skill_title; ?>">
+					      				<i style="font-size:30px;" class="zmdi zmdi-camera"></i><br /><?php echo $value->skill_title; ?></div>
+					          	</div>
+					          	 <?php	
+					          	    }
+							    ?>
+					      	</div>
+					    </div>
+				  	</div>
+
+					<div class="form-group">
+					    <label for="" class="col-sm-3 control-label">Available</label>
+					    <div class="col-sm-9">
+					    	<select name="available" class="form-control" name="available[]">
+					    		<option value="Part Time">Part Time</option>
+					    		<option value="Full Time">Full Time</option>
+					    	</select>
+					    </div>
+				  	</div>
+
+				  	<div class="form-group">
+					    <label for="" class="col-sm-3 control-label">Bubget</label>
+					    <div class="col-sm-9">
+					      	<div class="row">
+
+						    <div class="col-md-4">
+						      	<select class="form-control" id="currency" name="currency[]">
+						      			<?php
+							    	         foreach ($data->data_currency as $key => $value) { ?>
+						      			<option value="<?php echo $value->currency_id; ?>"><?php echo $value->currency_name; ?></option>
+						      			<?php } ?>
+						       </select>
+						     </div>
+
+						      	<div class="col-md-8">
+						      		<select class="form-control" id="curency_range" name="curency_range">
+
+						      			<?php
+							    	      foreach ($data->data_budget_range as $key => $value) { ?>
+						      		<option value="<?php echo $value->budget_range_id; ?>">  <?php echo $value->min .'-'. $value->min; ?>
+						      			</option>
+						      			
+						      			<?php   
+						      				 }  
+						      		    ?>
+						      		</select>
+						      	</div>
+						    </div>
+					    </div>
+				  	</div>
+
+				  	<div class="form-group">
+					    <div class="col-sm-offset-3 col-sm-9">
+					      	<a href="#" class="btn btn-default">Skip</a>
+							<button  type="submit"  class="btn btn-success">Continue</button>
+					    </div>
+				  	</div>
+				</div>
+			</div>		
+	</div>
+</div>
+
+
+<!-- Modal skill -->
+<div class="modal fade" id="skillmodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel"><i class="zmdi zmdi-camera"></i> Photography</h4>
+      </div>
+      <div class="modal-body">
+        <div class="checkbox">
+		    <label>
+		      <input type="checkbox"> Abstract
+		    </label>
+		</div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success btn-done" data-dismiss="modal">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</form>
+
+
+
+
+<script type="text/javascript">
+
+	// Load information
+	// $(document).delegate('div[data-toggle=\'skill_modal\']', 'click', function() {
+	// 	$('#modal-skill').remove();
+	// 	var parent_id = $(this).data("id");
+	// 	var parent_title = $(this).data("value");
+	// 	var skill_id =  $('.add-skill input:checked').map(function(){
+ //            return $(this).val();
+ //        }).get();
+ //        $.ajax({
+	// 		url: '/freelancer/skill/loadskillbyparentid?parent_id='+parent_id+'&skill_id='+skill_id,
+	// 		dataType: 'html',
+	// 		beforeSend: function() {
+	// 			// before send
+	// 			$('#block-loader').show();
+	// 		},
+	// 		complete: function() {
+	// 			// completed
+	// 			$('#block-loader').hide();
+	// 		},
+	// 		success: function(html) {	
+			
+	// 		$('body').append('<div class="modal fade" id="modal-skill" class="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"> ' +
+	// 			'<div class="modal-dialog" role="document"> <div class="modal-content"> ' +
+	// 			'<div class="modal-header">' +
+	// 			' <button type="button" class="close" data-dismiss="modal" aria-label="Close">' +
+	// 			'<span aria-hidden="true">&times;</span>' +
+	// 			'</button> <h4 class="modal-title" id="myModalLabel">' +
+	// 			'<i class="zmdi zmdi-palette"></i>'+parent_title+' </h4> ' +
+	// 			'</div>' + html + '</div>');
+
+	// 			$('#modal-skill').modal('show');
+	// 		}
+	// 	});
+	// 	return false;
+	// });
+
+
+	$(document).ready(function() {
+		// $('body').on('click','.btn-done', function(){
+  //           var skill_checkbox;
+  //            skill_checkbox = $('.modal-body input:checked').map(function(){
+  //               return $(this).val();
+  //             }).get(); 
+  //             console.log(skill_checkbox);
+  //             for(i = 0; i < skill_checkbox.length; ++i) {
+  //             $('.add-skill').append(' <input type="checkbox" checked name="checkbox_skill[]" value="'+skill_checkbox[i]+'">');
+  //             }
+		// })
+
+		$(document).on('change', '#currency', function(e) {
+			e.preventDefault();
+			var currency = $(this).val();
+			var url = 'currency_range?currency_id='+currency;
+		    $.ajax({
+		        type: "GET",
+		        url: url,
+		       // data: {"currency":currency},
+		        //cache: false,
+		        beforeSend: function () {
+		        	// before send
+		        },
+		        complete: function () {
+		          	// completed
+		        },
+		        success: function (html) {
+		          $('#curency_range').html(html).show();
+		        },
+		        error: function (request, status, error) {
+		            var msg = '';
+		            msg += '<div class="alert alert-warning" id="warning">';
+		            msg += '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+		                msg += '<b><i class="fa fa-info-circle"></i> '+error+' </b><br />';
+		            msg += '</div>';
+		            $('#curency_range').html(msg).show();
+		        }
+		    });
+
+		});
+	});
+</script>
+ @endsection 

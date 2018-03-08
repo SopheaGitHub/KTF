@@ -37,6 +37,7 @@ return [
     'phone_invalid' =>  'Invalid phone number',
     'field_invalid' =>  'Field invalid',
 
-    'email_required' => 'Email or Phone is required'
+    'email_required' => 'Email or Phone is required',
+    'username_not_match' => 'The email or phone number you\'ve entered doestn\'t match any account.',
 
 ];

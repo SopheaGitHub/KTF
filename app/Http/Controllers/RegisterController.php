@@ -8,7 +8,7 @@ use URL;
 
 class RegisterController extends Controller
 {
-  protected $data = null;
+    protected $data = null;
     private  $users,$date,$limit = 5;
 
     public function __construct(){

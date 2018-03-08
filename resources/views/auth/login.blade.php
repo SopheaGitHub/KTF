@@ -14,6 +14,21 @@
         <br /><hr />
         <div class="row">
             <div class="col-md-4">
+                    <hr />
+                    <?php
+                        if(count($errors->all()) > 0) { ?>
+                            <div class="alert alert-danger" role="alert">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            <b><i class="fa fa-info-circle"></i> 
+                                <?php echo trans('auth.login_unsuccessful'); ?> </b><br />
+                            <?php foreach ($errors->all() as $key => $value) {
+                                $search  = ['The username field is required.','These credentials do not match our records.'];
+                                $replace = [trans('auth.email_required'),trans('auth.username_not_match')];
+                                echo '- '.str_replace($search, $replace, $value).'<br />';
+                            }?>
+                            </div>
+                    <?php   } ?>
+
                  <form class="form-horizontal" method="POST" action="<?php echo route('login'); ?>">
                         {{ csrf_field() }}
 
@@ -22,15 +37,6 @@
                     <label for="" class="col-sm-5 control-label">Phone Number Or Email</label>
                     <div class="col-sm-7">
                       <input type="text" class="form-control"  placeholder="Phone Number Or Email" name="username" />
-                       @if ($errors->has('username'))
-                            <span class="help-block">
-                            <?php
-                                $search  = ['The username field is required.'];
-                                $replace = [trans('auth.email_required')];
-                                echo '<strong>'.str_replace($search, $replace, $errors->first('username')).'</strong>';
-                            ?>
-                            </span>                            
-                        @endif
                     </div>
                     </div>
 
@@ -41,15 +47,6 @@
                     <label for="" class="col-sm-5 control-label">Password</label>
                     <div class="col-sm-7">
                     <input type="password" class="form-control"  placeholder="Password" name="password"/>
-                       @if ($errors->has('password'))
-                            <span class="help-block">
-                                <?php
-                                    $search  = ['The password field is required.'];
-                                    $replace = [trans('auth.password_required')];
-                                    echo '<strong>'.str_replace($search, $replace, $errors->first('password')).'</strong>';
-                                ?>
-                            </span>
-                        @endif
                     </div>
 
                     </div>

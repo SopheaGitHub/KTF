@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/checkbox','CheckboxController@index');
+Route::post('/checkbox/store','CheckboxController@store');
+
 
 
 Auth::routes();
@@ -32,6 +35,9 @@ Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback
 Route::get('/freelancer/skill','freelancer\SkillController@index');
 Route::get('/freelancer/success','Auth\RegisterController@success');
 Route::get('/freelancer/skill','Freelancer\SkillController@index');
+Route::post('/freelancer/skill/store','Freelancer\SkillController@store');
+Route::get('/freelancer/skill/currency_range','Freelancer\SkillController@loadCurrency');
+Route::get('/freelancer/post_project_form','Freelancer\PostProject@index');
 
 
 

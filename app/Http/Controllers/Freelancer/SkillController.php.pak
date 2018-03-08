@@ -1,0 +1,79 @@
+<?php
+
+namespace App\Http\Controllers\Freelancer;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Skill;
+use App\Currency;
+use App\BudgetRange;
+use URL;
+use Auth;
+
+
+class SkillController extends Controller
+{
+    
+
+
+    protected $data = null;
+    private  $skills,$date;
+
+    public function __construct(){
+        $this->data = new \stdClass();
+        $this->skills = new Skill();
+        $this->currencies = new Currency();
+        $this->budget_range = new BudgetRange();
+        $this->date = date ("Y-m-d H:i:s");
+    }
+
+
+	public function index() {
+        $this->data->main_categories = \DB::table('skill')->where('parent_id', '=', '0')->orderBy('order', 'ASC')->get(['skill_title','skill_id']);
+
+        $this->data->url_store = URL::to('freelancer/skill/store');
+        $this->data->data_currency  = $this->currencies->getCurrency();
+        $this->data->data_budget_range = $this->budget_range->getBudgetRangeByCurrencyID(1);
+        return  view('freelancer.skill', ['data'=>$this->data]);
+	}
+
+
+    public function loadskillbyparentid(Request $request){
+        $skill_id = $request->skill_id;
+        $parent_id = $request->parent_id;
+       
+        $this->data->main_categories = \DB::table('skill')->where('parent_id', '=', '0')->orderBy('order', 'ASC')->get(['skill_title','skill_id']);
+        $this->data->skill_by_parentid =  $this->skills->getSkill($parent_id);
+        $this->data->data_skill_id_checked = $skill_id;
+    
+        return  view('component.skill_popup', ['data'=>$this->data]);
+    
+    }
+    public function loadCurrency(Request $request){
+        $currency_id = $request->currency_id;
+
+        $this->data->data_budget_range = $this->budget_range->getBudgetRangeByCurrencyID($currency_id);
+        
+         return  view('freelancer.load_currency', ['data'=>$this->data]);
+    }
+	  public function store(Request $request)
+    {
+        $user_id = Auth::user()->user_id;  
+        $postDataUserSkill = [
+            'check_skill'           => $request->checkbox_skill,
+            'budget_range_id'       => $request->curency_range,
+            'user_id'               =>  $user_id,
+            'available_time'        => $request->available,
+            'created_at'            => $this->date,
+            'updated_at'            => $this->date,
+        ];
+
+        $skill = $this->skills->insertUserSkill($postDataUserSkill);
+            
+        $request->session()->flash('message','Intert Success!');
+        return back();
+    }
+
+
+
+}
