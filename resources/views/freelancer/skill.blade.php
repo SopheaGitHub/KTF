@@ -106,17 +106,18 @@
 	<!-- Modal skill -->
 
 	<?php
-		 foreach ($data->main_categories as $key => $value) { ?>
-	<div class="modal fade" id="<?php echo $value->skill_id; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		 foreach ($data->main_categories as $key => $item) { ?>
+	<div class="modal fade" id="<?php echo $item->skill_id; ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	  <div class="modal-dialog" role="document">
 	    <div class="modal-content">
 	      <div class="modal-header">
 	      	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="myModalLabel"><i class="zmdi zmdi-camera"></i> {{ $value->skill_title}} </h4>
+	        <h4 class="modal-title" id="myModalLabel"><i class="zmdi zmdi-camera"></i> {{ $item->skill_title}} </h4>
 	      </div>
 	      <div class="modal-body">
 	        <div class="checkbox"> 
-	        	<?php $skill_title = $value->skill_title;  
+	        	<?php 
+	        	$skill_title = $item->skill_title;  
 	            foreach ($data->$skill_title as $key => $value) {
 	          ?>
 	        	  
@@ -127,7 +128,7 @@
 			</div>
 	      </div>
 	      <div class="modal-footer">
-	        <button class="btn btn-success btn-done" data-dismiss="modal">Done</button>
+	        <button class="btn btn-success btn-done" data-id="{{ $item->skill_id}}" data-dismiss="modal">Done</button>
 	      </div>
 	    </div>
 	  </div>
@@ -144,7 +145,7 @@
 			$(document).on('change', '#currency', function(e) {
 				e.preventDefault();
 				var currency = $(this).val();
-				var url = 'currency_range?currency_id='+currency;
+				var url = '/currency_range?currency_id='+currency;
 			    $.ajax({
 			        type: "GET",
 			        url: url,
@@ -167,5 +168,13 @@
 			        }
 			    });
 			});
+
+			$('.btn-done').click(function() {
+				alert($('.btn-done').attr('data-id'));
+				//$('div[id='+id+']').hide();
+			});
+
+
+
 	</script>
 	 @endsection 

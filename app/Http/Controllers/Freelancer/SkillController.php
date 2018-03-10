@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Freelancer;
  use App\BudgetRange; 
  use URL; 
  use Auth; 
- 	class SkillController extends Controller
+ class SkillController extends Controller
  		 {
  		 	protected $data = null;
  		 	private  $skills,$date; 
@@ -27,7 +27,6 @@ namespace App\Http\Controllers\Freelancer;
  		 		 	$skill_title = $value->skill_title;
  		 		 	 $this->data->$skill_title = $this->skills->getSkill($id); 
  		 		 	}
- 		 		 	 $this->data->skill_by_parentid_1 = $this->skills->getSkill(1);
  		 		 	 $this->data->data_currency  = $this->currencies->getCurrency(); 
  		 		 	 $this->data->data_budget_range = $this->budget_range->getBudgetRangeByCurrencyID(1); 
  		 		 	 return  view('freelancer.skill', ['data'=>$this->data]); 
@@ -52,4 +51,43 @@ namespace App\Http\Controllers\Freelancer;
  		 	 	 $request->session()->flash('message','Intert Success!'); 
  		 	 	 return back(); 
  		 	 	} 
- 		 	 }
+
+
+
+ 	public function autocomplete(){
+    	 $request = \Request::all(); 	 
+         $json = [];
+
+             if (isset($request['filter_name'])) {
+
+            $filter_data = [
+                'filter_name' => $request['filter_name'],
+                'sort'        => 'skill_title',
+                'order'       => 'ASC',
+                'start'       => 0,
+                'limit'       => 100
+            ];
+
+            $results = $this->skills->getAutocompleteSkills($filter_data);
+
+            foreach ($results as $result) {
+                $json[] = [
+                    'skill_id' => $result->skill_id,
+                    'skill_title'    => strip_tags(html_entity_decode($result->skill_title, ENT_QUOTES, 'UTF-8'))
+                ];
+            }
+        }
+
+        $sort_order = [];
+
+        foreach ($json as $key => $value) {
+            $sort_order[$key] = $value['skill_title'];
+        }
+
+        array_multisort($sort_order, SORT_ASC, $json);
+
+        return json_encode($json);
+
+    }
+
+}

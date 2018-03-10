@@ -126,7 +126,7 @@
 
 <script type="text/javascript">
 
-	// Load information
+	 Load information
 	// $(document).delegate('div[data-toggle=\'skill_modal\']', 'click', function() {
 	// 	$('#modal-skill').remove();
 	// 	var parent_id = $(this).data("id");

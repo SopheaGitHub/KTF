@@ -32,12 +32,14 @@ Route::get('login/google/callback', 'Auth\LoginController@handleProviderCallback
 
 
 //==================> Freelancer <========================
-Route::get('/freelancer/skill','freelancer\SkillController@index');
+Route::get('/freelancer/skill','Freelancer\SkillController@index');
 Route::get('/freelancer/success','Auth\RegisterController@success');
 Route::get('/freelancer/skill','Freelancer\SkillController@index');
 Route::post('/freelancer/skill/store','Freelancer\SkillController@store');
-Route::get('/freelancer/skill/currency_range','Freelancer\SkillController@loadCurrency');
-Route::get('/freelancer/post_project_form','Freelancer\PostProject@index');
+Route::get('/currency_range','Freelancer\SkillController@loadCurrency');
+Route::get('/freelancer/post_project_form','Freelancer\PostProjectController@index');
+Route::get('/skill/autocomplete','Freelancer\SkillController@autocomplete');
+Route::post('/freelancer/postproject/store','Freelancer\PostProjectController@store');
 
 
 

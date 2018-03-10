@@ -39,5 +39,6 @@ return [
 
     'email_required' => 'Email or Phone is required',
     'username_not_match' => 'The email or phone number you\'ve entered doestn\'t match any account.',
+    'login_unsuccessful' => 'Login Unsuccessful',
 
 ];

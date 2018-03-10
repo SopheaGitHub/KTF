@@ -16,7 +16,10 @@
 	<link href="<?php echo asset('vendor\notifyjs/dist/styles/metro/notify-metro.css" rel="stylesheet') ?>" />
 	<!-- ===================> NOTIFY <=================================== -->
 
-	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+
+	<script src="<?php echo asset('vendor/jquery/jquery-2.1.1.min.js')?>"></script>
+	<script src="<?php echo asset('vendor/jquery/js/jquery-ui.js')?>"> </script>
+	<script src="<?php echo asset('vendor/bootstrap/js/bootstrap.min.js')?>"></script>
 
 	@yield('css')
 
