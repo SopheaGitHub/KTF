@@ -33,7 +33,6 @@ class RegisterController extends Controller
 
 
 
-
     protected $data = null;
 
 

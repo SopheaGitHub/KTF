@@ -40,6 +40,10 @@ Route::get('/currency_range','Freelancer\SkillController@loadCurrency');
 Route::get('/freelancer/post_project_form','Freelancer\PostProjectController@index');
 Route::get('/skill/autocomplete','Freelancer\SkillController@autocomplete');
 Route::post('/freelancer/postproject/store','Freelancer\PostProjectController@store');
+Route::get('/profile','ProfileController@index');
+Route::post('/profile/save_profile','ProfileController@saveProfile');
+
+
 
 
 

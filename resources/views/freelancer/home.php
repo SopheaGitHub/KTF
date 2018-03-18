@@ -453,6 +453,6 @@
 	</div>
 	<br />
 </div>
-<?php include('component/right.php'); ?>
-<?php include('component/chat.php'); ?>
+<?php include('component/right.blade.php'); ?>
+<?php include('component/chat.blade.php'); ?>
 <?php include('component/footer.php'); ?>

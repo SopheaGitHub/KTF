@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Freelancer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\ConfigController;
 use App\Skill; 
 use App\Currency;
@@ -13,6 +14,7 @@ use App\ProjectSkill;
 use URL; 
 use Auth;
 use Image;
+use File;
 
 class PostProjectController extends Controller
 {
@@ -52,25 +54,22 @@ class PostProjectController extends Controller
    
     public function store(Request $request)
     {
-	   //    if($request->hasFile('image')){
-			 //    print_r($request->file('image')->getClientOriginalName());
-		  // }else {
-		  // 	echo 'No';
-		  // }
-	  
+        $requests = \Request::all();
+        $validator = $this->postprojects->validationForm(['request'=>$requests]);
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
 	  	 $input = $request->all();
+         $user_id = Auth::user()->user_id;
     	 if ($request->file('image')){
            $image = $request->file('image');
-         $filename = time().'-'.str_slug($input['txt_project_name'],"-").'.'.$image->GetClientOriginalExtension();
-           $thumbPath = $this->data->dir_image;
+         $filename = time().'-'.str_slug(substr($input['txt_project_name'], 0, 8),"-").'.'.$image->GetClientOriginalExtension();
+           $thumbPath = $this->data->dir_image.'/'.$user_id;
+           File::makeDirectory($thumbPath, $mode = 0777, true, true);
            $input['image'] =  $filename;
            $image->move($thumbPath, $filename);
-           print_r($filename);
-           }else{
-           	print_r ('else');
            }
-
-
     	   $user_id = Auth::user()->user_id;
            $projectDatas = [
                             'name'  => $request->txt_project_name,
@@ -83,18 +82,22 @@ class PostProjectController extends Controller
 
          $project = $this->postprojects->create($projectDatas);
 
-         $projectimageDatas = [
-          					'path'       =>   $thumbPath,
-          					'file_name'  =>   $filename,
-          					'project_id' =>  $project->id,
-          				];
-         $this->protectimages->create($projectimageDatas); 	
+        if ($request->file('image')){
+             $projectimageDatas = [
+              					'path'       =>   $thumbPath,
+              					'file_name'  =>   $filename,
+              					'project_id' =>  $project->id,
+              				];
+             $this->protectimages->create($projectimageDatas); 
+         }	
 
-         $protectskillDatas = [
-         						'skill_id'   =>  $request->post_skill,
-         						'project_id' =>  $project->id,
-         					];		
-         $projectskill = $this->projectskills->addProjectSkill($protectskillDatas); 						
+        if(isset($request->post_skill)){
+             $protectskillDatas = [
+             						'skill_id'   =>  $request->post_skill,
+             						'project_id' =>  $project->id,
+             					];		
+             $projectskill = $this->projectskills->addProjectSkill($protectskillDatas); 
+         }						
 
         
     }

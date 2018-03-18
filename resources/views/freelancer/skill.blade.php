@@ -26,24 +26,30 @@
 				<div class="row">
 					<div class="col-md-4">
 
-						<div class="form-group">
+						
+							<div class="form-group{{ $errors->has('checkbox_skill') ? ' has-error' : '' }}">
 						    <label for="" class="col-sm-3 control-label">Select Skill</label>
 						    <div class="col-sm-9">
 						      	<div class="row">
-						      	
 								<?php
 								    foreach ($data->main_categories as $key => $value) { ?>
 								      <div class="col-md-4">
-						      			<div class="category-box" data-toggle="modal" data-target="<?php echo '#'.$value->skill_id; ?>" data-value="<?php echo $value->skill_title; ?>">
+						      			<div class="category-box category-box<?php echo $value->skill_id ?>" data-toggle="modal" data-target="<?php echo '#'.$value->skill_id; ?>" data-value="<?php echo $value->skill_title; ?>">
 						      				<i style="font-size:30px;" class="zmdi zmdi-camera"></i><br /><?php echo $value->skill_title; ?></div>
 						          	</div>
 						          	 <?php	
 						          	    }
 								    ?>
 						      	</div>
+						        @if ($errors->has('checkbox_skill'))
+							        <span class="help-block">
+	                                        <strong> {{ $errors->first('checkbox_skill') }}</strong>
+	                                </span>
+	                             @endif    	
+
 						    </div>
 					  	</div>
-
+					  
 						<div class="form-group">
 						    <label for="" class="col-sm-3 control-label">Available</label>
 						    <div class="col-sm-9">
@@ -122,7 +128,7 @@
 	          ?>
 	        	  
 			    <label>
-			      <input type="checkbox" name="checkbox_skill[]" value="<?php  echo $value->skill_id; ?>"> <?php  echo $value->skill_title; ?>
+			      <input type="checkbox" id="checkbox_skill" name="checkbox_skill[]" class="skill<?php echo $item->skill_id; ?>" value="<?php  echo $value->skill_id; ?>"> <?php  echo $value->skill_title; ?>
 			    </label>
 			     <?php  }  ?>
 			</div>
@@ -169,12 +175,18 @@
 			    });
 			});
 
-			$('.btn-done').click(function() {
-				alert($('.btn-done').attr('data-id'));
-				//$('div[id='+id+']').hide();
-			});
-
-
+			<?php
+				foreach ($data->main_categories as $key => $item) { ?>
+					
+					$('#'+<?php echo $item->skill_id; ?>).on('hidden.bs.modal', function (e) {
+					  	if( $('.skill'+<?php echo $item->skill_id; ?>).is(":checked") ) {
+					  		$('.category-box'+<?php echo $item->skill_id; ?>).addClass( "active_category-box" );
+					  	}else {
+					  		$('.category-box'+<?php echo $item->skill_id; ?>).removeClass( "active_category-box" );
+					  	}
+					});
+			<?php	}
+			?>
 
 	</script>
 	 @endsection 

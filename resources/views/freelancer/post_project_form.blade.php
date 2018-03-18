@@ -1,32 +1,6 @@
 @extends('layouts.k_app')
 
-<style type="text/css">
-	.tag {
-	  background-color: red;
-	  font-size: 12px !important;
-	  padding: .2em .3em .3em;
-	  margin: 0 .1em !important;
-	}
-	.tag a {
-	  color: #bbb;
-	  cursor: pointer;
-	  opacity: 0.6;
-	}
-	.tag a:hover {
-	  opacity: 1.0
-	}
-	.tag .remove {
-	  vertical-align: bottom;
-	  top: 0;
-	}
-	.tag a {
-	  margin: 0 0 0 .3em;
-	}
-	.tag a .glyphicon-white {
-	  color: #fff;
-	  margin-bottom: 2px;
-	}
-</style>
+
 
 @section('content')
 <div class="panel panel-success">
@@ -45,26 +19,47 @@
 	   <form class="form-horizontal"  method="POST"  action="<?php echo $data->url_store; ?>" enctype="multipart/form-data" >
 
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" >
-	    			<div class="form-group">
-				    <label for="" class="col-sm-4 control-label">Enter a name for your project</label>
-				    <div class="col-sm-8">
-				    <input type="text" class="form-control" name="txt_project_name"  placeholder="e.g. Design a logo for me" autofocus />
-				    </div>
-				  	</div>
+	    			
+				    <div class="form-group{{ $errors->has('txt_project_name') ? ' has-error' : '' }}">
+				    	 <label for="" class="col-sm-4 control-label">Enter a name for your project</label>
+                       
+                            <div class="col-md-8">
+                                <input id="txt_project_name" type="text" class="form-control" name="txt_project_name" value="{{ old('txt_project_name') }}"   placeholder="e.g. Design a logo for me" autofocus>
 
-				  	<div class="form-group">
-				    <label for="" class="col-sm-4 control-label">Description about your project</label>
-				    <div class="col-sm-8">
-				    	<textarea class="form-control" name="txt_project_desc"  placeholder="Your text here ..." style="min-height:150px;max-height:150px;min-width:100%;max-width:100%;"></textarea>
-				    </div>
-				  	</div>
+                                @if ($errors->has('txt_project_name'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('txt_project_name') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                    </div>
+                   
 
-				  	<div class="form-group">
-				    <label for="" class="col-sm-4 control-label">Upload file</label>
-				    <div class="col-sm-8">
-				      	<input type="file" name="image" id="image"  class="form-control" placeholder="Image"/>
-				    </div>
-				  	</div>
+
+				  	 <div class="form-group{{ $errors->has('txt_project_desc') ? ' has-error' : '' }}">
+				    	 <label for="" class="col-sm-4 control-label">Enter a name for your project</label>
+                            <div class="col-md-8">
+                              <textarea class="form-control" id="txt_project_desc" name="txt_project_desc" value="{{ old('txt_project_desc') }}" placeholder="Your text here ..." style="min-height:150px;max-height:150px;min-width:100%;max-width:100%;"></textarea>
+
+                                @if ($errors->has('txt_project_desc'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('txt_project_desc') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                    </div>
+
+				  	 <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+				    	 <label for="" class="col-sm-4 control-label">Upload file</label>
+                            <div class="col-md-8">
+                            <input type="file" name="image" id="image"  class="form-control" value="{{ old('image') }}" placeholder="Image"/>
+                                @if ($errors->has('image'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('image') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                    </div>
 
 				  	<div class="form-group">
 		              	<label for="input-skill" class="col-sm-4 control-label"><span data-toggle="tooltip" title="">What skills are required?</span></label>

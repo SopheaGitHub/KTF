@@ -39,6 +39,17 @@ namespace App\Http\Controllers\Freelancer;
  		 		 }
 
  		 	 public function store(Request $request) {
+
+                   // $validatedData = $request->validate([
+                   //      'checkbox_skill' => 'required',
+                   //   ]);
+
+                   $requests = \Request::all();
+                    $validator = $this->skills->validationForm(['request'=>$requests]);
+                    if ($validator->fails()) {
+                        return back()->withErrors($validator)->withInput();
+                    }
+
  		 	 	$user_id = Auth::user()->user_id;
  		 	 	 $postDataUserSkill = [
  		 	 	 	'check_skill'           => $request->checkbox_skill, 
