@@ -30,6 +30,7 @@ class ProfileController extends Controller
     {
         $user_id = \Auth::user()->user_id;
         $this->data->user_name = \DB::table('users')->where('user_id', '=', $user_id)->get(['user_firstname','user_lastname']);
+        $this->data->user_profile = \DB::table('users')->where('user_id', '=', $user_id)->get(['profile']);
         $this->data->url_store = URL::to('profile/store');
         $this->data->url_save_profile_image = URL::to('profile/save_profile')  ;
         $this->data->list_skill = $this->user_skills->getSkillByUserId($user_id);
@@ -42,7 +43,7 @@ class ProfileController extends Controller
         $username = 'profile_'.((Auth::check())? str_replace(' ', '', strtolower(Auth::user()->name)):'0').$user_id;
         $file_path = $user_id.'/profile/';
         $this->base64_decode($request['image-profile'], $username, $file_path);
-        $this->data->users->where('user_id', '=', $user_id)->update(['profile'=>$file_path.$username.'.jpg']);
+        $this->data->users->where('user_id', '=', $user_id)->update(['profile'=>'images/profile'.$file_path.$username.'.jpg']);
         // remove old profile
         if (file_exists($this->data->dir_image.'cache/'.$file_path.$username.'-120x80.jpg')) {
             unlink($this->data->dir_image.'cache/'.$file_path.$username.'-120x80.jpg');
@@ -68,17 +69,6 @@ class ProfileController extends Controller
             // $ori_extension = pathinfo($request['original_image'], PATHINFO_EXTENSION);
             copy($request['original_image'], $this->data->dir_image.'/'.$file_path.'ori_'.$username.'.jpg');
         }
-
-////-----------------------
-//        $user_id = \Auth::user()->user_id;
-//        $this->data->user_name = \DB::table('users')->where('user_id', '=', $user_id)->get(['user_firstname','user_lastname']);
-//        $this->data->url_store = URL::to('profile/store');
-//        $this->data->url_save_profile_image = URL::to('profile/save_profile')  ;
-//        $this->data->list_skill = $this->user_skills->getSkillByUserId($user_id);
-////--------------------------
-//        $this->data->image_profile = 'images/profile'.$file_path.$username.'.jpg';
-//        return  view('freelancer.profile', ['data'=>$this->data]);
-
 
           return redirect('profile');
     }

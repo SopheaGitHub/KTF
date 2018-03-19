@@ -64,7 +64,7 @@ class PostProjectController extends Controller
          $user_id = Auth::user()->user_id;
     	 if ($request->file('image')){
            $image = $request->file('image');
-         $filename = time().'-'.str_slug(substr($input['txt_project_name'], 0, 8),"-").'.'.$image->GetClientOriginalExtension();
+           $filename = time().'-'.str_slug(substr($input['txt_project_name'], 0, 8),"-").'.'.$image->GetClientOriginalExtension();
            $thumbPath = $this->data->dir_image.'/'.$user_id;
            File::makeDirectory($thumbPath, $mode = 0777, true, true);
            $input['image'] =  $filename;

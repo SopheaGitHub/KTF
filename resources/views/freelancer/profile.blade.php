@@ -6,14 +6,16 @@
 
 
 <div class="col-md-8">
-	<div class="profile clearfix">                         
+	<div class="profile clearfix">
         <div class="image">
             <img src="img/download.jpg" style="width:100%;" class="img-cover">
         </div>                            
         <div class="user clearfix">
           <div class="avatar">
-              <?php if(isset($data->image_profile) ) {  ?>
-              <img src="<?php echo $data->image_profile  ?>"  class="img-thumbnail img-profile" data-toggle="modal" data-target="#upload-profile">
+              <?php if(isset($data->user_profile) ) {  ?>
+                 <?php  foreach ($data->user_profile as $item) { ?>
+                  <img src="<?php echo url($item->profile)  ?>"  class="img-thumbnail img-profile" data-toggle="modal" data-target="#upload-profile">
+                  <?php  }  ?>
              <?php }else { ?>
                   <img src="img/profile_logo_22207730.jpg"  class="img-thumbnail img-profile" data-toggle="modal" data-target="#upload-profile">
               <?php }  ?>
@@ -110,12 +112,25 @@ thank you.</p>
                     <h4 class="modal-title"> <span class="glyphicon glyphicon-user"></span> Upload New Profile</h4>
                 </div>
                 <div class="modal-body">
-                    <div id="upload-demo"></div>
+                    <div id="old_profile">
+                        <?php if(isset($data->user_profile) ) {  ?>
+                        <?php  foreach ($data->user_profile as $item) { ?>
+                        <img src="<?php echo url($item->profile)  ?>" style="width: 200px; height: 200px;  margin: 0 auto;"  class="img-thumbnail img-profile" data-toggle="modal" data-target="#upload-profile">
+                        <?php  }  ?>
+                        <?php }else { ?>
+                        <img src="img/profile_logo_22207730.jpg" style="width: 200px; height: 200px;  margin: 0 auto;"  class="img-thumbnail img-profile" data-toggle="modal" data-target="#upload-profile">
+                        <?php }  ?>
+                   </div>
+                    <div id="upload-demo" style="display: none;"></div>
                     <input type="hidden" id="image-profile" name="image-profile">
                 </div>
                 <div class="modal-footer">
-                    <input type="file" class="pull-left"  id="upload" value="Upload"/>
-                    <button type="submit" class="btn btn-success upload-result"> <span class="glyphicon glyphicon-ok"></span> Save</button>
+                   <!-- <input type="file" class="pull-left" name="image-profile-original"  id="upload" value="Upload"/>-->
+                    <label class="btn btn-primary btn-file  pull-left">
+                        <span class="glyphicon glyphicon-upload"></span> Browse <input type="file" class="pull-left" name="image-profile-original"  id="upload" value="Upload" style="display: none;">
+                    </label>
+                    <button type=button class="btn btn-default vanilla-rotate" data-deg="-90"><i class="glyphicon glyphicon-repeat gly-spin"></i></button>
+                    <button disabled type="submit"  class="btn btn-success upload-result"> <span class="glyphicon glyphicon-ok"></span> Save</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal"> <span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
@@ -156,15 +171,29 @@ thank you.</p>
                 viewport: {
                     width: 200,
                     height: 200,
-                    type: 'circle'
+                    type: 'canvas'
                 },
                 boundary: {
                     width: 300,
                     height: 300
-                }
+                },
+                showZoomer: true,
+                enableExif: true,
+                enableOrientation: true
             });
 
-            $('#upload').on('change', function () { readFile(this); });
+            $('#upload').on('change', function () {
+                $('#old_profile').remove();
+                $('#upload-demo').show();
+                $(":submit").removeAttr("disabled");
+                readFile(this);
+            });
+
+
+            $('.vanilla-rotate').on('click', function(ev) {
+                $uploadCrop.croppie('rotate', parseInt($(this).data('deg')));
+            });
+
 
             $('.upload-result').on('click', function (ev) {
                 $uploadCrop.croppie('result', {
