@@ -42,6 +42,7 @@ Route::get('/skill/autocomplete','Freelancer\SkillController@autocomplete');
 Route::post('/freelancer/postproject/store','Freelancer\PostProjectController@store');
 Route::get('/profile','ProfileController@index');
 Route::post('/profile/save_profile','ProfileController@saveProfile');
+Route::post('/profile/save_cover','ProfileController@saveCover');
 
 
 

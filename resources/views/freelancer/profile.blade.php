@@ -3,12 +3,56 @@
 @include('component/left')
 
 
+<style>
+    .camera {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        font-size: 12px;
+        color: #db8629;
+        width: 115px;
+        text-align: center;
+        /* margin-left: -15px; */
+        /* border: 1px solid #efefef; */
+        color: #fff;
+        padding: 5px;
+        border-radius: 2px;
+        text-shadow: 1px 1px 1px #000;
+        cursor: pointer;
+    }
+    .camera:hover {
+        background-clip: padding-box;
+        background-color: #000;
+        box-shadow: 0 0 6px rgba(0, 0, 0, .6);
+        opacity: .8;
+    }
+
+    #upload-cover .modal-dialog{
+        max-height: 1000px;
+        width: 900px !important;
+        padding: 15px;
+    }
+
+</style>
+
+
 
 
 <div class="col-md-8">
 	<div class="profile clearfix">
         <div class="image">
-            <img src="img/download.jpg" style="width:100%;" class="img-cover">
+
+            <?php if(isset($data->user_profile) ) {  ?>
+            <?php  foreach ($data->user_profile as $item) { ?>
+            <img src="<?php echo url($item->cover)  ?>" style="width:100%;"  style="width:100%;" class="img-cover" >
+            <?php  }  ?>
+            <?php } else { ?>
+            <img src="img/download.jpg" style="width:100%;"  style="width:100%;" class="img-cover" >
+            <?php }  ?>
+            <div  class="camera" data-toggle="modal" data-target="#upload-cover">
+                <i class="fa fa-camera"></i> Update cover
+            </div>
+
         </div>                            
         <div class="user clearfix">
           <div class="avatar">
@@ -19,6 +63,12 @@
              <?php }else { ?>
                   <img src="img/profile_logo_22207730.jpg"  class="img-thumbnail img-profile" data-toggle="modal" data-target="#upload-profile">
               <?php }  ?>
+
+              <div class="camera" data-toggle="modal" data-target="#upload-profile">
+                      <i class="fa fa-camera"></i>
+              </div>
+
+
           </div>
           
           <div class="row">
@@ -112,13 +162,13 @@ thank you.</p>
                     <h4 class="modal-title"> <span class="glyphicon glyphicon-user"></span> Upload New Profile</h4>
                 </div>
                 <div class="modal-body">
-                    <div id="old_profile">
+                    <div id="old_profile" style="text-align: center;" >
                         <?php if(isset($data->user_profile) ) {  ?>
                         <?php  foreach ($data->user_profile as $item) { ?>
-                        <img src="<?php echo url($item->profile)  ?>" style="width: 200px; height: 200px;  margin: 0 auto;"  class="img-thumbnail img-profile" data-toggle="modal" data-target="#upload-profile">
+                        <img src="<?php echo url($item->profile)  ?>" style="width: 200px; height: 200px;"  class="img-thumbnail img-profile" data-toggle="modal" data-target="#upload-profile">
                         <?php  }  ?>
                         <?php }else { ?>
-                        <img src="img/profile_logo_22207730.jpg" style="width: 200px; height: 200px;  margin: 0 auto;"  class="img-thumbnail img-profile" data-toggle="modal" data-target="#upload-profile">
+                        <img src="img/profile_logo_22207730.jpg" style="width: 200px; height: 200px; "  class="img-thumbnail img-profile" data-toggle="modal" data-target="#upload-profile">
                         <?php }  ?>
                    </div>
                     <div id="upload-demo" style="display: none;"></div>
@@ -129,13 +179,54 @@ thank you.</p>
                     <label class="btn btn-primary btn-file  pull-left">
                         <span class="glyphicon glyphicon-upload"></span> Browse <input type="file" class="pull-left" name="image-profile-original"  id="upload" value="Upload" style="display: none;">
                     </label>
-                    <button type=button class="btn btn-default vanilla-rotate" data-deg="-90"><i class="glyphicon glyphicon-repeat gly-spin"></i></button>
-                    <button disabled type="submit"  class="btn btn-success upload-result"> <span class="glyphicon glyphicon-ok"></span> Save</button>
+                    <button disabled type=button class="btn btn-default vanilla-rotate-profile" data-deg="-90"><i class="glyphicon glyphicon-repeat gly-spin"></i></button>
+                    <button disabled type="submit"  class="btn btn-success upload-result-profile"> <span class="glyphicon glyphicon-ok"></span> Save</button>
                     <button type="button" class="btn btn-default" data-dismiss="modal"> <span class="glyphicon glyphicon-remove"></span> Cancel</button>
                 </div>
             </div>
 		</form>
 	</div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div id="upload-cover" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <form action="<?php echo $data->url_save_cover_image; ?>" method="POST">
+            <input type="hidden" name="_token" value="{{ csrf_token() }}">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"> <span class="glyphicon glyphicon-picture"></span> Upload New Cover</h4>
+                </div>
+                <div class="modal-body">
+                    <div id="old_cover">
+                        <?php if(isset($data->user_profile) ) {  ?>
+                        <?php  foreach ($data->user_profile as $item) { ?>
+                        <img src="<?php echo url($item->cover)  ?>" style="width:100%;"  class="img-thumbnail ">
+                        <?php  }  ?>
+                        <?php } else { ?>
+                        <img src="img/profile_logo_22207730.jpg" style="width:100%;"  class="img-thumbnail ">
+                        <?php }  ?>
+                    </div>
+                    <div id="upload-cover-demo" style="display: none;"></div>
+                    <input type="hidden" id="image-cover" name="image-cover">
+                </div>
+                <div class="modal-footer">
+                    <label class="btn btn-primary btn-file  pull-left">
+                        <span class="glyphicon glyphicon-upload"></span> Browse <input type="file" class="pull-left" name="image-profile-original"  id="upload_cover" value="Upload-cover" style="display: none;">
+                    </label>
+                    <button disabled type=button class="btn btn-default vanilla-rotate-cover" data-deg="-90"><i class="glyphicon glyphicon-repeat gly-spin"></i></button>
+                    <button disabled type="submit"  class="btn btn-success upload-cover-result"> <span class="glyphicon glyphicon-ok"></span> Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"> <span class="glyphicon glyphicon-remove"></span> Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
 
 
@@ -185,7 +276,8 @@ thank you.</p>
             $('#upload').on('change', function () {
                 $('#old_profile').remove();
                 $('#upload-demo').show();
-                $(":submit").removeAttr("disabled");
+                $('.upload-result-profile').removeAttr("disabled");
+                $('.vanilla-rotate-profile').removeAttr("disabled");
                 readFile(this);
             });
 
@@ -195,7 +287,7 @@ thank you.</p>
             });
 
 
-            $('.upload-result').on('click', function (ev) {
+            $('.upload-result-profile').on('click', function (ev) {
                 $uploadCrop.croppie('result', {
                     type: 'canvas',
                     size: 'original'
@@ -206,6 +298,71 @@ thank you.</p>
                 });
 
             });
+
+
+
+            // ================> BEGIN UPLOAD COVER <=============
+
+            var $uploadCropCover;
+
+            function readFileCover(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+                    reader.onload = function (e) {
+                        $uploadCropCover.croppie('bind', {
+                            url: e.target.result
+                        });
+                        $('.upload-cover-demo').addClass('ready');
+                    }
+                    reader.readAsDataURL(input.files[0]);
+                    console.log(input.files[0]);
+                }else{
+                    console.log("else");
+                }
+            }
+
+            $uploadCropCover = $('#upload-cover-demo').croppie({
+                viewport: {
+                    width: 700,
+                    height: 300,
+                    type: 'canvas'
+                },
+                boundary: {
+                    width: 700,
+                    height: 400,
+                },
+                showZoomer: true,
+                enableExif: true,
+                enableOrientation: true
+            });
+
+            $('#upload_cover').on('change', function () {
+                $('#old_cover').remove();
+                $('#upload-cover-demo').show();
+                $('.upload-cover-result').removeAttr("disabled");
+                $('.vanilla-rotate-cover').removeAttr("disabled");
+                readFileCover(this);
+            });
+
+
+            $('.vanilla-rotate').on('click', function(ev) {
+                $uploadCropCover.croppie('rotate', parseInt($(this).data('deg')));
+            });
+
+
+            $('.upload-cover-result').on('click', function (ev) {
+                $uploadCropCover.croppie('result', {
+                    type: 'canvas',
+                    size: 'original'
+                }).then(function (resp) {
+                    $('#image-cover').val(resp);
+                    $('#form').submit();
+                    console.log(resp);
+                });
+
+            });
+
+            //================> END UPLOAD COVER <================
 
         });
 
