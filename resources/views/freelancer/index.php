@@ -4,7 +4,7 @@
 <div class="container">
 	<b>General</b>
 	<ul>
-		<li><a href="home.php">Home</a></li>
+		<li><a href="home.blade.php">Home</a></li>
 		<li><a href="login.php">Login</a></li>
 		<li><a href="register.php">Join Us</a></li>
 		<li><a href="skill.php">Search</a></li>

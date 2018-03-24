@@ -6,8 +6,8 @@
 <div class="panel panel-success">
 	<div class="panel-heading">
 		<ol class="breadcrumb">
-			<li><a href="home.php" style="font-size:18px;"><i class="fa fa-arrow-circle-left" aria-hidden="true" title="Go to home page"></i></a></li>
-		  	<li><a href="home.php">Home</a></li>
+			<li><a href="home.blade.php" style="font-size:18px;"><i class="fa fa-arrow-circle-left" aria-hidden="true" title="Go to home page"></i></a></li>
+		  	<li><a href="home.blade.php">Home</a></li>
 		  	<li class="active">Post a Project</li>
 		</ol>
 	</div>
@@ -27,7 +27,7 @@
                                 <input id="txt_project_name" type="text" class="form-control" name="txt_project_name" value="{{ old('txt_project_name') }}"   placeholder="e.g. Design a logo for me" autofocus>
 
                                 @if ($errors->has('txt_project_name'))
-                                    <span class="help-block">
+                                    <span hidden class="help-block">
                                         <strong>{{ $errors->first('txt_project_name') }}</strong>
                                     </span>
                                 @endif
@@ -39,7 +39,9 @@
 				  	 <div class="form-group{{ $errors->has('txt_project_desc') ? ' has-error' : '' }}">
 				    	 <label for="" class="col-sm-4 control-label">Enter a name for your project</label>
                             <div class="col-md-8">
-                              <textarea class="form-control" id="txt_project_desc" name="txt_project_desc" value="{{ old('txt_project_desc') }}" placeholder="Your text here ..." style="min-height:150px;max-height:150px;min-width:100%;max-width:100%;"></textarea>
+                              <textarea class="form-control"  id="txt_project_desc" name="txt_project_desc" placeholder="Your text here ..." style="min-height:150px;max-height:150px;min-width:100%;max-width:100%;">
+								 <?php echo old('txt_project_desc'); ?>
+							  </textarea>
 
                                 @if ($errors->has('txt_project_desc'))
                                     <span class="help-block">
@@ -73,11 +75,24 @@
 					      <ul class="dropdown-menu"></ul>
 
 			              	<div id="post-skill" class="well well-sm" style="height: auto;  width:100%; min-height: 120px;">
-			              			
+                                <?php
+									if(count(old('post_skill')) > 0) {
+									    $skill_arr = $data->data_skill;
+									    foreach (old('post_skill') as $key => $value) { ?>
+											<div id="post-skill<?php echo $value; ?>">
+												<i class="fa fa-minus-circle"></i>
+											<?php	foreach( $skill_arr as $item) {
+											    if($item->skill_id==$value){
+                                                    echo $item->skill_title;
+												}
+											}?>
+									<input type="hidden" name="post_skill[]" value="<?php echo $value; ?>" /></div>
+									 <?php   }
+									}
+								?>
 			                </div>
 					    </div>
 		            </div>
-
 				  	<div class="form-group">
 				    <label for="" class="col-sm-4 control-label">What is your estimated budget?</label>
 				    <div class="col-sm-8">
@@ -176,12 +191,6 @@
 $('#post-skill').delegate('.fa-minus-circle', 'click', function() {
   $(this).parent().remove();
 });
-
-
-
-
-
-
 			$(document).on('change', '#currency', function(e) {
 				e.preventDefault();
 				var currency = $(this).val();

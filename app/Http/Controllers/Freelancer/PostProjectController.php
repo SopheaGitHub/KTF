@@ -19,8 +19,9 @@ use File;
 class PostProjectController extends Controller
 {
             protected $data = null;
-            private  $skills,$date; 
+            private  $skills,$date;
             public function __construct(){
+                $this->middleware('auth');
                 $this->data = new \stdClass(); 
                 $this->config = new ConfigController();
                 $this->postprojects = new PostProject();
@@ -31,9 +32,8 @@ class PostProjectController extends Controller
                 $this->budget_range = new BudgetRange();
                 $this->date = date ("Y-m-d H:i:s"); 
                 $this->data->dir_image = $this->config->dir_image;
-     } 
+     }
 
-    
     public function index()
     {
     	 $this->data->go_skill_autocomplete = url('/skill/autocomplete');
@@ -99,6 +99,7 @@ class PostProjectController extends Controller
              $projectskill = $this->projectskills->addProjectSkill($protectskillDatas); 
          }						
 
+         return redirect('/');
         
     }
 

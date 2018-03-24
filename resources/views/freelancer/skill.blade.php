@@ -7,7 +7,7 @@
 		<div class="panel-heading">
 			<ol class="breadcrumb">
 				<li><a href="profile.php" style="font-size:18px;"><i class="fa fa-arrow-circle-left" aria-hidden="true" title="Go to profile"></i></a></li>
-			  	<li><a href="home.php">Home</a></li>
+			  	<li><a href="home.blade.php">Home</a></li>
 			  	<li><a href="profile.php">Profile</a></li>
 			  	<li class="active">Skill</li>
 			</ol>

@@ -17,6 +17,7 @@ class ProfileController extends Controller
     private  $user_skills,$date,$limit = 5;
 
     public function __construct(){
+        $this->middleware('auth');
         $this->data = new \stdClass();
         $this->data->users = new User();
         $this->config = new ConfigController();
@@ -30,6 +31,12 @@ class ProfileController extends Controller
     public function index()
     {
         $user_id = \Auth::user()->user_id;
+
+        $this->data->url_home = URL::to('/');
+        $this->data->url_profile = URL::to('/profile');
+        $this->data->url_post_project = URL::to('/freelancer/post_project_form');
+        $this->data->url_skill     =  URL::to('/freelancer/skill');
+
         $this->data->user_name = \DB::table('users')->where('user_id', '=', $user_id)->get(['user_firstname','user_lastname']);
         $this->data->user_profile = \DB::table('users')->where('user_id', '=', $user_id)->get(['profile','cover']);
         $this->data->url_store = URL::to('profile/store');

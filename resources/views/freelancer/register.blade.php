@@ -4,8 +4,8 @@
 <div class="panel panel-success">
 	<div class="panel-heading">
 		<ol class="breadcrumb">
-			<li><a href="home.php" style="font-size:18px;"><i class="fa fa-arrow-circle-left" aria-hidden="true" title="Go to home page"></i></a></li>
-		  	<li><a href="home.php">Home</a></li>
+			<li><a href="home.blade.php" style="font-size:18px;"><i class="fa fa-arrow-circle-left" aria-hidden="true" title="Go to home page"></i></a></li>
+		  	<li><a href="home.blade.php">Home</a></li>
 		  	<li class="active">Join Us</li>
 		</ol>
 	</div>

@@ -64,11 +64,9 @@
                   <img src="img/profile_logo_22207730.jpg"  class="img-thumbnail img-profile" data-toggle="modal" data-target="#upload-profile">
               <?php }  ?>
 
-              <div class="camera" data-toggle="modal" data-target="#upload-profile">
-                      <i class="fa fa-camera"></i>
-              </div>
-
-
+              {{--<div class="camera" data-toggle="modal" data-target="#upload-profile">--}}
+                      {{--<i class="fa fa-camera"></i>--}}
+              {{--</div>--}}
           </div>
           
           <div class="row">
@@ -282,7 +280,7 @@ thank you.</p>
             });
 
 
-            $('.vanilla-rotate').on('click', function(ev) {
+            $('.vanilla-rotate-profile').on('click', function(ev) {
                 $uploadCrop.croppie('rotate', parseInt($(this).data('deg')));
             });
 
@@ -345,7 +343,7 @@ thank you.</p>
             });
 
 
-            $('.vanilla-rotate').on('click', function(ev) {
+            $('.vanilla-rotate-cover').on('click', function(ev) {
                 $uploadCropCover.croppie('rotate', parseInt($(this).data('deg')));
             });
 

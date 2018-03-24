@@ -1,6 +1,6 @@
-<?php include('component/header.php'); ?>
-<?php include('component/header_menu.php'); ?>
-<?php include('component/left.php'); ?>
+@include('component/header')
+@include('component/header_profile_menu')
+@include('component/left')
 <div class="col-md-8">
 	<div style="border: 1px solid #D5D5D5; background:#fff; min-height: 300px;">
 		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -453,6 +453,6 @@
 	</div>
 	<br />
 </div>
-<?php include('component/right.blade.php'); ?>
-<?php include('component/chat.blade.php'); ?>
-<?php include('component/footer.php'); ?>
+@include('component/right')
+@include('component/chat')
+@include('component/footer')

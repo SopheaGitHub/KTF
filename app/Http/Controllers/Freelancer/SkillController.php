@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Freelancer;
  		 	protected $data = null;
  		 	private  $skills,$date; 
  		 	public function __construct(){
+                $this->middleware('auth');
  		 		$this->data = new \stdClass(); 
  		 		$this->skills = new Skill(); 
  		 		$this->currencies = new Currency();
@@ -59,8 +60,8 @@ namespace App\Http\Controllers\Freelancer;
  		 	 	 	'created_at'            => $this->date,
  		 	 	 	'updated_at'            => $this->date, ]; 
  		 	 	 $skill = $this->skills->insertUserSkill($postDataUserSkill); 
- 		 	 	 $request->session()->flash('message','Intert Success!'); 
- 		 	 	 return back(); 
+ 		 	 	 $request->session()->flash('message','Intert Success!');
+ 		 	 	 return redirect('/profile');
  		 	 	} 
 
 
