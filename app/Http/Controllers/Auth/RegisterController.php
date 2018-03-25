@@ -129,8 +129,8 @@ class RegisterController extends Controller
         }
 
         return User::create([
-            'user_firstname' => $data['user_firstname'],
-            'user_lastname' => $data['user_lastname'],
+            'user_firstname' => htmlspecialchars($data['user_firstname'],ENT_QUOTES),
+            'user_lastname' => htmlspecialchars($data['user_lastname'],ENT_QUOTES),
             'username' => $data['email'],
             'email' => $email,
             'user_phoneno' =>  $phoneno,

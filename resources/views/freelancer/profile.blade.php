@@ -1,9 +1,8 @@
-@include('component/header')
-@include('component/header_profile_menu')
-@include('component/left')
+@extends('layouts.normal_app')
 
+@section('content')
 
-<style>
+    <style>
     .camera {
         position: absolute;
         bottom: 10px;
@@ -42,13 +41,15 @@
 	<div class="profile clearfix">
         <div class="image">
 
-            <?php if(isset($data->user_profile) ) {  ?>
-            <?php  foreach ($data->user_profile as $item) { ?>
+            <?php  foreach ($data->user_profile as $item) {
+                if (!empty($item->cover)) {   ?>
             <img src="<?php echo url($item->cover)  ?>" style="width:100%;"  style="width:100%;" class="img-cover" >
-            <?php  }  ?>
             <?php } else { ?>
             <img src="img/download.jpg" style="width:100%;"  style="width:100%;" class="img-cover" >
-            <?php }  ?>
+            <?php }
+            }
+            ?>
+
             <div  class="camera" data-toggle="modal" data-target="#upload-cover">
                 <i class="fa fa-camera"></i> Update cover
             </div>
@@ -56,32 +57,35 @@
         </div>                            
         <div class="user clearfix">
           <div class="avatar">
-              <?php if(isset($data->user_profile) ) {  ?>
-                 <?php  foreach ($data->user_profile as $item) { ?>
+              <?php  foreach ($data->user_profile as $item) {
+                 if (!empty($item->profile)) {   ?>
                   <img src="<?php echo url($item->profile)  ?>"  class="img-thumbnail img-profile" data-toggle="modal" data-target="#upload-profile">
-                  <?php  }  ?>
              <?php }else { ?>
                   <img src="img/profile_logo_22207730.jpg"  class="img-thumbnail img-profile" data-toggle="modal" data-target="#upload-profile">
-              <?php }  ?>
-
-              {{--<div class="camera" data-toggle="modal" data-target="#upload-profile">--}}
-                      {{--<i class="fa fa-camera"></i>--}}
-              {{--</div>--}}
+              <?php }
+              } ?>
           </div>
           
           <div class="row">
             <div class="col-md-12">
                 <?php
                 foreach ($data->user_name as $key => $item) { ?>
-                   <h2><?php  echo $item->user_firstname.' '.$item->user_lastname  ?></h2>
+                   <h2><?php  echo html_entity_decode($item->user_firstname.' '.$item->user_lastname)  ?></h2>
                     <?php
                 		}
                     ?>
               <div class="info">
                 <p><span class="title"><i class="fa fa-book" aria-hidden="true"></i> Skills :</span>
                   <?php
+                    $cnt = 0;
                   foreach ($data->list_skill as $key => $item) {
-					echo $item->skill_title.', ';
+                      $cnt++;
+                      if($cnt == count($data->list_skill)){
+                          echo $item->skill_title;
+                      }else{
+                          echo $item->skill_title.', ';
+                      }
+
                      }
                   ?>
 				</p>
@@ -161,13 +165,14 @@ thank you.</p>
                 </div>
                 <div class="modal-body">
                     <div id="old_profile" style="text-align: center;" >
-                        <?php if(isset($data->user_profile) ) {  ?>
-                        <?php  foreach ($data->user_profile as $item) { ?>
+                        <?php  foreach ($data->user_profile as $item) {
+                            if(!empty($item->profile)) {
+                         ?>
                         <img src="<?php echo url($item->profile)  ?>" style="width: 200px; height: 200px;"  class="img-thumbnail img-profile" data-toggle="modal" data-target="#upload-profile">
-                        <?php  }  ?>
-                        <?php }else { ?>
+                        <?php } else { ?>
                         <img src="img/profile_logo_22207730.jpg" style="width: 200px; height: 200px; "  class="img-thumbnail img-profile" data-toggle="modal" data-target="#upload-profile">
-                        <?php }  ?>
+                        <?php }
+                        }?>
                    </div>
                     <div id="upload-demo" style="display: none;"></div>
                     <input type="hidden" id="image-profile" name="image-profile">
@@ -203,13 +208,13 @@ thank you.</p>
                 </div>
                 <div class="modal-body">
                     <div id="old_cover">
-                        <?php if(isset($data->user_profile) ) {  ?>
-                        <?php  foreach ($data->user_profile as $item) { ?>
+                        <?php  foreach ($data->user_profile as $item) {
+                            if(!empty($item->cover)) { ?>
                         <img src="<?php echo url($item->cover)  ?>" style="width:100%;"  class="img-thumbnail ">
-                        <?php  }  ?>
                         <?php } else { ?>
                         <img src="img/profile_logo_22207730.jpg" style="width:100%;"  class="img-thumbnail ">
-                        <?php }  ?>
+                        <?php }
+                        }?>
                     </div>
                     <div id="upload-cover-demo" style="display: none;"></div>
                     <input type="hidden" id="image-cover" name="image-cover">
@@ -228,11 +233,6 @@ thank you.</p>
 </div>
 
 
-
-
-@include('component/right')
-@include('component/chat')
-@include('component/footer')
 
 
 <link href="<?php echo asset('css/croppie.css')?>" rel="stylesheet" type="text/css">
@@ -366,5 +366,7 @@ thank you.</p>
 
 	//===============>END CROP <=============================
 </script>
+
+@endsection
 
 

@@ -34,9 +34,9 @@
 
 
                     <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
-                    <label for="" class="col-sm-5 control-label">Phone Number Or Email</label>
+                    <label for="" class="col-sm-5 control-label"><?php echo trans('auth.phone_number_or_email'); ?></label>
                     <div class="col-sm-7">
-                      <input type="text" class="form-control"  placeholder="Phone Number Or Email" name="username" />
+                      <input type="text" class="form-control"  placeholder="<?php echo trans('auth.phone_number_or_email'); ?>" name="username" />
                     </div>
                     </div>
 
@@ -44,20 +44,20 @@
 
 
                     <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                    <label for="" class="col-sm-5 control-label">Password</label>
+                    <label for="" class="col-sm-5 control-label"><?php echo trans('auth.password'); ?></label>
                     <div class="col-sm-7">
-                    <input type="password" class="form-control"  placeholder="Password" name="password"/>
+                    <input type="password" class="form-control"  placeholder="<?php echo trans('auth.password'); ?>" name="password"/>
                     </div>
 
                     </div>
                     <div class="form-group">
                     <div class="col-sm-offset-5 col-sm-7">
-                        <a href="">Forgot your password?</a>
+                        <a href=""><?php echo trans('auth.forgot_your_password'); ?></a>
                     </div>
                     </div>
                     <div class="form-group">
                     <div class="col-sm-offset-5 col-sm-7">
-                      <button type="submit" class="btn btn-success">Log in</button>
+                      <button type="submit" class="btn btn-success"><?php echo trans('auth.login'); ?></button>
                     </div>
                     </div>
                 </form>

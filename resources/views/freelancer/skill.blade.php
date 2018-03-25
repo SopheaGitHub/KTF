@@ -28,7 +28,7 @@
 
 						
 							<div class="form-group{{ $errors->has('checkbox_skill') ? ' has-error' : '' }}">
-						    <label for="" class="col-sm-3 control-label">Select Skill</label>
+						    <label for="" class="col-sm-3 control-label"><?php echo trans('skill.select_skill');  ?></label>
 						    <div class="col-sm-9">
 						      	<div class="row">
 								<?php
@@ -51,17 +51,17 @@
 					  	</div>
 					  
 						<div class="form-group">
-						    <label for="" class="col-sm-3 control-label">Available</label>
+						    <label for="" class="col-sm-3 control-label"><?php echo trans('skill.available'); ?></label>
 						    <div class="col-sm-9">
 						    	<select name="available" class="form-control" name="available[]">
-						    		<option value="Part Time">Part Time</option>
-						    		<option value="Full Time">Full Time</option>
+						    		<option value="Part Time"><?php echo trans('skill.part_time');  ?></option>
+						    		<option value="Full Time"><?php echo trans('skill.full_time');  ?></option>
 						    	</select>
 						    </div>
 					  	</div>
 
 					  	<div class="form-group">
-						    <label for="" class="col-sm-3 control-label">Bubget</label>
+						    <label for="" class="col-sm-3 control-label"><?php echo trans('skill.budget'); ?></label>
 						    <div class="col-sm-9">
 						      	<div class="row">
 
@@ -100,8 +100,8 @@
 
 					  	<div class="form-group">
 						    <div class="col-sm-offset-3 col-sm-9">
-						      	<a href="#" class="btn btn-default">Skip</a>
-								<button  type="submit"  class="btn btn-success">Continue</button>
+						      	<a href="#" class="btn btn-default"><?php echo trans('skill.skip'); ?></a>
+								<button  type="submit"  class="btn btn-success"><?php echo trans('skill.continue'); ?></button>
 						    </div>
 					  	</div>
 					</div>

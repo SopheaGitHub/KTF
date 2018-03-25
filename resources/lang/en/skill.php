@@ -15,6 +15,16 @@ return [
 
    
     'skill_checkbox_required'    => 'Please check your skill',
+    'select_skill'               => 'Select Skill ',
+    'available'                  => 'Available',
+    'budget'                    => 'Budget',
+    'skip'                      => 'Skip',
+    'continue'                  => 'Continue',
+    'part_time'                 => 'Part Time',
+    'full_time'                 => 'Full Time',
+
+
+
    
    
 ];

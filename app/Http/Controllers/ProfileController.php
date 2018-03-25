@@ -39,6 +39,11 @@ class ProfileController extends Controller
 
         $this->data->user_name = \DB::table('users')->where('user_id', '=', $user_id)->get(['user_firstname','user_lastname']);
         $this->data->user_profile = \DB::table('users')->where('user_id', '=', $user_id)->get(['profile','cover']);
+        //print_r('<pre>');
+//        echo   $this->data->user_profile;
+//        print_r('</pre>');
+//        exit();
+
         $this->data->url_store = URL::to('profile/store');
         $this->data->url_save_profile_image = URL::to('profile/save_profile');
         $this->data->url_save_cover_image = URL::to('profile/save_cover');

@@ -1,6 +1,6 @@
-@include('component/header')
-@include('component/header_profile_menu')
-@include('component/left')
+@extends('layouts.normal_app')
+
+@section('content')
 <div class="col-md-8">
 	<div style="border: 1px solid #D5D5D5; background:#fff; min-height: 300px;">
 		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
@@ -453,6 +453,4 @@
 	</div>
 	<br />
 </div>
-@include('component/right')
-@include('component/chat')
-@include('component/footer')
+@endsection

@@ -21,7 +21,7 @@
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" >
 	    			
 				    <div class="form-group{{ $errors->has('txt_project_name') ? ' has-error' : '' }}">
-				    	 <label for="" class="col-sm-4 control-label">Enter a name for your project</label>
+				    	 <label for="" class="col-sm-4 control-label"><?php echo trans('project.enter_project_name_label') ?></label>
                        
                             <div class="col-md-8">
                                 <input id="txt_project_name" type="text" class="form-control" name="txt_project_name" value="{{ old('txt_project_name') }}"   placeholder="e.g. Design a logo for me" autofocus>
@@ -33,26 +33,21 @@
                                 @endif
                             </div>
                     </div>
-                   
 
-
-				  	 <div class="form-group{{ $errors->has('txt_project_desc') ? ' has-error' : '' }}">
-				    	 <label for="" class="col-sm-4 control-label">Enter a name for your project</label>
-                            <div class="col-md-8">
-                              <textarea class="form-control"  id="txt_project_desc" name="txt_project_desc" placeholder="Your text here ..." style="min-height:150px;max-height:150px;min-width:100%;max-width:100%;">
-								 <?php echo old('txt_project_desc'); ?>
-							  </textarea>
-
-                                @if ($errors->has('txt_project_desc'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('txt_project_desc') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                    </div>
+		            <div class="form-group{{ $errors->has('txt_project_desc') ? ' has-error' : '' }}">
+						   <label for="" class="col-sm-4 control-label"><?php echo trans('project.description_about_your_project'); ?></label>
+						   <div class="col-sm-8">
+							   <textarea class="form-control" id="txt_project_desc" name="txt_project_desc" placeholder="<?php echo trans('project.your_text_here') ?>" style="min-height:150px;max-height:150px;min-width:100%;max-width:100%;"><?php echo old('txt_project_desc'); ?></textarea>
+							   @if ($errors->has('txt_project_desc'))
+								   <span class="help-block">
+												<strong>{{ $errors->first('txt_project_desc') }}</strong>
+											</span>
+							   @endif
+						   </div>
+					   </div>
 
 				  	 <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
-				    	 <label for="" class="col-sm-4 control-label">Upload file</label>
+				    	 <label for="" class="col-sm-4 control-label"><?php echo trans('project.upload_file')  ?></label>
                             <div class="col-md-8">
                             <input type="file" name="image" id="image"  class="form-control" value="{{ old('image') }}" placeholder="Image"/>
                                 @if ($errors->has('image'))
@@ -64,12 +59,12 @@
                     </div>
 
 				  	<div class="form-group">
-		              	<label for="input-skill" class="col-sm-4 control-label"><span data-toggle="tooltip" title="">What skills are required?</span></label>
+		              	<label for="input-skill" class="col-sm-4 control-label"><span data-toggle="tooltip" title=""><?php echo trans('project.what_skill_are_required'); ?></span></label>
 		              	<div class="col-sm-8">
 
 
 
-					     <input type="text" name="skill" id="input-skill" value="" placeholder="What skills are required?" id="input-skill" class="form-control" />
+					     <input type="text" name="skill" id="input-skill" value="" placeholder="<?php echo trans('project.what_skill_are_required'); ?>" id="input-skill" class="form-control" />
 
 
 					      <ul class="dropdown-menu"></ul>
@@ -94,7 +89,7 @@
 					    </div>
 		            </div>
 				  	<div class="form-group">
-				    <label for="" class="col-sm-4 control-label">What is your estimated budget?</label>
+				    <label for="" class="col-sm-4 control-label"><?php echo trans('project.what_is_your_estimated_budget'); ?></label>
 				    <div class="col-sm-8">
 				      <div class="row">
 				      	<div class="col-md-3">
@@ -131,7 +126,7 @@
 
 				  	<div class="form-group">
 				    <div class="col-sm-offset-4 col-sm-8">
-				      <button type="submit" class="btn btn-success">Post My Project</button>
+				      <button type="submit" class="btn btn-success"><?php echo trans('project.post_my_project'); ?></button>
 				    </div>
 				  	</div>
 				</form>

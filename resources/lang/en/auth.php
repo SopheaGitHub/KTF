@@ -41,4 +41,23 @@ return [
     'username_not_match' => 'The email or phone number you\'ve entered doestn\'t match any account.',
     'login_unsuccessful' => 'Login Unsuccessful',
 
+
+//   Label   login
+    'phone_number_or_email' => 'Phone Number Or Email ',
+    'password'              => 'Password',
+    'forgot_your_password'  => 'Forgot your password? ',
+    'login'                 => 'Log in ',
+
+//   Label Register
+    'first_name'            => 'First Name',
+    'last_name'             => 'Last Name ',
+    'password_confirmation' => 'Password Confirmation',
+    'accept_policy'         => 'Accept Policy ',
+    'register'              => 'register',
+
+
+
+
+
+
 ];

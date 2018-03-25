@@ -28,12 +28,13 @@
 			
 	    	<div><b>What can i help you?</b></div>
 			<div class="row">
-				<a href="<?php echo URL::to('/freelancer/skill'); ?>">
+				<a href="<?php echo URL::to('/freelancer/post_project_form'); ?>">
 					<div class="col-md-3">
 		      			<div class="category-box" data-toggle="modal" data-target="#myModal1"><i style="font-size:100px;" class="zmdi zmdi-flower-alt mdc-text-green"></i><br /> <b>I want to hire freelancer.</b></div>
 		      		</div>
 	      		</a>
-	      		<a href="<?php echo URL::to('/freelancer/post_project_form'); ?>">
+
+				<a href="<?php echo URL::to('/freelancer/skill'); ?>">
 		      		<div class="col-md-3">
 		      			<div class="category-box" data-toggle="modal" data-target="#myModal2"><i style="font-size:100px;" class="zmdi zmdi-notifications-active animated infinite pulse zmdi-hc-fw mdc-text-blue"></i><br /><b>I want to find work.</b></div>
 		      		</div>

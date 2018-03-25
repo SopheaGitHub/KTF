@@ -19,9 +19,9 @@
 	    			<input type="hidden" name="_token" value="<?php echo csrf_token() ?>" >
 
 	    			<div class="form-group<?php echo $errors->has('user_firstname') ? ' has-error' : ''; ?>">
-					    <label for="" class="col-sm-5 control-label">First Name</label>
+					    <label for="" class="col-sm-5 control-label"><?php echo trans('auth.first_name'); ?></label>
 					    <div class="col-sm-7">
-					      <input type="text" class="form-control"  placeholder="first Name" value="<?php echo old('user_firstname'); ?>" name="user_firstname" autofocus />
+					      <input type="text" class="form-control"  placeholder="<?php echo trans('auth.first_name'); ?>" value="<?php echo old('user_firstname'); ?>" name="user_firstname" autofocus />
 	                         <?php 
 
 	                         	if($errors->has('user_firstname')){   ?>
@@ -36,9 +36,9 @@
 
 
 				  	<div class="form-group<?php echo $errors->has('user_lastname') ? ' has-error' : ''; ?>">
-				    <label for="" class="col-sm-5 control-label">Last Name</label>
+				    <label for="" class="col-sm-5 control-label"><?php echo trans('auth.last_name'); ?></label>
 				    <div class="col-sm-7">
-				      <input type="text" class="form-control" name="user_lastname" value="<?php echo old('user_lastname'); ?>" placeholder="Last Name" />
+				      <input type="text" class="form-control" name="user_lastname" value="<?php echo old('user_lastname'); ?>" placeholder="<?php echo trans('auth.last_name'); ?>" />
 				      		<?php 
 				      			if($errors->has('user_lastname')) {  ?>
 									<span class="help-block">
@@ -52,9 +52,9 @@
 
 
 					<div class="form-group<?php echo $errors->has('email') ? ' has-error' : ''; ?>">
-				     <label for="" class="col-sm-5 control-label">Phone Number Or Email</label>
+				     <label for="" class="col-sm-5 control-label"><?php echo trans('auth.phone_number_or_email');  ?></label>
 				    <div class="col-sm-7">
-				      <input type="text" class="form-control" name="email" value="<?php echo old('email'); ?>" placeholder="Phone Number Or Email" />
+				      <input type="text" class="form-control" name="email" value="<?php echo old('email'); ?>" placeholder="<?php echo trans('auth.phone_number_or_email');  ?>" />
 				      		<?php
 				      			if ($errors->has('email')) { ?>
 				      				<span class="help-block">
@@ -65,9 +65,9 @@
 				    </div>
 				  	</div>
 					<div class="form-group<?php echo $errors->has('password') ? ' has-error' : ''; ?>">
-				     <label for="" class="col-sm-5 control-label">Password</label>
+				     <label for="" class="col-sm-5 control-label"><?php echo trans('auth.password');  ?></label>
 				    <div class="col-sm-7">
-				      <input type="password" class="form-control" name="password" value="<?php echo old('password'); ?>" placeholder="Password" />
+				      <input type="password" class="form-control" name="password" value="<?php echo old('password'); ?>" placeholder="<?php echo trans('auth.password');  ?>" />
 				     
 	                         <?php
 	                         	if($errors->has('password'))  {  ?>
@@ -82,9 +82,9 @@
 
 
 					<div class="form-group<?php echo $errors->has('password_confirmation') ? ' has-error' : ''; ?>">
-				     <label for="" class="col-sm-5 control-label">Password</label>
+				     <label for="" class="col-sm-5 control-label"><?php echo trans('auth.password_confirmation'); ?></label>
 				    <div class="col-sm-7">
-				      <input type="password" class="form-control" name="password_confirmation" value="<?php echo old('password_confirmation'); ?>" placeholder="password confirmation" />
+				      <input type="password" class="form-control" name="password_confirmation" value="<?php echo old('password_confirmation'); ?>" placeholder="<?php echo trans('auth.password_confirmation'); ?>" />
 	                         <?php 
 	                         	 if($errors->has('password_confirmation')) { ?>
 	                         	 	 <span class="help-block">
@@ -99,7 +99,7 @@
 	                    <div class="col-md-7 col-md-offset-5">
 	                        <div class="checkbox">
 	                            <label>
-	                                <input type="checkbox" name="accept_policy" /> <a href="#" data-toggle="modal" data-target="#myModal">Accept Policy</a>
+	                                <input type="checkbox" name="accept_policy" /> <a href="#" data-toggle="modal" data-target="#myModal"><?php echo trans('auth.accept_policy'); ?></a>
 	                            </label>
 
 	                            <?php
@@ -116,7 +116,7 @@
 
 				  	<div class="form-group">
 				    <div class="col-sm-offset-5 col-sm-7">
-				      <button type="submit" class="btn btn-success">Register</button>
+				      <button type="submit" class="btn btn-success"><?php echo  trans('auth.register'); ?></button>
 				    </div>
 				  	</div>
 				</form>
