@@ -56,18 +56,33 @@
 		</form>
 		<hr />
 
+
+
+
+
+
+
+
+
+
+
+
+        <?php
+        foreach ($data->data_project_list as $key => $item) { ?>
+
 		<div class="media">
 		  <div class="media-left media-top">
 		    <a href="#">
-		      <img class="media-object img-thumbnail" src="img/profile_logo_22207730.jpg" style="width:70px;" style="width:70px;" alt="name">
+		      <img class="media-object img-thumbnail" src="<?php echo $item->profile; ?>" style="width:70px;" style="width:70px;" alt="name">
 		    </a>
 		  </div>
 		  <div class="media-body">
+
 		    <div class="row">
 		    	<div class="col-md-9">
-		    		<h4 class="media-heading"><a href="project_detail_open.php">I need some Text altered, Copied and Designed</a></h4>
+		    		<h4 class="media-heading"><a href="project_detail_open.php"><?php echo $item->name; ?></a></h4>
 		    		<p>
-				    	Looking for a team to cross reference under 15,000 SKUs and 280 manufactures. On one excel spread. And looking at couple companies website to reference we are lower cost.
+                        <?php echo $item->desc; ?>
 				    </p>
 				    <a href="search_project.php">Arts & Crafts</a>, &nbsp;
 	    			<a href="search_project.php">Banner Design</a>, &nbsp;
@@ -84,138 +99,19 @@
 		  </div>
 		</div>
 		<hr />
-		<div class="media">
-		  <div class="media-left media-top">
-		    <a href="#">
-		      <img class="media-object img-thumbnail" src="img/profile_logo_22207730.jpg" style="width:70px;" style="width:70px;" alt="name">
-		    </a>
-		  </div>
-		  <div class="media-body">
-		    <div class="row">
-		    	<div class="col-md-9">
-		    		<h4 class="media-heading"><a href="#">I need some Text altered, Copied and Designed</a></h4>
-		    		<p>
-				    	Looking for a team to cross reference under 15,000 SKUs and 280 manufactures. On one excel spread. And looking at couple companies website to reference we are lower cost.
-				    </p>
-				    <a href="#">Arts & Crafts</a>, &nbsp;
-	    			<a href="#">Banner Design</a>, &nbsp;
-	    			<a href="#">Graphic Design</a>, &nbsp;
-	    			<a href="#">Illustration</a>, &nbsp;
-	    			<a href="#">Logo Design</a>
-		    	</div>
-		    	<div class="col-md-3 text-right">
-		    		<p><span>4 weeks ago</span></p>
-		    		<p><span>200$</span> | <span>Bids 2</span></p>
-		    		<div><button class="btn btn-sm btn-success">Bid Now</button></div>
-		    	</div>
-		   	</div>
-		  </div>
-		</div>
-		<hr />
-		<div class="media">
-		  <div class="media-left media-top">
-		    <a href="#">
-		      <img class="media-object img-thumbnail" src="img/profile_logo_22207730.jpg" style="width:70px;" style="width:70px;" alt="name">
-		    </a>
-		  </div>
-		  <div class="media-body">
-		    <div class="row">
-		    	<div class="col-md-9">
-		    		<h4 class="media-heading"><a href="#">I need some Text altered, Copied and Designed</a></h4>
-		    		<p>
-				    	Looking for a team to cross reference under 15,000 SKUs and 280 manufactures. On one excel spread. And looking at couple companies website to reference we are lower cost.
-				    </p>
-				    <a href="#">Arts & Crafts</a>, &nbsp;
-	    			<a href="#">Banner Design</a>, &nbsp;
-	    			<a href="#">Graphic Design</a>, &nbsp;
-	    			<a href="#">Illustration</a>, &nbsp;
-	    			<a href="#">Logo Design</a>
-		    	</div>
-		    	<div class="col-md-3 text-right">
-		    		<p><span>4 weeks ago</span></p>
-		    		<p><span>200$</span> | <span>Bids 2</span></p>
-		    		<div><button class="btn btn-sm btn-success">Bid Now</button></div>
-		    	</div>
-		   	</div>
-		  </div>
-		</div>
-		<hr />
-		<div class="media">
-		  <div class="media-left media-top">
-		    <a href="#">
-		      <img class="media-object img-thumbnail" src="img/profile_logo_22207730.jpg" style="width:70px;" style="width:70px;" alt="name">
-		    </a>
-		  </div>
-		  <div class="media-body">
-		    <div class="row">
-		    	<div class="col-md-9">
-		    		<h4 class="media-heading"><a href="#">I need some Text altered, Copied and Designed</a></h4>
-		    		<p>
-				    	Looking for a team to cross reference under 15,000 SKUs and 280 manufactures. On one excel spread. And looking at couple companies website to reference we are lower cost.
-				    </p>
-				    <a href="#">Arts & Crafts</a>, &nbsp;
-	    			<a href="#">Banner Design</a>, &nbsp;
-	    			<a href="#">Graphic Design</a>, &nbsp;
-	    			<a href="#">Illustration</a>, &nbsp;
-	    			<a href="#">Logo Design</a>
-		    	</div>
-		    	<div class="col-md-3 text-right">
-		    		<p><span>4 weeks ago</span></p>
-		    		<p><span>200$</span> | <span>Bids 2</span></p>
-		    		<div><button class="btn btn-sm btn-success">Bid Now</button></div>
-		    	</div>
-		   	</div>
-		  </div>
-		</div>
-		<hr />
-		<div class="media">
-		  <div class="media-left media-top">
-		    <a href="#">
-		      <img class="media-object img-thumbnail" src="img/profile_logo_22207730.jpg" style="width:70px;" style="width:70px;" alt="name">
-		    </a>
-		  </div>
-		  <div class="media-body">
-		    <div class="row">
-		    	<div class="col-md-9">
-		    		<h4 class="media-heading"><a href="#">I need some Text altered, Copied and Designed</a></h4>
-		    		<p>
-				    	Looking for a team to cross reference under 15,000 SKUs and 280 manufactures. On one excel spread. And looking at couple companies website to reference we are lower cost.
-				    </p>
-				    <a href="#">Arts & Crafts</a>, &nbsp;
-	    			<a href="#">Banner Design</a>, &nbsp;
-	    			<a href="#">Graphic Design</a>, &nbsp;
-	    			<a href="#">Illustration</a>, &nbsp;
-	    			<a href="#">Logo Design</a>
-		    	</div>
-		    	<div class="col-md-3 text-right">
-		    		<p><span>4 weeks ago</span></p>
-		    		<p><span>200$</span> | <span>Bids 2</span></p>
-		    		<div><button class="btn btn-sm btn-success">Bid Now</button></div>
-		    	</div>
-		   	</div>
-		  </div>
-		</div>
-		<hr />
 
-	</div>
-	<br />
-	<div style="border: 1px solid #D5D5D5; background:#fff; padding:15px; min-height: 300px;">
-		<form>
-		  	<div class="row">
-		  		<div class="col-md-4">
-		  			<span><h4>Freelancers</h4></span><span><a href="search_freelancer.php">See All</a></span>
-		  		</div>
-		  		<div class="col-md-8">
-		  			<div class="form-group">
-				    	<div class="input-group">
-				      		<input type="text" class="form-control" placeholder="Find talented freelancers?">
-				     		<div class="input-group-addon">Search</div>
-				    	</div>
-				  	</div>
-		  		</div>
-		  	</div>
-		</form>
-		<hr />
+		<?php
+        	}
+		?>
+
+
+
+
+
+
+
+
+
 
 		<div class="row">
 			<div class="col-md-6">
