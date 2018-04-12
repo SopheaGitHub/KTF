@@ -1,6 +1,7 @@
-@extends('layouts.k_app')
+@extends('layouts.app')
 
 @section('content')
+
 <div class="panel panel-success">
     <div class="panel-heading">
         <ol class="breadcrumb">
@@ -14,7 +15,6 @@
         <br /><hr />
         <div class="row">
             <div class="col-md-4">
-                    <hr />
                     <?php
                         if(count($errors->all()) > 0) { ?>
                             <div class="alert alert-danger" role="alert">
@@ -75,3 +75,5 @@
     </div>
 </div>
 @endsection
+
+

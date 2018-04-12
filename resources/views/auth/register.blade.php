@@ -1,6 +1,7 @@
-@extends('layouts.k_app')
+@extends('layouts.app')
 
 @section('content')
+
 <div class="panel panel-success">
 	<div class="panel-heading">
 		<ol class="breadcrumb">
@@ -149,6 +150,5 @@
     </div>
   </div>
 </div>
-
 
 @endsection

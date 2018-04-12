@@ -1,4 +1,4 @@
-@extends('layouts.k_app')
+@extends('layouts.app')
 
 
 

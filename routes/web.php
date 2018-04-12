@@ -44,6 +44,8 @@ Route::get('/profile','ProfileController@index');
 Route::post('/profile/save_profile','ProfileController@saveProfile');
 Route::post('/profile/save_cover','ProfileController@saveCover');
 Route::get('/','Freelancer\HomeController@index');
+Route::get('/freelancer/searchproject','Freelancer\SearchProjectController@index');
+Route::get('/freelancer/searchproject/search','Freelancer\SearchProjectController@search');
 
 
 
