@@ -43,6 +43,11 @@ class Home extends Eloquent
         if(isset($filter['budget']) && $filter['budget']!='') {
             $db->WhereIn('p.budget_range_id', preg_split('/\,/', $filter['budget']) );
         }
+
+        if(isset($filter['limit']) && $filter['limit']!='') {
+            $db->limit($filter['limit']);
+        }
+
         $db->orderby('p.id','DESC');
 
 //        echo $db->toSql();
@@ -83,5 +88,32 @@ class Home extends Eloquent
         return $result;
     }
 
+
+
+
+    public function getFreelancerList($filter=[])
+    {
+        $db = DB::table('users as u')
+            ->select(DB::raw('
+				        u.user_id,
+                        CONCAT(u.user_firstname," ", u.user_lastname) as username,
+                        u.user_lastname,
+                        u.profile,
+                        uk.budget_range_id,
+                        (SELECT GROUP_CONCAT(skill_id) FROM user_skill WHERE user_id = u.user_id) AS u_skill_id
+		    '))
+            ->join('user_skill AS uk' , 'uk.user_id', 'u.user_id');
+        if (isset($filter['limit']) && $filter['limit'] != '') {
+            $db->limit($filter['limit']);
+        }
+        $db->groupBy('u.user_id');
+        $db->orderby('u.user_id','DESC');
+
+
+
+        /*echo $db->toSql();
+        print_r($db->getBindings());*/
+        return $db;
+    }
 
 }
