@@ -30,6 +30,10 @@ class HomeController extends Controller
             'limit' => '5'
         ];
 
+        $filter_freelancer = [
+            'limit' => '4'
+        ];
+
         $this->data->url_home = URL::to('/');
         $this->data->url_profile = URL::to('/profile');
         $this->data->url_post_project = URL::to('/freelancer/post_project_form');
@@ -38,10 +42,11 @@ class HomeController extends Controller
         $this->data->url_skill =  URL::to('/freelancer/skill');
         $this->data->data_project_list  = $this->homes->getProjectList($filter)->get();
         $this->data->data_skill_list = \DB::table('skill')->get(['skill_title','skill_id']);
-//        print_r('<pre>');
-//        echo  $this->data->data_project_list;
-//        print_r('</pre>');
-//        exit();
+        $this->data->data_freelancer_list = $this->homes->getFreelancerList($filter_freelancer)->get();
+        print_r('<pre>');
+        echo  $this->data->data_freelancer_list;
+        print_r('</pre>');
+        exit();
        return  view('freelancer.home', ['data'=>$this->data]);
 
     }
