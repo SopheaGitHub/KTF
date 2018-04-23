@@ -53,3 +53,8 @@ Route::get('/freelancer/searchproject/search','Freelancer\SearchProjectControlle
 
 //==================> Freelancer <========================
 
+
+//==================> Chat <==============================
+Route::get('/chat/login','Chat\ChatController@login');
+Route::get('/chat/chat-room','Chat\ChatController@chatRoom');
+//==================> Freelancer <========================

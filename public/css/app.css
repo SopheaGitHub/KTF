@@ -4,10 +4,10 @@ body {
 	background: #f5f8fa;
 }
 
-ol, ul {
+/*ol, ul {
 	margin: 0px;
 	padding: 0px;
-}
+}*/
 
 .breadcrumb {
     padding: 0px;
