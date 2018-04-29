@@ -27,7 +27,8 @@
 
 </head>
 <body>
-
+<div id="chat-realtime">
+<div id="main">
 <div class="panel panel-success">
     <div class="panel-heading" style="padding: 0px;">
         <div class="row" style="margin-right: 0px; margin-left: 0px;">
@@ -76,6 +77,9 @@
 <div class="col-md-2">@include('include.content_right')</div>
 
 @include('include.chat')
+
+</div>
+</div>
 
 <!-- Firebase -->
 <script src="<?php echo asset('vendor/chat/firebase/firebase.js'); ?>"></script>

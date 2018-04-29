@@ -96,13 +96,9 @@ function register_popup(id, name)
                 element += '</div>';
                 element += '<div class="panel-footer" style="background-color: #f5f8fa;">';
 
-                    element += '<div id="chat-realtime">';
-                    element += '';
-                        element += '<div class="chat-box">';
-                        element += '<textarea class="form-control no-shadow no-rounded" id="message" placeholder="Your text here ..." style="font-size:11px; min-height:50px;max-height:50px;min-width:100%;max-width:100%;"></textarea>';
-                        element += '<div class="text-right"><button class="btn btn-success btn-xs no-rounded sendchat" style="margin-top:5px;">Send</button></div>';
-                        element += '</div>';
-                    element += '';
+                    element += '<div class="chat-box">';
+                    element += '<textarea class="form-control no-shadow no-rounded" id="message" placeholder="Your text here ..." style="font-size:11px; min-height:50px;max-height:50px;min-width:100%;max-width:100%;"></textarea>';
+                    element += '<div class="text-right"><button class="btn btn-success btn-xs no-rounded sendchat" style="margin-top:5px;">Send</button></div>';
                     element += '</div>';
 
                 element += '</div>';

@@ -4,7 +4,7 @@
       <div class="panel-heading top-bar" style="background: #5cb85c; color:#ffffff;">
           <div class="row">
             <div class="col-md-8 col-xs-8">
-              <h3 class="panel-title"><span class="glyphicon glyphicon-comment"></span> Chat</h3>
+              <h4 class="panel-title"><span class="glyphicon glyphicon-comment"></span> Chat</h4>
             </div>
             <div class="col-md-4 col-xs-4" style="text-align: right;">
                 <span id="minim_chat_window" class="glyphicon glyphicon-minus icon_minim" style="color:#ffffff; cursor:pointer;"></span>
@@ -13,12 +13,8 @@
       </div>
       <div class="panel-body msg_container_base">
 
-          <div id="chat-realtime">
-            <div id="main">
-              <div id="avatarlogin"></div>
-              <ul class="users-list"></ul>
-            </div>
-          </div>
+        <div id="avatarlogin"></div>
+        <ul class="users-list"></ul>
 
       </div>
       <div class="panel-footer" style="background-color: #f5f8fa;">
