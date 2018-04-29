@@ -28,9 +28,10 @@ class ProfileController extends Controller
         $this->date = date ("Y-m-d H:i:s");
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        $user_id = \Auth::user()->user_id;
+        $user_id = $request->id;
+//        $user_id = \Auth::user()->user_id;
 
         $this->data->url_home = URL::to('/');
         $this->data->url_profile = URL::to('/profile');
@@ -45,14 +46,14 @@ class ProfileController extends Controller
 //        exit();
 
         $this->data->url_store = URL::to('profile/store');
-        $this->data->url_save_profile_image = URL::to('profile/save_profile');
-        $this->data->url_save_cover_image = URL::to('profile/save_cover');
+        $this->data->url_save_profile_image = URL::to('profile/save_profile/'.$user_id);
+        $this->data->url_save_cover_image = URL::to('profile/save_cover/'.$user_id);
         $this->data->list_skill = $this->user_skills->getSkillByUserId($user_id);
         return  view('freelancer.profile', ['data'=>$this->data]);
     }
 
     public function saveProfile(Request $request){
-        $user_id = \Auth::user()->user_id;
+        $user_id = $request->id;
         $request = \Request::all();
         $username = 'profile_'.((Auth::check())? str_replace(' ', '', strtolower(Auth::user()->name)):'0').$user_id;
         $file_path = $user_id.'/profile/';
@@ -84,14 +85,14 @@ class ProfileController extends Controller
             copy($request['original_image'], $this->data->dir_image_profile.'/'.$file_path.'ori_'.$username.'.jpg');
         }
 
-          return redirect('profile');
+          return redirect('profile/'.$user_id);
     }
 
 
 
 
     public function saveCover(Request $request){
-        $user_id = \Auth::user()->user_id;
+        $user_id = $request->id;
         $request = \Request::all();
         $username = 'cover_'.((Auth::check())? str_replace(' ', '', strtolower(Auth::user()->name)):'0').$user_id;
         $file_path = $user_id.'/cover/';
@@ -123,7 +124,7 @@ class ProfileController extends Controller
             copy($request['original_image'], $this->data->dir_image_cover.'/'.$file_path.'ori_'.$username.'.jpg');
         }
 
-        return redirect('profile');
+        return redirect('profile/'.$user_id);
     }
 
 

@@ -16,7 +16,7 @@ class Home extends Eloquent
                 p.`name`,
                 p.`desc`,
                 p.created_at,
-                u.user_id,
+                p.user_id,
                 p.status_id,
                 u.`profile`,
                 p.budget_range_id,
@@ -96,23 +96,38 @@ class Home extends Eloquent
         $db = DB::table('users as u')
             ->select(DB::raw('
 				        u.user_id,
-                        CONCAT(u.user_firstname," ", u.user_lastname) as username,
+				        u.profile,
+                            CONCAT(
+                                u.user_firstname,
+                                " ",
+                                u.user_lastname
+                            ) AS username,
                         u.user_lastname,
-                        u.profile,
-                        uk.budget_range_id,
-                        (SELECT GROUP_CONCAT(skill_id) FROM user_skill WHERE user_id = u.user_id) AS u_skill_id
+                        u. PROFILE,
+                        ubr.budget_range_id,
+                        (SELECT min FROM budget_range WHERE budget_range_id = ubr.budget_range_id) AS min,
+                        (SELECT max FROM budget_range WHERE budget_range_id = ubr.budget_range_id) AS max,
+                        (SELECT currency_id FROM budget_range WHERE budget_range_id = ubr.budget_range_id) AS currency,
+                        (SELECT GROUP_CONCAT(us.skill_id,"--",s.skill_title) FROM user_skill AS us INNER JOIN skill AS s ON s.skill_id = us.skill_id WHERE user_id = u.user_id) AS user_skill
 		    '))
-            ->join('user_skill AS uk' , 'uk.user_id', 'u.user_id');
+            ->join('user_budget_range AS ubr' , 'ubr.user_id', 'u.user_id');
+
+        if(isset($filter['name']) && $filter['name']!='') {
+            $db->Where('u.user_firstname', 'like', '%' . $filter['name'] . '%')
+                ->Orwhere('u.user_lastname', 'like', '%' . $filter['name'] . '%');
+        }
+        if(isset($filter['budget']) && $filter['budget']!='') {
+            $db->WhereIn('ubr.budget_range_id', preg_split('/\,/', $filter['budget']) );
+        }
+
         if (isset($filter['limit']) && $filter['limit'] != '') {
             $db->limit($filter['limit']);
         }
-        $db->groupBy('u.user_id');
         $db->orderby('u.user_id','DESC');
 
-
-
-        /*echo $db->toSql();
-        print_r($db->getBindings());*/
+//        echo $db->toSql();
+//        print_r($db->getBindings());
+//        exit();
         return $db;
     }
 

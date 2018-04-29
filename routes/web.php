@@ -41,11 +41,20 @@ Route::get('/freelancer/post_project_form','Freelancer\PostProjectController@ind
 Route::get('/skill/autocomplete','Freelancer\SkillController@autocomplete');
 Route::post('/freelancer/postproject/store','Freelancer\PostProjectController@store');
 Route::get('/profile','ProfileController@index');
-Route::post('/profile/save_profile','ProfileController@saveProfile');
-Route::post('/profile/save_cover','ProfileController@saveCover');
+Route::post('/profile/save_profile/{id}','ProfileController@saveProfile');
+Route::post('/profile/save_cover/{id}','ProfileController@saveCover');
 Route::get('/','Freelancer\HomeController@index');
 Route::get('/freelancer/searchproject','Freelancer\SearchProjectController@index');
 Route::get('/freelancer/searchproject/search','Freelancer\SearchProjectController@search');
+Route::get('/freelancer/searchfreelancer','Freelancer\SearchFreelancerController@index');
+Route::get('/freelancer/searchfreelancer/search','Freelancer\SearchFreelancerController@search');
+Route::get('/profile/{id}', 'ProfileController@index');
+
+Route::get('/freelancer/project_detail_open/{id}','Freelancer\ProjectDetailOpenController@index');
+Route::POST('freelancer/bid_project/store','Freelancer\ProjectDetailOpenController@store');
+
+
+
 
 
 

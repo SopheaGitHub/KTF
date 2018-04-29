@@ -55,51 +55,60 @@ class PostProjectController extends Controller
     public function store(Request $request)
     {
         $requests = \Request::all();
-        $validator = $this->postprojects->validationForm(['request'=>$requests]);
-        if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+
+        DB::beginTransaction();
+        try {
+            $validator = $this->postprojects->validationForm(['request'=>$requests]);
+            if ($validator->fails()) {
+                return back()->withErrors($validator)->withInput();
+            }
+
+             $input = $request->all();
+             $user_id = Auth::user()->user_id;
+             if ($request->file('image')){
+               $image = $request->file('image');
+               $filename = time().'-'.str_slug(substr($input['txt_project_name'], 0, 8),"-").'.'.$image->GetClientOriginalExtension();
+               $thumbPath = $this->data->dir_image.'/'.$user_id;
+               File::makeDirectory($thumbPath, $mode = 0777, true, true);
+               $input['image'] =  $filename;
+               $image->move($thumbPath, $filename);
+               }
+               $user_id = Auth::user()->user_id;
+               $projectDatas = [
+                                'name'  => $request->txt_project_name,
+                                'desc'  =>  $request->txt_project_desc,
+                                'budget_range_id' => $request->curency_range,
+                                'user_id'=> $user_id,
+                                'created_at'  => $this->date,
+                                'updated_at' =>   $this->date,
+                            ];
+
+             $project = $this->postprojects->create($projectDatas);
+
+            if ($request->file('image')){
+                 $projectimageDatas = [
+                                    'path'       =>   $thumbPath,
+                                    'file_name'  =>   $filename,
+                                    'project_id' =>  $project->id,
+                                ];
+                 $this->protectimages->create($projectimageDatas);
+             }
+
+            if(isset($request->post_skill)){
+                 $protectskillDatas = [
+                                        'skill_id'   =>  $request->post_skill,
+                                        'project_id' =>  $project->id,
+                                    ];
+                 $projectskill = $this->projectskills->addProjectSkill($protectskillDatas);
+             }
+
+            DB::commit();
+             return redirect('/');
+
+        } catch (Exception $e) {
+            DB::rollback();
         }
-
-	  	 $input = $request->all();
-         $user_id = Auth::user()->user_id;
-    	 if ($request->file('image')){
-           $image = $request->file('image');
-           $filename = time().'-'.str_slug(substr($input['txt_project_name'], 0, 8),"-").'.'.$image->GetClientOriginalExtension();
-           $thumbPath = $this->data->dir_image.'/'.$user_id;
-           File::makeDirectory($thumbPath, $mode = 0777, true, true);
-           $input['image'] =  $filename;
-           $image->move($thumbPath, $filename);
-           }
-    	   $user_id = Auth::user()->user_id;
-           $projectDatas = [
-                            'name'  => $request->txt_project_name,
-                            'desc'  =>  $request->txt_project_desc,
-                            'budget_range_id' => $request->curency_range,
-                            'user_id'=> $user_id,
-                            'created_at'  => $this->date,
-                            'updated_at' =>   $this->date,
-                        ];
-
-         $project = $this->postprojects->create($projectDatas);
-
-        if ($request->file('image')){
-             $projectimageDatas = [
-              					'path'       =>   $thumbPath,
-              					'file_name'  =>   $filename,
-              					'project_id' =>  $project->id,
-              				];
-             $this->protectimages->create($projectimageDatas); 
-         }	
-
-        if(isset($request->post_skill)){
-             $protectskillDatas = [
-             						'skill_id'   =>  $request->post_skill,
-             						'project_id' =>  $project->id,
-             					];		
-             $projectskill = $this->projectskills->addProjectSkill($protectskillDatas); 
-         }						
-
-         return redirect('/');
+        exit();
         
     }
 

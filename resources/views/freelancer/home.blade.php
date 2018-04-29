@@ -38,6 +38,15 @@
             return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
         }
 
+
+        function splitStringSecondFunction($str){
+            $matches = preg_split('/\--/', $str);
+            $first = isset($matches[0]) ? $matches[0] : '';
+            $second = isset($matches[1]) ? $matches[1] : '';
+            return $second;
+        }
+
+
     }
 
     ?>
@@ -119,7 +128,7 @@
 
 				<div class="row">
 					<div class="col-md-9">
-						<h4 class="media-heading"><a href="project_detail_open.php"><?php echo $items->name; ?></a></h4>
+						<h4 class="media-heading"><a href="{{ url($data->url_project_detail_open.'/'.$items->id) }}"><?php echo $items->name; ?></a></h4>
 						<p>
                             <?php echo $items->desc; ?>
 						</p>
@@ -159,16 +168,16 @@
 
 
 		<div style="border: 1px solid #D5D5D5; background:#fff; padding:15px; min-height: 300px;">
-			<form>
+			<form  method="GET"  action="<?php echo $data->url_search_freelancer; ?>">
 				<div class="row">
 					<div class="col-md-4">
-						<span><h4>Freelancers</h4></span><span><a href="search_freelancer.php">See All</a></span>
+						<span><h4>Freelancers</h4></span><span><a href="<?php echo $data->url_freelancer_search; ?>">See All</a></span>
 					</div>
 					<div class="col-md-8">
-						<div class="form-group">
-							<div class="input-group">
-								<input type="text" class="form-control" placeholder="Find talented freelancers?">
-								<div class="input-group-addon">Search</div>
+						<div class="input-group">
+							<input id="txt_search" type="text" name="txt_search" class="form-control search" placeholder="Find talented freelancers?"/>
+							<div class="input-group-btn">
+								<button class="btn btn-default" type="submit"> Search</button>
 							</div>
 						</div>
 					</div>
@@ -179,28 +188,26 @@
 
 
 
-
-
                 <?php
                 foreach ($data->data_freelancer_list as $key => $items) { ?>
 
 				<div class="col-md-6">
 					<div class="media" style="padding:10px; background: #f5f8fa; border-radius:4px; margin-bottom:15px;">
 						<div class="media-left media-top">
-							<a href="#">
-								<img class="media-object img-thumbnail" src="img/profile_logo_22207730.jpg" style="width:70px;" style="width:70px;" alt="name">
+							<a href="{{ url($data->url_profile.'/'.$items->user_id) }}">
+								<img class="media-object img-thumbnail" src="<?php echo $items->profile; ?>" style="width:70px;" style="width:70px;" alt="name">
 							</a>
 						</div>
 						<div class="media-body">
 							<div>
-								<strong><?php echo $items->username; ?></strong>
+								<strong>   <?php echo $items->username; ?></strong>
 							</div>
 							<div>
-								<a href="#" class="btn btn-xs btn-default">Arts & Crafts</a>
-								<a href="#" class="btn btn-xs btn-default">Banner Design</a>
-								<a href="#" class="btn btn-xs btn-default">Graphic Design</a>
-								<a href="#" class="btn btn-xs btn-default">Illustration</a>
-								<a href="#" class="btn btn-xs btn-default">Logo Design</a>
+                                <?php
+								  $arr = explode(",",$items->user_skill);
+                                   foreach ($arr as $item) { ?>
+									<a href="#" class="btn btn-xs btn-default"><?php echo preg_split('/\--/', $item)[1] ?></a>
+                                    <?php }  ?>
 							</div>
 							<div style="margin: 10px 0px;">
 								<span style="padding: 3px; background:#5cb85c; color:#fff;">4.0</span>&nbsp;
@@ -211,7 +218,11 @@
 								<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>
 								&nbsp;&nbsp; <span>(5 Reviews)</span>
 							</div>
-							<p><strong>Budget:</strong> $20 - $30 | <span><a href="#">Chat</a></span> | <span><a href="profile.php">View Profile</a></span></p>
+							<?php if($items->currency==2){ ?>
+							<p><strong>Budget: <?php echo $items->min.'KHR - '.$items->max.'KHR'; ?> </strong> | <span><a href="#">Chat</a></span> | <span><a href="{{ url($data->url_profile.'/'.$items->user_id) }}">View Profile</a></span></p>
+						    <?php }else{ ?>
+							<p><strong>Budget: <?php echo '$'.$items->min.' - $'.$items->max; ?></strong> | <span><a href="#">Chat</a></span> | <span><a href="{{ url($data->url_profile.'/'.$items->user_id) }}">View Profile</a></span></p>
+							<?php } ?>
 						</div>
 					</div>
 				</div>
@@ -219,19 +230,10 @@
                     <?php
                     }
                     ?>
-
-
-
-
-
 			</div>
 
 		</div>
 		<br />
-
-
-
-
 
 
 
