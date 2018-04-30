@@ -88,7 +88,7 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
     });
 
 	//send chat
-    document.querySelector('#send').addEventListener("click", function(h) {
+    document.querySelector('#sendchat').addEventListener("click", function(h) {
         var a = new Date(),
             b = a.getDate(),
             c = (a.getMonth() + 1),
@@ -163,8 +163,8 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
 					}
 					tampungImg = [];
 					document.querySelector('#message').value = '';
-					document.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
-					document.getElementById('reviewImg').innerHTML = '';
+					// document.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
+					// document.getElementById('reviewImg').innerHTML = '';
 				}
             });
 			
@@ -174,6 +174,16 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
     }, false);
 
     $('body').on('click', '.user', function() {
+
+        var uid = $(this).data("uid");
+        var uname = $(this).data('uname');
+
+        // register_popup(uid, uname);
+        
+        $("#chatroom-popup-head-left").html(uname).show();
+
+        document.getElementById("chatroom").style.display = "block";
+
         $('.chat').html('');
         $('.user').removeClass("active");
         $(this).addClass("active");
@@ -271,6 +281,7 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
                     });
                     $('.chat').prepend(b);
                 }
+
                 var c = $('.chat');
                 var d = c[0].scrollHeight;
                 c.scrollTop(d)
@@ -395,6 +406,6 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
 		return false;
 	});	
 	
-	document.getElementById('fileinput').addEventListener('change', readMultipleImg, false);
+	// document.getElementById('fileinput').addEventListener('change', readMultipleImg, false);
 
 }
