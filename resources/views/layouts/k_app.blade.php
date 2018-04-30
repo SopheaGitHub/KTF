@@ -207,6 +207,8 @@ $(function(){
             alert('Form input ada yang belum di isi')
         }
     });
+    
+    $('#main').show();
   
 });
 
