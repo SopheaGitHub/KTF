@@ -49,7 +49,10 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
 
     k.on("child_added", function(a) {
 
-        var b = a.val().user_id,
+        // console.log("added", a.key, a.val());
+        // return false;
+
+        var b = a.val().sender_id,
             ke = a.val().receiver_id;
         
         // inbox user
@@ -66,7 +69,7 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
         
         // inbox room
         else if (ke != m && $('#s' + ke).data('tipe') == 'rooms') {
-            document.querySelector('#s' + ke + ' strong').innerHTML = a.val().user_id;
+            document.querySelector('#s' + ke + ' strong').innerHTML = a.val().sender_id;
             document.querySelector('#s' + ke + ' img').src = a.val().avatar;
             document.querySelector('#s' + ke + ' .time').innerHTML = timing(new Date(a.val().date));
             document.querySelector('#s' + ke + ' .last-message').innerHTML = htmlEntities(a.val().message);
@@ -90,6 +93,88 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
         k.child(a.key).remove()
     });
 
+    //send chat
+    document.querySelector('#sendchat').addEventListener("click", function(h) {
+        var a = new Date(),
+            b = a.getDate(),
+            c = (a.getMonth() + 1),
+            d = a.getFullYear(),
+            e = a.getHours(),
+            f = a.getMinutes(),
+            g = a.getSeconds(),
+            date = d + '-' + (c < 10 ? '0' + c : c) + '-' + (b < 10 ? '0' + b : b) + ' ' + (e < 10 ? '0' + e : e) + ':' + (f < 10 ? '0' + f : f) + ':' + (g < 10 ? '0' + g : g);
+        h.preventDefault();
+        var il = tampungImg.length;
+        if (document.querySelector('#message').value != '') {
+            
+            // insert mysql
+            $.ajax({
+                url: l,
+                type: "post",
+                data: {
+                    data: 'send',
+                    sender_id: m,
+                    receiver_id: uKe,
+                    message: document.querySelector('#message').value,
+                    images : JSON.stringify(tampungImg),
+                    tipe: uTipe,
+                    date: date
+                },
+                crossDomain: true,
+                success: function(a) {                  
+                    // insert firebase
+                    if(il > 0){
+                        for (hit = 0; hit < il; hit++) {
+                            if(hit == 0){                               
+                                var i = {
+                                    data: 'send',
+                                    sender_id: m,
+                                    receiver_id: uKe,
+                                    message: document.querySelector('#message').value,
+                                    images : tampungImg[hit].name,
+                                    tipe: uTipe,
+                                    date: date
+                                };
+                            }else{                              
+                                var i = {
+                                    data: 'send',
+                                    sender_id: m,
+                                    receiver_id: uKe,
+                                    message: '',
+                                    images : tampungImg[hit].name,
+                                    tipe: uTipe,
+                                    date: date
+                                };
+                            }
+                            k.push(i);                  
+                        } 
+                    }else{
+
+                        var i = {
+                            data: 'send',
+                            sender_id: m,
+                            receiver_id: uKe,
+                            message: document.querySelector('#message').value,
+                            images : '',
+                            tipe: uTipe,
+                            date: date
+                        };
+                        
+                        // push firebase
+                        k.push(i);
+                    }
+                    tampungImg = [];
+                    document.querySelector('#message').value = '';
+                    // document.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
+                    // document.getElementById('reviewImg').innerHTML = '';
+                }
+            });
+            
+        } else {
+            alert('Please fill atlease message!')
+        }
+    }, false);
+
     $('body').on('click', '.user', function() {
 
         var uid = $(this).data("uid");
@@ -108,7 +193,9 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
             tipe = $(this).data('tipe');
         $('#' + a + ' .chat-alert').hide();
         $('#' + a + ' .chat-alert').html(0);
-        uKe = a;
+
+        // uKe = a;
+        uKe = uid;
         uTipe = tipe;
         chatMysql(tipe, a);
         return false
@@ -148,11 +235,13 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
     }
 
     function chatFirebase(a) {
+        // console.log(a);
+        // return false; 
         var b = '';
-        if (a.user_id == m) {
-            b = '<li class="right clearfix ' + a.user_id + '">' + '<span class="chat-img pull-right">' + '<img src="' + a.user_id + '" alt="User Avatar">' + '</span>' + '<div class="chat-body clearfix">' + '<p class="msg">' + (a.images != '' ? '<img class="imageDir" src="'+imageDir+'/'+a.images+'"/>' : '') + urltag(htmlEntities(a.message)) + '</p>' + '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ' + timing(new Date(a.date)) + '</small>' + '</div>' + '</li>'
+        if (a.sender_id == m) {
+            b = '<li class="right clearfix s' + a.sender_id + '">' + '<span class="chat-img pull-right">' + '<img src="' + a.sender_id + '" alt="User Avatar">' + '</span>' + '<div class="chat-body clearfix">' + '<p class="msg">' + (a.images != '' ? '<img class="imageDir" src="'+imageDir+'/'+a.images+'"/>' : '') + urltag(htmlEntities(a.message)) + '</p>' + '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ' + timing(new Date(a.date)) + '</small>' + '</div>' + '</li>'
         } else {
-            b = '<li class="left clearfix ' + a.user_id + '">' + '<span class="chat-img pull-left">' + '<img src="' + a.user_id + '" alt="User Avatar">' + '</span>' + '<div class="chat-body clearfix">' + '<div class="kepala">' + '<strong class="primary-font">' + a.user_id + '</strong>' + '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ' + timing(new Date(a.date)) + '</small>' + '</div>' + '<p class="msg">' + (a.images != '' ? '<img class="imageDir" src="'+imageDir+'/'+a.images+'"/>' : '') + urltag(htmlEntities(a.message)) + '</p>' + '</div>' + '</li>'
+            b = '<li class="left clearfix s' + a.sender_id + '">' + '<span class="chat-img pull-left">' + '<img src="' + a.sender_id + '" alt="User Avatar">' + '</span>' + '<div class="chat-body clearfix">' + '<div class="kepala">' + '<strong class="primary-font">' + a.sender_id + '</strong>' + '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ' + timing(new Date(a.date)) + '</small>' + '</div>' + '<p class="msg">' + (a.images != '' ? '<img class="imageDir" src="'+imageDir+'/'+a.images+'"/>' : '') + urltag(htmlEntities(a.message)) + '</p>' + '</div>' + '</li>'
         }
         return b
     }
@@ -177,9 +266,9 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
                     $.each(a, function(i, a) {
                         if ($('#s' + a.selektor).hasClass('active')) {
                             if (a.sender_id == m) {
-                                b += '<li class="right clearfix ' + a.sender_id + '">' + '<span class="chat-img pull-right">' + '<img src="' + a.profile + '" alt="User Avatar">' + '</span>' + '<div class="chat-body clearfix">' + '<p class="msg">' + (a.image != '' ? '<img class="imageDir" src="'+imageDir+'/'+a.image+'"/>' : '') + urltag(htmlEntities(a.message)) + '</p>' + '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ' + timing(new Date(a.date)) + '</small>' + '</div>' + '</li>'
+                                b += '<li class="right clearfix s' + a.sender_id + '">' + '<span class="chat-img pull-right">' + '<img src="' + a.profile + '" alt="User Avatar">' + '</span>' + '<div class="chat-body clearfix">' + '<p class="msg">' + (a.image != '' ? '<img class="imageDir" src="'+imageDir+'/'+a.image+'"/>' : '') + urltag(htmlEntities(a.message)) + '</p>' + '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ' + timing(new Date(a.date)) + '</small>' + '</div>' + '</li>'
                             } else {
-                                b += '<li class="left clearfix ' + a.sender_id + '">' + '<span class="chat-img pull-left">' + '<img src="' + a.profile + '" alt="User Avatar">' + '</span>' + '<div class="chat-body clearfix">' + '<div class="kepala">' + '<strong class="primary-font">' + a.sender_id + '</strong>' + '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ' + timing(new Date(a.date)) + '</small>' + '</div>' + '<p class="msg">' + (a.image != '' ? '<img class="imageDir" src="'+imageDir+'/'+a.image+'"/>' : '') + urltag(htmlEntities(a.message)) + '</p>' + '</div>' + '</li>'
+                                b += '<li class="left clearfix s' + a.sender_id + '">' + '<span class="chat-img pull-left">' + '<img src="' + a.profile + '" alt="User Avatar">' + '</span>' + '<div class="chat-body clearfix">' + '<div class="kepala">' + '<strong class="primary-font">' + a.sender_id + '</strong>' + '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ' + timing(new Date(a.date)) + '</small>' + '</div>' + '<p class="msg">' + (a.image != '' ? '<img class="imageDir" src="'+imageDir+'/'+a.image+'"/>' : '') + urltag(htmlEntities(a.message)) + '</p>' + '</div>' + '</li>'
                             }
                         }
                         if (a.tipe == 'users') {
@@ -191,9 +280,9 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
                 } else {
                     $.each(a, function(i, a) {
                         if (a.sender_id == m) {
-                            b += '<li class="right clearfix ' + a.sender_id + '">' + '<span class="chat-img pull-right">' + '<img src="' + a.profile + '" alt="User Avatar">' + '</span>' + '<div class="chat-body clearfix">' + '<p class="msg">' + (a.image != '' ? '<img class="imageDir" src="'+imageDir+'/'+a.image+'"/>' : '') + urltag(htmlEntities(a.message)) + '</p>' + '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ' + timing(new Date(a.date)) + '</small>' + '</div>' + '</li>'
+                            b += '<li class="right clearfix s' + a.sender_id + '">' + '<span class="chat-img pull-right">' + '<img src="' + a.profile + '" alt="User Avatar">' + '</span>' + '<div class="chat-body clearfix">' + '<p class="msg">' + (a.image != '' ? '<img class="imageDir" src="'+imageDir+'/'+a.image+'"/>' : '') + urltag(htmlEntities(a.message)) + '</p>' + '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ' + timing(new Date(a.date)) + '</small>' + '</div>' + '</li>'
                         } else {
-                            b += '<li class="left clearfix ' + a.sender_id + '">' + '<span class="chat-img pull-left">' + '<img src="' + a.profile + '" alt="User Avatar">' + '</span>' + '<div class="chat-body clearfix">' + '<div class="kepala">' + '<strong class="primary-font">' + a.sender_id + '</strong>' + '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ' + timing(new Date(a.date)) + '</small>' + '</div>' + '<p class="msg">' + (a.image != '' ? '<img class="imageDir" src="'+imageDir+'/'+a.image+'"/>' : '') + urltag(htmlEntities(a.message)) + '</p>' + '</div>' + '</li>'
+                            b += '<li class="left clearfix s' + a.sender_id + '">' + '<span class="chat-img pull-left">' + '<img src="' + a.profile + '" alt="User Avatar">' + '</span>' + '<div class="chat-body clearfix">' + '<div class="kepala">' + '<strong class="primary-font">' + a.sender_id + '</strong>' + '<small class="pull-right text-muted"><i class="fa fa-clock-o"></i> ' + timing(new Date(a.date)) + '</small>' + '</div>' + '<p class="msg">' + (a.image != '' ? '<img class="imageDir" src="'+imageDir+'/'+a.image+'"/>' : '') + urltag(htmlEntities(a.message)) + '</p>' + '</div>' + '</li>'
                         }
                         if (a.tipe == 'users') {
                             document.querySelector('#' + f + ' .time').innerHTML = timing(new Date(a.date));

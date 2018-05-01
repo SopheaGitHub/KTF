@@ -114,10 +114,10 @@ class Chat_realtime {
 		return $data;
 	}
 	
-	function send_message($name, $ke, $message, $image, $date, $avatar, $tipe){		
+	function send_message($sender_id, $receiver_id, $message, $image, $date, $tipe){		
 		$data = array();
-		$sql=$this->dbh->prepare("INSERT INTO messages (name,ke,avatar,message,image,tipe,date) VALUES (?,?,?,?,?,?,?)");
-		$sql->execute(array($name,$ke,$avatar,$message,$image,$tipe,$date));
+		$sql=$this->dbh->prepare("INSERT INTO messages (sender_id,receiver_id,message,image,tipe,date) VALUES (?,?,?,?,?,?)");
+		$sql->execute(array($sender_id,$receiver_id,$message,$image,$tipe,$date));
 		$data['status'] = 'success';
 		return $data;
 	}
