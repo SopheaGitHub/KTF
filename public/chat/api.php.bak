@@ -12,24 +12,24 @@ if(isset($_POST) and $_SERVER['REQUEST_METHOD'] == "POST"){
 	if(!empty($_POST['data'])){
 		
 		if($_POST['data'] == 'cek'){
-			if(isset($_SESSION['user']) && isset($_SESSION['profile'])){
+			if(isset($_SESSION['user']) && isset($_SESSION['avatar'])){
 				$data['status'] = 'success';
 				$data['user'] 	= $_SESSION['user'];
-				$data['profile'] = $_SESSION['profile'];
+				$data['avatar'] = $_SESSION['avatar'];
 			}else{
 				$data['status'] == 'error';
 			}
 		}else if($_POST['data'] == 'login'){
-			if(!empty($_POST['user_id']) && !empty($_POST['profile'])){
-				$data = $chat->user_login($_POST['user_id'], $_POST['profile']);
+			if(!empty($_POST['name']) && !empty($_POST['avatar'])){
+				$data = $chat->user_login($_POST['name'], $_POST['avatar']);
 				if($data['status'] == 'success'){
-					$_SESSION['user'] = $_POST['user_id'];
-					$_SESSION['profile'] = $_POST['profile'];
+					$_SESSION['user'] = $_POST['name'];
+					$_SESSION['avatar'] = $_POST['avatar'];
 				}
 			}
 		}else if($_POST['data'] == 'message'){
-			if(!empty($_POST['receiver_id']) && !empty($_POST['tipe'])){
-				$data = $chat->get_message($_POST['tipe'], $_POST['receiver_id'], $_SESSION['user']);
+			if(!empty($_POST['ke']) && !empty($_POST['tipe'])){
+				$data = $chat->get_message($_POST['tipe'], $_POST['ke'], $_SESSION['user']);
 			}			
 		}else if($_POST['data'] == 'user'){
 			$data = $chat->get_user($_SESSION['user']);

@@ -7,4 +7,4 @@ $imageDir = "images";
 $username 	= "root";
 $password 	= "";
 $host  		= "localhost";
-$name    	= "db_ktf_chat";
+$name    	= "db_ktf";

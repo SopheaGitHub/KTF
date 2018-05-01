@@ -12,7 +12,7 @@
     float:right;
     /*margin-left:10px;*/
     right: 0;
-    width: 270px;
+    width: 280px;
     z-index: 10000;
     bottom:0;
 }
@@ -28,7 +28,7 @@
   background: #f5f8fa;
   margin: 0px;
   padding: 0px;
-  max-height:250px;
+  max-height:350px;
   overflow-x:hidden;
 }
 .msg_container_base::-webkit-scrollbar { 

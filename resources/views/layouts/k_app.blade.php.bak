@@ -112,8 +112,6 @@ $(function(){
         crossDomain: true,
         dataType: 'json',
         success: function(a) {
-            // console.log(a);
-            // return false;
             if (a.status == 'success') {
                     var x = new Date(),
                         b = x.getDate(),
@@ -124,18 +122,18 @@ $(function(){
                         g = x.getSeconds(),
                         date = d + '-' + (c < 10 ? '0' + c : c) + '-' + (b < 10 ? '0' + b : b) + ' ' + (e < 10 ? '0' + e : e) + ':' + (f < 10 ? '0' + f : f) + ':' + (g < 10 ? '0' + g : g);
                     var h = {
-                        user_id: a.user,
-                        profile: a.profile,
+                        name: a.user,
+                        avatar: a.avatar,
                         login: date,
                         tipe: 'login'
                     };
                     userRef.push(h);
                 $('#login').hide();
                 $('#main').show();
-                document.querySelector('#avatarlogin').src = a.profile;
+                document.querySelector('#avatarlogin').src = a.avatar;
                 userlogin = a.user;
                 $('#userlogin').html(a.user);
-                chat_realtime(userRef, messageRef, "<?php echo url('/'); ?>/"+apis, a.user, a.profile, imageDir)
+                chat_realtime(userRef, messageRef, "<?php echo url('/'); ?>/"+apis, a.user, a.avatar, imageDir)
             }
         }
     });
@@ -154,7 +152,7 @@ $(function(){
             success: function(a) {
                 if (a.status == 'success') {
                     var b = {
-                        user_id: userlogin,
+                        name: userlogin,
                         tipe: 'logout'
                     };
                     userRef.push(b);
@@ -169,23 +167,21 @@ $(function(){
     // user login
     $('#loginform').submit(function(e) {
         e.preventDefault();
-        var i = $('#user-id').val(),
-            profile = $('#profile').val();
-        if (i != '' && profile != '') {
+        var i = $('#username').val(),
+            avatar = $('#avatar').val();
+        if (i != '' && avatar != '') {
             $('#status').html('<center>Wait...</center>');
             $.ajax({
                 url: "<?php echo url('/'); ?>/"+apis,
                 data: {
                     data: 'login',
-                    user_id: i,
-                    profile: profile
+                    name: i,
+                    avatar: avatar
                 },
                 type: "post",
                 crossDomain: true,
                 dataType: 'json',
                 success: function(a) {
-                    // console.log(a);
-                    // return false;
                     if (a.status == 'success') {
                         var x = new Date(),
                             b = x.getDate(),
@@ -196,14 +192,14 @@ $(function(){
                             g = x.getSeconds(),
                             date = d + '-' + (c < 10 ? '0' + c : c) + '-' + (b < 10 ? '0' + b : b) + ' ' + (e < 10 ? '0' + e : e) + ':' + (f < 10 ? '0' + f : f) + ':' + (g < 10 ? '0' + g : g);
                         var h = {
-                            user_id: i,
-                            profile: profile,
+                            name: i,
+                            avatar: avatar,
                             login: date,
                             tipe: 'login'
                         };
                         userRef.push(h);
                     } else {
-                        $('#status').html("<div class='alert alert-danger'>false user login.</div>")
+                        $('#status').html("<div class='alert alert-danger'>Username sudah di pakai.</div>")
                     }
                 }
             })

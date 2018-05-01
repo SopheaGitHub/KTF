@@ -1,5 +1,5 @@
 <!--- chat room -->
-<div class="popup-box chat-popup" id="chatroom" style="right: 270px; display: none;">
+<div class="popup-box chat-popup" id="chatroom" style="right: 270px; display: block;">
   <div class="popup-head">
     <div class="popup-head-left" id="chatroom-popup-head-left">AAA</div>
     <div class="popup-head-right">
