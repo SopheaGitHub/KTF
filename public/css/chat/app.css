@@ -219,9 +219,9 @@
 	margin-right: 50px;
 	background-color: #dff0d8;
 	border: 1px solid #dff0d8 !important;
-	box-shadow: 0 1px 1px rgba(44,146,186,1) !important;
-	-moz-box-shadow: 0 1px 1px rgba(44,146,186,1) !important;
-	-webkit-box-shadow: 0 1px 1px rgba(44,146,186,1) !important;
+	box-shadow: 0 1px 1px rgba(0,0,0,.05);
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
 }
 
 #chat-realtime .chat li.right .text-muted {

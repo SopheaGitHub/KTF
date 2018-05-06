@@ -48,17 +48,17 @@ class Chat_realtime {
 		$data = array();
 		if($tipe == 'rooms'){
 			if($receiver_id == 'all'){
-				$sql=$this->dbh->prepare("SELECT * FROM messages WHERE tipe=? order by date ASC");
+				$sql=$this->dbh->prepare("SELECT m.*, `sender`.`profile`, `sender`.`user_firstname`, `sender`.`user_lastname` FROM messages AS m INNER JOIN users AS sender ON `sender`.`user_id` = `m`.`sender_id` WHERE tipe=? order by date ASC");
 				$sql->execute(array($tipe));
 			}else{
-				$sql=$this->dbh->prepare("SELECT * FROM messages WHERE receiver_id=? order by date ASC");
+				$sql=$this->dbh->prepare("SELECT m.*, `sender`.`profile`, `sender`.`user_firstname`, `sender`.`user_lastname` FROM messages AS m INNER JOIN users AS sender ON `sender`.`user_id` = `m`.`sender_id` WHERE receiver_id=? order by date ASC");
 				$sql->execute(array( str_replace('s', '', $receiver_id) ));
 			}
 			while($r = $sql->fetch()){
 				$data[] = array(
 					'sender_id' => $r['sender_id'],
-					'name' => $r['sender_id'],
-					'profile' => 'join sender profile',
+					'sender_name' => $r['user_firstname'].' '.$r['user_lastname'],
+					'profile' => url().'/'.$r['profile'],
 					'message' => $r['message'],
 					'image' => $r['image'],
 					'tipe' => $r['tipe'],
@@ -68,17 +68,17 @@ class Chat_realtime {
 			}
 		}else if($tipe == 'users'){
 			if($receiver_id == 'all'){
-				$sql=$this->dbh->prepare("SELECT * FROM messages WHERE (sender_id = :id1 AND tipe= :id2) OR (receiver_id = :id1 AND tipe = :id2) order by date ASC");
+				$sql=$this->dbh->prepare("SELECT m.*, `sender`.`profile`, `sender`.`user_firstname`, `sender`.`user_lastname` FROM messages AS m INNER JOIN users AS sender ON `sender`.`user_id` = `m`.`sender_id` WHERE (sender_id = :id1 AND tipe= :id2) OR (receiver_id = :id1 AND tipe = :id2) order by date ASC");
 				$sql->execute(array(':id1' => $user, ':id2' => $tipe));
 			}else{
-				$sql=$this->dbh->prepare("SELECT * FROM messages WHERE (sender_id = :id1 AND receiver_id= :id2) OR (sender_id = :id2 AND receiver_id = :id1) order by date ASC");
+				$sql=$this->dbh->prepare("SELECT m.*, `sender`.`profile`, `sender`.`user_firstname`, `sender`.`user_lastname` FROM messages AS m INNER JOIN users AS sender ON `sender`.`user_id` = `m`.`sender_id` WHERE (sender_id = :id1 AND receiver_id= :id2) OR (sender_id = :id2 AND receiver_id = :id1) order by date ASC");
 				$sql->execute(array(':id1' => $user, ':id2' => str_replace('s', '', $receiver_id) ));
 			}
 			while($r = $sql->fetch()){
 				$data[] = array(
 					'sender_id' => $r['sender_id'],
-					'name' => $r['sender_id'],
-					'profile' => 'join sender profile',
+					'sender_name' => $r['user_firstname'].' '.$r['user_lastname'],
+					'profile' => url().'/'.$r['profile'],
 					'message' => $r['message'],
 					'image' => $r['image'],
 					'tipe' => $r['tipe'],
