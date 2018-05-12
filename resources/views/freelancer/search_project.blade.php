@@ -26,7 +26,6 @@
 
     function humanTiming ($time)
     {
-
         $time = time() - $time; // to get the time since that moment
         $time = ($time<1)? 1 : $time;
         $tokens = array (
@@ -38,9 +37,6 @@
             60 => 'minute',
             1 => 'second'
         );
-
-
-
     }
 
     ?>

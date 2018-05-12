@@ -14,6 +14,7 @@ class ProjectDetailOpen extends Eloquent
 				        p.id,
 				        p.name,
 				        p.desc,
+				       
 				        pi.file_name,
 				        CONCAT(u.user_firstname," ",u.user_lastname) AS username,
 				         u.profile,
@@ -21,10 +22,11 @@ class ProjectDetailOpen extends Eloquent
                         (SELECT GROUP_CONCAT(ps.skill_id,"--",s.skill_title) FROM project_skill AS ps INNER JOIN skill AS s ON s.skill_id = ps.skill_id WHERE ps.project_id = p.id ) AS project_skill,
 		                (SELECT min FROM budget_range WHERE budget_range_id = p.budget_range_id) AS min,
                         (SELECT max FROM budget_range WHERE budget_range_id = p.budget_range_id) AS max,
-                        (SELECT currency_id FROM budget_range WHERE budget_range_id = p.budget_range_id) AS currency
+                        (SELECT currency_id FROM budget_range WHERE budget_range_id = p.budget_range_id) AS currency,
+                        (SELECT status_name FROM status where status_id = p.status_id) AS status
 		    '))
-         ->join('project_image AS pi' , 'p.id', 'pi.project_id')
-         ->join('users AS u','u.user_id','p.user_id');
+            ->join('project_image AS pi' , 'p.id', 'pi.project_id')
+            ->join('users AS u','u.user_id','p.user_id');
         if(isset($filter['id']) && $filter['id']!='') {
             $db->Where('p.id', $filter['id']);
         }
@@ -38,6 +40,7 @@ class ProjectDetailOpen extends Eloquent
     {
         $db = DB::table('bid_project AS bp')
             ->select(DB::raw('
+                        bp.id,
                         u.user_id,
                         u.profile,
                         CONCAT(u.user_firstname," ",u.user_lastname) as username,
@@ -75,6 +78,25 @@ class ProjectDetailOpen extends Eloquent
             DB::connection()->getPdo()->exec($sql);
         }
     }
+
+
+    public function getUserOfffered($filter=[])
+    {
+        $db = DB::table('users AS u')
+            ->select(DB::raw('
+                       u.user_id,
+                       CONCAT(u.user_firstname," ",u.user_lastname) as username,
+                       u.profile,
+                       (SELECT GROUP_CONCAT(us.skill_id,"--",s.skill_title) FROM user_skill AS us INNER JOIN skill AS s ON s.skill_id = us.skill_id WHERE us.user_id = u.user_id ) AS user_skill
+                      
+		    '));
+        if(isset($filter['user_id']) && $filter['user_id']!='') {
+            $db->Where('u.user_id',$filter['user_id'] );
+        }
+        return $db;
+    }
+
+
 
 }
 

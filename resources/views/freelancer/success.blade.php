@@ -51,7 +51,7 @@
 @section('script')
 
 <script type="text/javascript">
-	notify('success');
+    notify('success');
     function notify(style) {
     	var image = "<?php echo URL::to('/img/ic_success.png'); ?>";
     	var title =" <?php echo $data->title; ?>";

@@ -98,7 +98,7 @@
                         <li><a href="<?php $data->url_skill; ?>">Skill</a></li>
                         <li><a href="#">About</a></li>
                         <li class="divider"></li>
-                        <li><a href="#"><i class="fa fa-sign-out"></i> Log Out</a></li>
+                        <li><a href="/logout"><i class="fa fa-sign-out"></i> Log Out</a></li>
                     </ul>
                 </li>
             </ul>

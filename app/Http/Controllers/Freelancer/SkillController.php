@@ -59,8 +59,9 @@ namespace App\Http\Controllers\Freelancer;
  		 	 	 	'available_time'        => $request->available, 
  		 	 	 	'created_at'            => $this->date,
  		 	 	 	'updated_at'            => $this->date, ]; 
- 		 	 	 $skill = $this->skills->insertUserSkill($postDataUserSkill); 
- 		 	 	 $request->session()->flash('message','Intert Success!');
+ 		 	 	 $skill = $this->skills->insertUserSkill($postDataUserSkill);
+ 		 	 	 $user_budget_range = $this->skills->insertUserBudgetRange($postDataUserSkill);
+ 		 	 	 $request->session()->flash('message','Insert Success!');
  		 	 	 return redirect('/profile');
  		 	 	} 
 

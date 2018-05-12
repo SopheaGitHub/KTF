@@ -1,3 +1,30 @@
+<?php
+
+function humanTiming ($time)
+{
+
+    $time = time() - $time; // to get the time since that moment
+    $time = ($time<1)? 1 : $time;
+    $tokens = array (
+        31536000 => 'year',
+        2592000 => 'month',
+        604800 => 'week',
+        86400 => 'day',
+        3600 => 'hour',
+        60 => 'minute',
+        1 => 'second'
+    );
+
+    foreach ($tokens as $unit => $text) {
+        if ($time < $unit) continue;
+        $numberOfUnits = floor($time / $unit);
+        return $numberOfUnits.' '.$text.(($numberOfUnits>1)?'s':'');
+    }
+
+}
+
+?>
+
 <h4>Profolio</h4>
 <br />
 
@@ -5,7 +32,7 @@
   <div class="col-xs-12 col-sm-6 col-md-4">
   	<div class="thumbnail box-showcase" style="overflow:hidden;">
   		<span class="komalhover dhiraj">
-	    	<img class="boximg" width="100%" height="auto" src="img/61f9b2.jpg" style="top: 0px" alt="61f9b2.jpg" />
+	    	<img class="boximg" width="100%" height="auto" src="http://i.imgur.com/DvpvklR.png" style="top: 0px" alt="61f9b2.jpg" />
 	    	<div class="boxtitle">
 	    		<a href="#"> Graphic Design </a>
 	    	</div>
@@ -20,7 +47,7 @@
   <div class="col-xs-12 col-sm-6 col-md-4">
   	<div class="thumbnail box-showcase" style="overflow:hidden;">
   		<span class="komalhover dhiraj">
-	    	<img class="boximg" width="100%" height="auto" src="img/a87e69.jpg" style="top: 0px" alt="61f9b2.jpg" />
+	    	<img class="boximg" width="100%" height="auto" src="http://i.imgur.com/DvpvklR.png" style="top: 0px" alt="61f9b2.jpg" />
 	    	<div class="boxtitle">
 	    		<a href="#"> Logo Design </a>
 	    	</div>
@@ -33,7 +60,7 @@
   <div class="col-xs-12 col-sm-6 col-md-4">
   	<div class="thumbnail box-showcase" style="overflow:hidden;">
   		<span class="komalhover dhiraj">
-	    	<img class="boximg" width="100%" height="auto" src="img/f0f2ae.jpg" style="top: 0px" alt="61f9b2.jpg" />
+	    	<img class="boximg" width="100%" height="auto" src="http://i.imgur.com/DvpvklR.png" style="top: 0px" alt="61f9b2.jpg" />
 	    	<div class="boxtitle">
 	    		<a href="#"> Logo Criative </a>
 	    	</div>
@@ -47,7 +74,7 @@
   <div class="col-xs-12 col-sm-6 col-md-4">
   	<div class="thumbnail box-showcase" style="overflow:hidden;">
   		<span class="komalhover dhiraj">
-	    	<img class="boximg" width="100%" height="auto" src="img/f0f2ae.jpg" style="top: 0px" alt="61f9b2.jpg" />
+	    	<img class="boximg" width="100%" height="auto" src="http://i.imgur.com/DvpvklR.png" style="top: 0px" alt="61f9b2.jpg" />
 	    	<div class="boxtitle">
 	    		<a href="#"> Best Design </a>
 	    	</div>
@@ -61,7 +88,7 @@
   <div class="col-xs-12 col-sm-6 col-md-4">
   	<div class="thumbnail box-showcase" style="overflow:hidden;">
   		<span class="komalhover dhiraj">
-	    	<img class="boximg" width="100%" height="auto" src="img/f8e626.jpg" style="top: 0px" alt="61f9b2.jpg" />
+	    	<img class="boximg" width="100%" height="auto" src="http://i.imgur.com/DvpvklR.png" style="top: 0px" alt="61f9b2.jpg" />
 	    	<div class="boxtitle">
 	    		<a href="#"> Wonderfull Logo </a>
 	    	</div>
@@ -75,7 +102,7 @@
   <div class="col-xs-12 col-sm-6 col-md-4">
   	<div class="thumbnail box-showcase" style="overflow:hidden;">
   		<span class="komalhover dhiraj">
-	    	<img class="boximg" width="100%" height="auto" src="img/a87e69.jpg" style="top: 0px" alt="61f9b2.jpg" />
+	    	<img class="boximg" width="100%" height="auto" src="http://i.imgur.com/DvpvklR.png" style="top: 0px" alt="61f9b2.jpg" />
 	    	<div class="boxtitle">
 	    		<a href="#"> Simple Logo Design </a>
 	    	</div>
@@ -89,19 +116,31 @@
 </div>
 
 <br />
+
+
+
+
+
+
 <div class="row">
 	<div class="col-md-9">
 		<h4>Recent Reviews</h4>
 		<br />
 
+
+
+        <?php
+        foreach ($data->data_review_list as $key => $items) { ?>
+
+
 		<div class="media">
 		  	<div class="media-left media-top">
-		    	<a href="#">
-		      		<img class="media-object img-thumbnail" src="img/profile_logo_22207730.jpg" style="width:70px;" style="width:70px;" alt="name">
+		    	<a href="<?php echo $data->url_profile; ?>/<?php echo $items->rate_from;  ?>">
+		      		<img class="media-object img-thumbnail" src="<?php echo url('/').'/'.$items->profile; ?>" style="width:70px;" style="width:70px;" alt="name">
 		    	</a>
 		  	</div>
 			<div class="media-body">
-			    <h4 class="media-heading"><a href="#">Arabic and English App modern logo</a></h4>
+			    <h4 class="media-heading"><a href="<?php echo $data->url_profile; ?>/<?php echo $items->rate_from;  ?>"><?php echo $items->username; ?></a></h4>
 			    <div>
 			    	<span style="padding: 3px; background:#5cb85c; color:#fff;">5.0</span>&nbsp;
 			    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
@@ -109,142 +148,39 @@
 			    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
 			    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
 			    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>
-			    	&nbsp;&nbsp;| &nbsp;&nbsp;<span>200$</span>
-			    	&nbsp;&nbsp;| &nbsp;&nbsp;<span>4 weeks ago.</span>
+			    	&nbsp;&nbsp;| &nbsp;
+					<?php if($items->currency==2){ ?>
+					<span><?php echo $items->min.'KHR - '.$items->max.'KHR'; ?> </span>
+                    <?php }else{ ?>
+					<span><?php echo '$'.$items->min.' - $'.$items->max; ?></span>
+                    <?php } ?>
+
+			    	&nbsp;&nbsp;| &nbsp;&nbsp;<span><?php echo humanTiming(strtotime($items->created_at)); ?> ago</span>
 			   	</div>
 			   	<br />
 			   	<p>
-				  <button type="button" class="btn btn-default btn-xs">Graphic Design</button>
-				  <button type="button" class="btn btn-default btn-xs">Logo Design</button>
+                    <?php
+                    $arr = explode(",",$items->user_skill);
+                    foreach ($arr as $item) { ?>
+					<button type="button" class="btn btn-xs btn-default"><?php echo preg_split('/\--/', $item)[1] ?></button>
+                    <?php }  ?>
 				</p>
 			   	<br />
 			    <p>
-			    	“this freelancer is gifted one which as endless ideas i recommend him, and i'll sure hire him again ”
+			    	“<?php echo $items->desc; ?>”
 			  	</p>
 			</div>
 		</div>
 		<hr />
-		<div class="media">
-		  	<div class="media-left media-top">
-		    	<a href="#">
-		      		<img class="media-object img-thumbnail" src="img/profile_logo_22207730.jpg" style="width:70px;" style="width:70px;" alt="name">
-		    	</a>
-		  	</div>
-		  <div class="media-body">
-		    <h4 class="media-heading"><a href="#">Design a pastry shop Logo</a></h4>
-		    <div>
-		    	<span style="padding: 3px; background:#5cb85c; color:#fff;">4.0</span>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star-o" aria-hidden="true"></i>
-		    	&nbsp;&nbsp;| &nbsp;&nbsp;<span>200$</span>
-		    	&nbsp;&nbsp;| &nbsp;&nbsp;<span>4 weeks ago.</span>
-		   	</div>
-		   	<br />
-		   	<p>
-			  <button type="button" class="btn btn-default btn-xs">Graphic Design</button>
-			  <button type="button" class="btn btn-default btn-xs">Logo Design</button>
-			</p>
-		   	<br />
-		    <p>
-		    	“this freelancer is gifted one which as endless ideas i recommend him, and i'll sure hire him again ”
-		  	</p>
-		  </div>
-		</div>
-		<hr />
-		<div class="media">
-		  	<div class="media-left media-top">
-		    	<a href="#">
-		      		<img class="media-object img-thumbnail" src="img/profile_logo_22207730.jpg" style="width:70px;" style="width:70px;" alt="name">
-		    	</a>
-		  	</div>
-		  <div class="media-body">
-		    <h4 class="media-heading"><a href="#">Arabic and English App modern logo</a></h4>
-		    <div>
-		    	<span style="padding: 3px; background:#5cb85c; color:#fff;">5.0</span>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>
-		    	&nbsp;&nbsp;| &nbsp;&nbsp;<span>200$</span>
-		    	&nbsp;&nbsp;| &nbsp;&nbsp;<span>4 weeks ago.</span>
-		   	</div>
-		   	<br />
-		   	<p>
-			  <button type="button" class="btn btn-default btn-xs">Graphic Design</button>
-			  <button type="button" class="btn btn-default btn-xs">Logo Design</button>
-			</p>
-		   	<br />
-		    <p>
-		    	“this freelancer is gifted one which as endless ideas i recommend him, and i'll sure hire him again ”
-		  	</p>
-		  </div>
-		</div>
-		<hr />
-		<div class="media">
-		  	<div class="media-left media-top">
-		    	<a href="#">
-		      		<img class="media-object img-thumbnail" src="img/profile_logo_22207730.jpg" style="width:70px;" style="width:70px;" alt="name">
-		    	</a>
-		  	</div>
-		  <div class="media-body">
-		    <h4 class="media-heading"><a href="#">Design a pastry shop Logo</a></h4>
-		    <div>
-		    	<span style="padding: 3px; background:#5cb85c; color:#fff;">4.0</span>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star-o" aria-hidden="true"></i>
-		    	&nbsp;&nbsp;| &nbsp;&nbsp;<span>200$</span>
-		    	&nbsp;&nbsp;| &nbsp;&nbsp;<span>4 weeks ago.</span>
-		   	</div>
-		   	<br />
-		   	<p>
-			  <button type="button" class="btn btn-default btn-xs">Graphic Design</button>
-			  <button type="button" class="btn btn-default btn-xs">Logo Design</button>
-			</p>
-		   	<br />
-		    <p>
-		    	“this freelancer is gifted one which as endless ideas i recommend him, and i'll sure hire him again ”
-		  	</p>
-		  </div>
-		</div>
-		<hr />
-		<div class="media">
-		  	<div class="media-left media-top">
-		    	<a href="#">
-		      		<img class="media-object img-thumbnail" src="img/profile_logo_22207730.jpg" style="width:70px;" style="width:70px;" alt="name">
-		    	</a>
-		  	</div>
-		  <div class="media-body">
-		    <h4 class="media-heading"><a href="#">Arabic and English App modern logo</a></h4>
-		    <div>
-		    	<span style="padding: 3px; background:#5cb85c; color:#fff;">5.0</span>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>&nbsp;
-		    	<i class="fa fa-star" aria-hidden="true" style="color:#5cb85c;"></i>
-		    	&nbsp;&nbsp;| &nbsp;&nbsp;<span>200$</span>
-		    	&nbsp;&nbsp;| &nbsp;&nbsp;<span>4 weeks ago.</span>
-		   	</div>
-		   	<br />
-		   	<p>
-			  <button type="button" class="btn btn-default btn-xs">Graphic Design</button>
-			  <button type="button" class="btn btn-default btn-xs">Logo Design</button>
-			</p>
-		   	<br />
-		    <p>
-		    	“this freelancer is gifted one which as endless ideas i recommend him, and i'll sure hire him again ”
-		  	</p>
-		  </div>
-		</div>
-		<hr />
-		<nav aria-label="Page navigation" class="text-right">
+
+
+		<?php }  ?>
+
+
+
+
+
+	<!--	<nav aria-label="Page navigation" class="text-right">
 		  <ul class="pagination" style="margin:0px;">
 		    <li>
 		      <a href="#" aria-label="Previous">
@@ -262,7 +198,28 @@
 		      </a>
 		    </li>
 		  </ul>
-		</nav>
+		</nav>  -->
+
+
+		<div class="row">
+			<div class="col-sm-8 text-left" id="render-post"><?php echo $data->data_review_list->render(); ?></div>
+			<div class="col-sm-4 text-right">
+                <?php
+                $start = ($data->data_review_list->currentPage() * $data->data_review_list->perPage()) - $data->data_review_list->perPage() + 1;
+                $stop = $data->data_review_list->currentPage() * $data->data_review_list->perPage();
+                if($stop > $data->data_review_list->total()){
+                    $stop = ( $start + $data->data_review_list->count()) - 1;
+                }
+                if($stop == 0){
+                    $start = 0;
+                }
+                ?>
+				Show <?php echo $start; ?> To <?php echo $stop; ?> Of <?php echo $data->data_review_list->total(); ?> &nbsp;&nbsp; (Page <?php echo $data->data_review_list->currentPage(); ?>)
+			</div>
+		</div>
+
+
+
 	</div>
 	<div class="col-md-3">
 		<div class="panel panel-default">
