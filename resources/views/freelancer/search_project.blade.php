@@ -170,14 +170,13 @@
 
 	<br />
 
-	<script>
-        $(document).ready(
-            function(){
-                var stataus_value = $('#status_id').val();
-                $("#status option[value="+stataus_value+"]").attr('selected',true);
-                var budget_id_value = $('#budget_id').val();
-                var str = budget_id_value.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-                $("#"+str+"").prop('selected',true);
-            });
-	</script>
+
 @endsection
+
+
+
+
+
+
+
+

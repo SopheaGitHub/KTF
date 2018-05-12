@@ -212,6 +212,33 @@ $(function(){
   
 });
 
+
+
+//----begin script for search_project
+$(document).ready(
+    function(){
+        var stataus_value = $('#status_id').val();
+        $("#status option[value="+stataus_value+"]").attr('selected',true);
+        var budget_id_value = $('#budget_id').val();
+        var str = budget_id_value.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+        $("#"+str+"").prop('selected',true);
+    });
+//----end script for search_project
+
+
+
+//----begin script for search_freelancer
+$(document).ready(
+    function(){
+        var stataus_value = $('#status_id').val();
+        $("#status option[value="+stataus_value+"]").attr('selected',true);
+        var budget_id_value = $('#budget_id').val();
+        var str = budget_id_value.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
+        $("#"+str+"").prop('selected',true);
+    });
+//----end script for search_freelancer
+
+
 </script>
 
 
