@@ -203,9 +203,12 @@
 					<div>
                         <?php
 						  $arr = explode(",",$items->user_skill);
-                           foreach ($arr as $item) { ?>
-							<a href="#" class="btn btn-xs btn-default"><?php echo preg_split('/\--/', $item)[1] ?></a>
-                            <?php }  ?>
+                           foreach ($arr as $item){
+                           if(isset(preg_split('/\--/', $item)[1])){  ?>
+							<a href="#" class="btn btn-xs btn-default"><?php  echo preg_split('/\--/', $item)[1];  ?></a>
+							<?php }else{ ?>
+							<span class="btn btn-xs btn-danger">No skill !!</span>
+                            <?php } }   ?>
 					</div>
 					<div style="margin: 10px 0px;">
 						<span style="padding: 3px; background:#5cb85c; color:#fff;">4.0</span>&nbsp;
