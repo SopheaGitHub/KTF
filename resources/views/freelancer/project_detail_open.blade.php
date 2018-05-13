@@ -181,7 +181,7 @@
 					<p><strong>Biding:</strong> <?php echo count($data->data_list_bid_project); ?></p>
 					<hr />
 					<div>
-						<?php if($value->user_id == 15){  ?>
+						<?php if($value->user_id == $data->data_user_id){  ?>
                             <?php if($value->status == "open") {  ?>
 								<button class="btn btn-sm btn-success" data-toggle="modal" data-target="#close_project_modal">Close This Project</button>
 						<?php }else if($value->status == "offered") { ?>
@@ -280,7 +280,11 @@
 								<br />
 								<div>
 
+                                    <?php
+                                    foreach ($data->data_project_detail as $key => $items) { ?>
+                                    <?php if($items->user_id == $data->data_user_id){  ?>
 									<button class="btn btn-sm btn-success" data-toggle="modal" data-target="<?php echo '#'.$items->user_id; ?>">Offer This Project</button>
+								    <?php }} ?>
 								</div>
 							</div>
 
@@ -620,11 +624,11 @@
 		@if (count($errors) > 0)
              <?php
                 foreach ($data->data_project_detail as $key => $items) { ?>
-						   <?php if($items->user_id == 15){  ?>
+						   <?php if($items->user_id == $data->data_user_id){  ?>
 								   $('#close_project_modal').modal('show');
 						   <?php }else{  ?>
 								  $('#bid_project_modal').modal('show');
-								  alert(2);
+
 							<?php }
                }   ?>
         @endif

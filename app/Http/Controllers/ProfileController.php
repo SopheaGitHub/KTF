@@ -61,6 +61,7 @@ class ProfileController extends Controller
             'user_id' => $user_id,
         ];
         $this->data->data_review_list  = $this->profile->getReviewsList($filter)->paginate(2)->setPath(url('/profile/'.$user_id))->appends($paginate_data);
+
         return  view('freelancer.profile', ['data'=>$this->data]);
     }
 
@@ -245,7 +246,7 @@ class ProfileController extends Controller
         $this->data->data_project_id = $request->id;
         $this->data->data_project_name = $request->project_name;
         $this->data->data_currency = \DB::table('currency')->orderBy('currency_id', 'ASC')->get(['currency_id','currency_name']);
-        $this->data->data_currency_selected = 2;
+        $this->data->data_timeframe = \DB::table('timeframe')->orderBy('id', 'ASC')->get(['id','name']);
         return  view('component.bid',['data'=>$this->data]);
     }
 
@@ -265,16 +266,16 @@ class ProfileController extends Controller
 
     public function updateBidProject(Request $request){
 //        print_r('<pre>');
-//        echo   $request->contact.' '.$request->bid_project_id.' '.$request->desc;
+//        echo   $request->project_id;
 //        print_r('</pre>');
 //        exit();
 
         $requests = \Request::all();
         $validator = $this->bid_project->validationForm(['request'=>$requests]);
         if ($validator->fails()) {
-            return back()->withErrors($validator)->withInput();
+           // return back()->withErrors($validator)->withInput();
+            return redirect('/edit_bid_project_error')->withErrors($validator)->withInput();
         }
-
 
 
         $user_id = \Auth::user()->user_id;
@@ -300,6 +301,18 @@ class ProfileController extends Controller
         return redirect('/profile/' . $user_id);
 
     }
+
+
+
+    public function updateBidProjectWithError(Request $request){
+        $this->data->url_bid_project = URL::to('freelancer/profile_bid_project/update/');
+        $this->data->data_currency = \DB::table('currency')->orderBy('currency_id', 'ASC')->get(['currency_id','currency_name']);
+        $this->data->data_timeframe = \DB::table('timeframe')->orderBy('id', 'ASC')->get(['id','name']);
+        return  view('freelancer.updatebidprojectwitherror', ['data'=>$this->data]);
+    }
+
+
+
 
 
 

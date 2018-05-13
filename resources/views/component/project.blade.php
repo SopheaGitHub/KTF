@@ -65,7 +65,7 @@
 
 
 
-						<a href="#" class="btn btn-xs btn-success">View</a>
+						<a href="/freelancer/project_detail_open/<?php echo $items->id; ?>" class="btn btn-xs btn-success">View</a>
 					</td>
 		</tr>
 		<?php } ?>

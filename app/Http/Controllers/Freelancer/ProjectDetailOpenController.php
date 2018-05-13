@@ -37,6 +37,8 @@ class ProjectDetailOpenController extends Controller
         $filter = [
             'id' => $request->id
         ];
+        $user_id = \Auth::user()->user_id;
+        $this->data->data_user_id = $user_id;
         $this->data->url_profile = URL::to('/profile');
         $this->data->url_bid_project = URL::to('freelancer/bid_project/store/');
         $this->data->url_offered_project = URL::to('freelancer/bid_project/update/');

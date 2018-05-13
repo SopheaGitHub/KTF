@@ -67,6 +67,9 @@ Route::post('/freelancer/postproject/update','Freelancer\PostProjectController@u
 Route::post('/freelancer/profile_bid_project/update/','ProfileController@updateBidProject');
 
 
+Route::get('/edit_bid_project_error','ProfileController@updateBidProjectWithError');
+
+
 
 
 

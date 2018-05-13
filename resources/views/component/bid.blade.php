@@ -63,7 +63,7 @@
 						<?php }else{  ?>
 							<a disabled href="#" class="btn btn-xs btn-success" > Edit </a>
 							<?php }   ?>
-						<a href="#" class="btn btn-xs btn-success">View</a>
+						<a href="/freelancer/project_detail_open/<?php echo $items->id; ?>" class="btn btn-xs btn-success">View</a>
 					</td>
 		</tr>
 		<?php } ?>
@@ -103,11 +103,14 @@ foreach ($data->data_project_list as $key => $items) { ?>
 								<div class="col-md-4">
 									<input id="timeframe_id" type="hidden" value="3" />
 									<select class="form-control" name="timeframe" id="timeframe">
-										<option id="1" value="1">Day</option>
-										<option id="2" value="2">Week</option>
-										<option id="3" value="3">Month</option>
-										<option id="4" value="4">Year</option>
+											<?php
+											foreach ($data->data_timeframe as $key => $value) { ?>
+											<option  value="<?php echo $value->id; ?>" <?php echo (( $value->id ==$items->timeframe_id )? "selected":""); ?> > <?php echo $value->name; ?></option>
+											<?php } ?>
+
 									</select>
+
+
 								</div>
 								<div class="col-md-8">
 
@@ -136,17 +139,12 @@ foreach ($data->data_project_list as $key => $items) { ?>
 						<div class="col-sm-9">
 							<div class="row">
 								<div class="col-md-4">
-                                    <?php if(isset($data->data_currency_selected)){ ?>
-									<input type="hidden" value="<?php echo $data->data_currency_selected; ?>" id="currency_id"/>
-                                <?php } ?>
-								<select class="form-control input-sm" id="currency" name="currency">
+									<select class="form-control input-sm" id="currency" name="currency">
                                         <?php
                                         foreach ($data->data_currency as $key => $value) { ?>
-										<option  value="<?php echo $value->currency_id; ?>"> <?php echo $value->currency_name; ?></option>
+											<option  value="<?php echo $value->currency_id; ?>" <?php echo (( $value->currency_id ==$items->currencyid )? "selected":""); ?> > <?php echo $value->currency_name; ?></option>
                                         <?php } ?>
-								</select>
-
-
+									</select>
 								</div>
 								<div class="col-md-8">
 									<div class="form-group{{ $errors->has('amount') ? ' has-error' : '' }}">
@@ -246,11 +244,17 @@ foreach ($data->data_project_list as $key => $items) { ?>
 
 $(document).ready(
         function(){
+
+
 //            var currency_value = $('#currency_id').val();
 //            alert(currency_value);
 //            $("#currency option[value="+currency_value+"]").attr('selected',true);
-//
-//
+
+
+
+
+
+
             var timeframe_id_value = $('#timeframe_id').val();
             var str = timeframe_id_value.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '')
             console.log('ID ='+timeframe_id_value);

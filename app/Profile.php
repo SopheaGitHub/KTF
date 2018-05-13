@@ -76,6 +76,7 @@ class Profile extends Model
                 
                 (SELECT id FROM bid_project_budget as bpb WHERE bid_project_id = bp.id ) as bid_project_budget_id,
                 (SELECT id FROM bid_project_timeframe as bpt WHERE bid_project_id = bp.id ) as bid_project_timeframe_id,
+                (SELECT timeframe_id FROM bid_project_timeframe as bpt WHERE bid_project_id = bp.id ) as timeframe_id,
              
                 (SELECT amount FROM bid_project_budget as bpb WHERE bid_project_id = bp.id ) as amount,
                 (SELECT currency_id FROM bid_project_budget as bpb WHERE bid_project_id = bp.id ) as currencyid,
