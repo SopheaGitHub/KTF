@@ -34,7 +34,7 @@
         <div class="row" style="margin-right: 0px; margin-left: 0px;">
             <div class="col-md-9">
                 <ul class="nav nav-pills">
-                    <li><a href="home.php">LOGO</a></li>
+                    <li><a href="<?php echo url('/'); ?>" style="padding: 0px; padding-top:2px; padding-right:15px;"><img src="<?php echo url('/image/h30.png'); ?>" alt="LOGO"></a></li>
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown" class="dropdown-toggle"> Hire Freelancers <span class="glyphicon glyphicon-triangle-bottom"></span></a>
                         <ul class="dropdown-menu">
@@ -65,8 +65,8 @@
     <div class="panel-body" style="margin:0px; padding:2px 15px;">
         <div class="text-right">
             <ul class="nav nav-pills pull-right">
-                <li><a href="login.php">Login</a></li>
-                <li><a href="register.php">Join Us</a></li>
+                <li><a href="login.php" style="padding: 5px 15px;">Login</a></li>
+                <li><a href="register.php" style="padding: 5px 15px;">Join Us</a></li>
             </ul>
         </div>
     </div>
