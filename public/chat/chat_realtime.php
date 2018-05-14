@@ -24,60 +24,66 @@ class Chat_realtime {
 		$this->imageDir = $imageDir;
     }
 	
-	function user_login($user, $avatar){
-		$name = htmlspecialchars($user);
+	function user_login($user_id, $profile){
+		$user_id = htmlspecialchars($user_id);
 		$data = array();
-		$sql=$this->dbh->prepare("SELECT name FROM users WHERE name=?");
-		$sql->execute(array($name));
+		$sql=$this->dbh->prepare("SELECT user_id FROM users WHERE user_id=?");
+		$sql->execute(array($user_id));
+
 		if($sql->rowCount() == 0){
-			$upd=$this->dbh->prepare("INSERT INTO users (name,avatar,login,status) VALUES (?,?,NOW(),?)");
-			$upd->execute(array($name, $avatar, 'online'));
+			// no data
+			$data['status'] = 'error';
 		}else{
-			$upd=$upd=$this->dbh->prepare("UPDATE users SET login=NOW(), status=? WHERE name=?");
-			$upd->execute(array('online', $name));
+			$upd=$upd=$this->dbh->prepare("UPDATE users SET login=NOW(), login_status=? WHERE user_id=?");
+			$upd->execute(array('online', $user_id));
+
+			$data['status'] = 'success';
 		}
-		$data['status'] = 'success';
+
+		// $data['status'] = 'success';
 		return $data;
 	}
 	
-	function get_message($tipe, $ke, $user){
+	function get_message($tipe, $receiver_id, $user){
 		$data = array();
 		if($tipe == 'rooms'){
-			if($ke == 'all'){
-				$sql=$this->dbh->prepare("SELECT * FROM messages WHERE tipe=? order by date ASC");
+			if($receiver_id == 'all'){
+				$sql=$this->dbh->prepare("SELECT m.*, `sender`.`profile`, `sender`.`user_firstname`, `sender`.`user_lastname` FROM messages AS m INNER JOIN users AS sender ON `sender`.`user_id` = `m`.`sender_id` WHERE tipe=? order by date ASC");
 				$sql->execute(array($tipe));
 			}else{
-				$sql=$this->dbh->prepare("SELECT * FROM messages WHERE ke=? order by date ASC");
-				$sql->execute(array($ke));
+				$sql=$this->dbh->prepare("SELECT m.*, `sender`.`profile`, `sender`.`user_firstname`, `sender`.`user_lastname` FROM messages AS m INNER JOIN users AS sender ON `sender`.`user_id` = `m`.`sender_id` WHERE receiver_id=? order by date ASC");
+				$sql->execute(array( str_replace('s', '', $receiver_id) ));
 			}
 			while($r = $sql->fetch()){
 				$data[] = array(
-					'name' => $r['name'],
-					'avatar' => $r['avatar'],
+					'sender_id' => $r['sender_id'],
+					'sender_name' => $r['user_firstname'].' '.$r['user_lastname'],
+					'profile' => url().'/'.$r['profile'],
 					'message' => $r['message'],
 					'image' => $r['image'],
 					'tipe' => $r['tipe'],
 					'date' => $r['date'],
-					'selektor' => $r['ke']
+					'selektor' => $r['receiver_id']
 				);
 			}
 		}else if($tipe == 'users'){
-			if($ke == 'all'){
-				$sql=$this->dbh->prepare("SELECT * FROM messages WHERE (name = :id1 AND tipe= :id2) OR (ke = :id1 AND tipe = :id2) order by date ASC");
+			if($receiver_id == 'all'){
+				$sql=$this->dbh->prepare("SELECT m.*, `sender`.`profile`, `sender`.`user_firstname`, `sender`.`user_lastname` FROM messages AS m INNER JOIN users AS sender ON `sender`.`user_id` = `m`.`sender_id` WHERE (sender_id = :id1 AND tipe= :id2) OR (receiver_id = :id1 AND tipe = :id2) order by date ASC");
 				$sql->execute(array(':id1' => $user, ':id2' => $tipe));
 			}else{
-				$sql=$this->dbh->prepare("SELECT * FROM messages WHERE (name = :id1 AND ke= :id2) OR (name = :id2 AND ke = :id1) order by date ASC");
-				$sql->execute(array(':id1' => $user, ':id2' => $ke));
+				$sql=$this->dbh->prepare("SELECT m.*, `sender`.`profile`, `sender`.`user_firstname`, `sender`.`user_lastname` FROM messages AS m INNER JOIN users AS sender ON `sender`.`user_id` = `m`.`sender_id` WHERE (sender_id = :id1 AND receiver_id= :id2) OR (sender_id = :id2 AND receiver_id = :id1) order by date ASC");
+				$sql->execute(array(':id1' => $user, ':id2' => str_replace('s', '', $receiver_id) ));
 			}
 			while($r = $sql->fetch()){
 				$data[] = array(
-					'name' => $r['name'],
-					'avatar' => $r['avatar'],
+					'sender_id' => $r['sender_id'],
+					'sender_name' => $r['user_firstname'].' '.$r['user_lastname'],
+					'profile' => url().'/'.$r['profile'],
 					'message' => $r['message'],
 					'image' => $r['image'],
 					'tipe' => $r['tipe'],
 					'date' => $r['date'],
-					'selektor' => ($r['name'] == $user ? $r['ke'] : $r['name'])
+					'selektor' => ($r['sender_id'] == $user ? $r['receiver_id'] : $r['sender_id'])
 				);
 			}
 		}
@@ -86,10 +92,10 @@ class Chat_realtime {
 	
 	function get_user($user){
 		if(isset($user)){
-			$sqlm=$this->dbh->prepare("SELECT name FROM users WHERE name=?");
+			$sqlm=$this->dbh->prepare("SELECT user_id FROM users WHERE user_id=?");
 			$sqlm->execute(array($user));
 			if($sqlm->rowCount() > 0){
-				$upd=$this->dbh->prepare("UPDATE users SET login=NOW() WHERE name=?");
+				$upd=$this->dbh->prepare("UPDATE users SET login=NOW() WHERE user_id=?");
 				$upd->execute(array($user));
 			}
 		}
@@ -98,28 +104,28 @@ class Chat_realtime {
 		$sql->execute();
 		while($r = $sql->fetch()){
 			$data[] = array(
-				'ke' => $r['ke'],
-				'name' => $r['name'],
-				'avatar' => $r['avatar'],
+				'user_id' => $r['user_id'],
+				'user_name' => $r['user_firstname'].' '.$r['user_lastname'],
+				'profile' => url().'/'.$r['profile'],
 				'login' => $r['login'],
-				'status' => $r['status']
+				'login_status' => $r['login_status']
 			);
 		}
 		return $data;
 	}
 	
-	function send_message($name, $ke, $message, $image, $date, $avatar, $tipe){		
+	function send_message($sender_id, $receiver_id, $message, $image, $date, $tipe){		
 		$data = array();
-		$sql=$this->dbh->prepare("INSERT INTO messages (name,ke,avatar,message,image,tipe,date) VALUES (?,?,?,?,?,?,?)");
-		$sql->execute(array($name,$ke,$avatar,$message,$image,$tipe,$date));
+		$sql=$this->dbh->prepare("INSERT INTO messages (sender_id,receiver_id,message,image,tipe,date) VALUES (?,?,?,?,?,?)");
+		$sql->execute(array($sender_id,$receiver_id,$message,$image,$tipe,$date));
 		$data['status'] = 'success';
 		return $data;
 	}
 	
-	function user_logout($name){
+	function user_logout($user_id){
 		$data = array();
-		$user = $this->dbh->prepare("UPDATE users SET status=? WHERE name=?");
-		$user->execute(array('offline',$name));
+		$user = $this->dbh->prepare("UPDATE users SET login_status=? WHERE user_id=?");
+		$user->execute(array('offline',$user_id));
 		$data['status'] = 'success';
 		return $data;
 	}
@@ -147,4 +153,14 @@ class Chat_realtime {
 		imagedestroy($im);
 	}
 	
+}
+
+function url(){
+    if(isset($_SERVER['HTTPS'])){
+        $protocol = ($_SERVER['HTTPS'] && $_SERVER['HTTPS'] != "off") ? "https" : "http";
+    }
+    else{
+        $protocol = 'http';
+    }
+    return $protocol . "://" . $_SERVER['SERVER_NAME'].'/development/freelancer/public';
 }

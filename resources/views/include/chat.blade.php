@@ -25,12 +25,12 @@
 
 <!--- chat list -->
 <div class="row chat-window col-xs-5 col-md-3" id="chat_window_1">
-  <div class="col-xs-12 col-md-12" style="padding-right: 0px;">
-    <div class="panel panel-success" style="margin:0px;">
-      <div class="panel-heading top-bar" style="background: #5cb85c; color:#ffffff;">
+  <div class="col-xs-12 col-md-12" style="">
+    <div class="panel panel-success" style="margin:0px; border-radius:0px;">
+      <div class="panel-heading top-bar" style="background: #5cb85c; border-radius:0px; color:#ffffff;">
           <div class="row">
             <div class="col-md-8 col-xs-8">
-              <h4 class="panel-title"><span class="glyphicon glyphicon-comment"></span> Chat</h4>
+              <h5 class="panel-title"><span class="glyphicon glyphicon-comment"></span> Chat Room</h5>
             </div>
             <div class="col-md-4 col-xs-4" style="text-align: right;">
                 <span id="minim_chat_window" class="glyphicon glyphicon-minus icon_minim" style="color:#ffffff; cursor:pointer;"></span>

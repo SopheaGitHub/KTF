@@ -55,9 +55,9 @@
 #chat-realtime .users-list {
 	list-style: none;
 	margin-left: -40px;
-	max-height: 375px;
+	max-height: 340px;
 	overflow: auto;
-	margin-bottom: 20px;
+	/*margin-bottom: 20px;*/
 }
 
 #chat-realtime .public-list {
@@ -74,8 +74,8 @@
 #chat-realtime .public-list li a img,
 #chat-realtime .users-list li a img {
 	float: left;
-	width: 45px;
-	height: 45px;
+	width: 40px;
+	height: 40px;
 	margin-right: 10px;
 }
 
@@ -219,9 +219,9 @@
 	margin-right: 50px;
 	background-color: #dff0d8;
 	border: 1px solid #dff0d8 !important;
-	box-shadow: 0 1px 1px rgba(44,146,186,1) !important;
-	-moz-box-shadow: 0 1px 1px rgba(44,146,186,1) !important;
-	-webkit-box-shadow: 0 1px 1px rgba(44,146,186,1) !important;
+	box-shadow: 0 1px 1px rgba(0,0,0,.05);
+	-moz-box-shadow: 0 1px 1px rgba(0,0,0,.05);
+	-webkit-box-shadow: 0 1px 1px rgba(0,0,0,.05);
 }
 
 #chat-realtime .chat li.right .text-muted {
@@ -362,8 +362,8 @@
 #user-chat-realtime .public-list li a img,
 #user-chat-realtime .users-list li a img {
 	float: left;
-	width: 45px;
-	height: 45px;
+	width: 40px;
+	height: 40px;
 	margin-right: 10px;
 }
 

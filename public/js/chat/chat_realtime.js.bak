@@ -24,7 +24,7 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
                     $('#' + a.val().name + ' .fa-circle').addClass('online');
                     $('#' + a.val().name + ' .time').html(timing(new Date(a.val().login)))
                 } else {
-                    var b = '<li id="' + a.val().name + '" class="user bounceInDown" data-tipe="users" data-uid="' + a.ke + '" data-uname="' + a.name + '">';
+                    var b = '<li id="' + a.val().name + '" class="user bounceInDown" data-tipe="users" data-uid="' + a.val().ke + '" data-uname="' + a.val().name + '">';
                     b += '	<a href="#" class="clearfix">';
                     b += '		<img src="' + a.val().avatar + '" alt="' + a.val().name + '" class="img-circle">';
                     b += '		<div class="users-name">';
@@ -82,11 +82,13 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
             document.querySelector('.chat').innerHTML += (chatFirebase(a.val()))
         }
         var c = $('.chat');
+        var d = c[0].scrollHeight;
+        c.scrollTop(d);
         k.child(a.key).remove()
     });
 
-    //send chat
-    $(document).on('click', '.sendchat', function(h){
+	//send chat
+    document.querySelector('#sendchat').addEventListener("click", function(h) {
         var a = new Date(),
             b = a.getDate(),
             c = (a.getMonth() + 1),
@@ -96,87 +98,91 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
             g = a.getSeconds(),
             date = d + '-' + (c < 10 ? '0' + c : c) + '-' + (b < 10 ? '0' + b : b) + ' ' + (e < 10 ? '0' + e : e) + ':' + (f < 10 ? '0' + f : f) + ':' + (g < 10 ? '0' + g : g);
         h.preventDefault();
-        var il = tampungImg.length;
-        if ($('#message').val() != '') {
-            
-            // insert mysql
+		var il = tampungImg.length;
+        if (document.querySelector('#message').value != '') {
+			
+			// insert mysql
             $.ajax({
                 url: l,
                 type: "post",
                 data: {
-                    data: 'send',
-                    name: m,
-                    ke: uKe,
-                    avatar: n,
-                    message: $('#message').val(),
-                    images : JSON.stringify(tampungImg),
-                    tipe: uTipe,
-                    date: date
-                },
+					data: 'send',
+					name: m,
+					ke: uKe,
+					avatar: n,
+					message: document.querySelector('#message').value,
+					images : JSON.stringify(tampungImg),
+					tipe: uTipe,
+					date: date
+				},
                 crossDomain: true,
-                success: function(a) {                  
-        
-                    // insert firebase
-                    if(il > 0){
-                        for (hit = 0; hit < il; hit++) {
-                            if(hit == 0){                               
-                                var i = {
-                                    data: 'send',
-                                    name: m,
-                                    ke: uKe,
-                                    avatar: n,
-                                    message: $('#message').val(),
-                                    images : tampungImg[hit].name,
-                                    tipe: uTipe,
-                                    date: date
-                                };
-                            }else{                              
-                                var i = {
-                                    data: 'send',
-                                    name: m,
-                                    ke: uKe,
-                                    avatar: n,
-                                    message: '',
-                                    images : tampungImg[hit].name,
-                                    tipe: uTipe,
-                                    date: date
-                                };
-                            }
-                            k.push(i);                  
-                        } 
-                    }else{          
-                        var i = {
-                            data: 'send',
-                            name: m,
-                            ke: uKe,
-                            avatar: n,
-                            message: $('#message').val(),
-                            images : '',
-                            tipe: uTipe,
-                            date: date
-                        };
-                        
-                        // push firebase
-                        k.push(i);
-                    }
-                    tampungImg = [];
-                    $('#message').val('');
-                    // $('.emoji-wysiwyg-editor').val('');
-                    // $('#reviewImg').val('');
-                }
+				success: function(a) {					
+		
+					// insert firebase
+					if(il > 0){
+						for (hit = 0; hit < il; hit++) {
+							if(hit == 0){								
+								var i = {
+									data: 'send',
+									name: m,
+									ke: uKe,
+									avatar: n,
+									message: document.querySelector('#message').value,
+									images : tampungImg[hit].name,
+									tipe: uTipe,
+									date: date
+								};
+							}else{								
+								var i = {
+									data: 'send',
+									name: m,
+									ke: uKe,
+									avatar: n,
+									message: '',
+									images : tampungImg[hit].name,
+									tipe: uTipe,
+									date: date
+								};
+							}
+							k.push(i);					
+						} 
+					}else{			
+						var i = {
+							data: 'send',
+							name: m,
+							ke: uKe,
+							avatar: n,
+							message: document.querySelector('#message').value,
+							images : '',
+							tipe: uTipe,
+							date: date
+						};
+						
+						// push firebase
+						k.push(i);
+					}
+					tampungImg = [];
+					document.querySelector('#message').value = '';
+					// document.querySelector('.emoji-wysiwyg-editor').innerHTML = '';
+					// document.getElementById('reviewImg').innerHTML = '';
+				}
             });
-            
+			
         } else {
             alert('Please fill atlease message!')
         }
-    });
+    }, false);
 
     $('body').on('click', '.user', function() {
 
         var uid = $(this).data("uid");
         var uname = $(this).data('uname');
+
+        // register_popup(uid, uname);
         
-        register_popup(uid, uname);
+        $("#chatroom-popup-head-left").html(uname).show();
+
+        document.getElementById("chatroom").style.display = "block";
 
         $('.chat').html('');
         $('.user').removeClass("active");
@@ -188,7 +194,7 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
         uKe = a;
         uTipe = tipe;
         chatMysql(tipe, a);
-        return false;
+        return false
     });
 
     function userMysql() {
@@ -275,7 +281,10 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
                     });
                     $('.chat').prepend(b);
                 }
+
                 var c = $('.chat');
+                var d = c[0].scrollHeight;
+                c.scrollTop(d)
             }
         })
     }
@@ -395,6 +404,8 @@ var chat_realtime = function(j, k, l, m, n, imageDir) {
 		});
 		$(this).remove();
 		return false;
-	});
+	});	
+	
+	// document.getElementById('fileinput').addEventListener('change', readMultipleImg, false);
 
 }

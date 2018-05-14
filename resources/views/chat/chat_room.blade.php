@@ -3,6 +3,7 @@
 <!-- content -->
 
 <!-- rooms list -->
+<a href="#" style="float: right" id="logout" class="btn btn-danger no-rounded">Logout</a>
 <div class="col-md-8">
 	<ul class="chat">
 	</ul>
