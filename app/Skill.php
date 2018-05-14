@@ -34,19 +34,28 @@ class Skill extends Model
 
         $sql = '';
         foreach ($postDataUserSkill['check_skill'] as $skill_id) {
-                $sql .= " INSERT INTO `user_skill`(`skill_id`, `budget_range_id`,
+                $sql .= " INSERT INTO `user_skill`(`skill_id`, 
                  `user_id`,`available_time`,`created_at`,`updated_at`) 
                 VALUES (
                   '".$skill_id."',
-                  '".$postDataUserSkill['budget_range_id']."',
                   '".$postDataUserSkill['user_id']."',
                   '".$postDataUserSkill['available_time']."',
                   '".$postDataUserSkill['created_at']."',
                   '".$postDataUserSkill['updated_at']."'); ";
         }
-
-        if($sql!='') {
+        if($sql != '') {
             DB::connection()->getPdo()->exec($sql);
+        }
+    }
+
+    public function insertUserBudgetRange($postDataUserSkill = []){
+        $sql1 = '';
+        $sql1 .= " INSERT INTO `user_budget_range`(`budget_range_id`, `user_id`) 
+                VALUES (
+                  '".$postDataUserSkill['budget_range_id']."',
+                  '".$postDataUserSkill['user_id']."'; ";
+        if($sql1!='') {
+            DB::connection()->getPdo()->exec($sql1);
         }
     }
 

@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\BidProject;
 use App\UserSkill;
 use Illuminate\Http\Request;
 use App\Http\Controllers\ConfigController;
 use App\Skill;
 use App\User;
+use App\Profile;
 use URL;
 use Auth;
+use DB;
 
 class ProfileController extends Controller
 {
@@ -25,6 +28,8 @@ class ProfileController extends Controller
         $this->data->dir_image_profile = $this->config->dir_image_profile;
         $this->data->dir_image_cover   = $this->config->dir_image_cover;
         $this->user_skills = new UserSkill();
+        $this->profile = new Profile();
+        $this->bid_project = new BidProject();
         $this->date = date ("Y-m-d H:i:s");
     }
 
@@ -49,6 +54,14 @@ class ProfileController extends Controller
         $this->data->url_save_profile_image = URL::to('profile/save_profile/'.$user_id);
         $this->data->url_save_cover_image = URL::to('profile/save_cover/'.$user_id);
         $this->data->list_skill = $this->user_skills->getSkillByUserId($user_id);
+
+
+        $paginate_data = \Request::all();
+        $filter = [
+            'user_id' => $user_id,
+        ];
+        $this->data->data_review_list  = $this->profile->getReviewsList($filter)->paginate(2)->setPath(url('/profile/'.$user_id))->appends($paginate_data);
+
         return  view('freelancer.profile', ['data'=>$this->data]);
     }
 
@@ -88,9 +101,6 @@ class ProfileController extends Controller
           return redirect('profile/'.$user_id);
     }
 
-
-
-
     public function saveCover(Request $request){
         $user_id = $request->id;
         $request = \Request::all();
@@ -126,11 +136,6 @@ class ProfileController extends Controller
 
         return redirect('profile/'.$user_id);
     }
-
-
-
-
-
 
     public function base64_decode_profile($code, $username, $file_path, $extention='.jpg') {
         $saveImage = $username.''.$extention;
@@ -170,8 +175,6 @@ class ProfileController extends Controller
     }
 
 
-
-
     public function base64_decode_cover($code, $username, $file_path, $extention='.jpg') {
         $saveImage = $username.''.$extention;
         $data = $code;
@@ -208,6 +211,113 @@ class ProfileController extends Controller
             imagepng($image, $directory.$saveImage);
         }
     }
+
+
+    public function loadProjectList(Request $request){
+      $filter = [
+          'user_id' => '',
+          'name' => $request->project_name,
+          'id' => $request->id,
+          'status' => $request->status,
+          'limit' => '100'
+      ];
+      $this->data->data_project_list  = $this->profile->getProjectList($filter)->get();
+      $this->data->data_status = \DB::table('status')->orderBy('status_id', 'ASC')->get(['status_id','status_name']);
+      $this->data->data_status_selected = $request->status;
+      $this->data->data_project_id = $request->id;
+      $this->data->data_project_name = $request->project_name;
+      return  view('component.project',['data'=>$this->data]);
+  }
+
+
+    public function loadBidList(Request $request){
+        $user_id = \Auth::user()->user_id;
+        $filter = [
+            'user_id' => $user_id,
+            'name' => $request->project_name,
+            'id' => $request->id,
+            'status' => $request->status,
+            'limit' => '100'
+        ];
+        $this->data->url_bid_project = URL::to('freelancer/profile_bid_project/update/');
+        $this->data->data_project_list  = $this->profile->getBidProjectList($filter)->get();
+        $this->data->data_status = \DB::table('status')->orderBy('status_id', 'ASC')->get(['status_id','status_name']);
+        $this->data->data_status_selected = $request->status;
+        $this->data->data_project_id = $request->id;
+        $this->data->data_project_name = $request->project_name;
+        $this->data->data_currency = \DB::table('currency')->orderBy('currency_id', 'ASC')->get(['currency_id','currency_name']);
+        $this->data->data_timeframe = \DB::table('timeframe')->orderBy('id', 'ASC')->get(['id','name']);
+        return  view('component.bid',['data'=>$this->data]);
+    }
+
+
+    public function loadReviewList(Request $request){
+        $user_id = \Auth::user()->user_id;
+        $paginate_data = \Request::all();
+        $filter = [
+            'user_id' => $user_id,
+        ];
+        $this->data->data_review_list  = $this->profile->getReviewsList($filter)->paginate(2)->setPath(url('/profile/'.$user_id))->appends($paginate_data);
+        $this->data->url_profile = URL::to('/profile');
+        $this->data->list_skill = $this->user_skills->getSkillByUserId($user_id);
+        return  view('component.overview',['data'=>$this->data]);
+    }
+
+
+    public function updateBidProject(Request $request){
+//        print_r('<pre>');
+//        echo   $request->project_id;
+//        print_r('</pre>');
+//        exit();
+
+        $requests = \Request::all();
+        $validator = $this->bid_project->validationForm(['request'=>$requests]);
+        if ($validator->fails()) {
+           // return back()->withErrors($validator)->withInput();
+            return redirect('/edit_bid_project_error')->withErrors($validator)->withInput();
+        }
+
+
+        $user_id = \Auth::user()->user_id;
+        DB::table('bid_project')
+            ->where('id',$request->bid_project_id)
+            ->update([
+                "desc" => $request->desc,
+                "contact" => $request->contact
+            ]);
+        DB::table('bid_project_budget')
+            ->where('id',$request->bid_project_budget_id)
+            ->update([
+                "amount" => $request->amount,
+                "currency_id"=> $request->currency
+            ]);
+        DB::table('bid_project_timeframe')
+            ->where('id',$request->bid_project_timeframe_id)
+            ->update([
+                "duration" => $request->timeframe_value,
+                "timeframe_id"=> $request->timeframe
+            ]);
+        \Session::flash('flash_message','successfully Offered Project');
+        return redirect('/profile/' . $user_id);
+
+    }
+
+
+
+    public function updateBidProjectWithError(Request $request){
+        $this->data->url_bid_project = URL::to('freelancer/profile_bid_project/update/');
+        $this->data->data_currency = \DB::table('currency')->orderBy('currency_id', 'ASC')->get(['currency_id','currency_name']);
+        $this->data->data_timeframe = \DB::table('timeframe')->orderBy('id', 'ASC')->get(['id','name']);
+        return  view('freelancer.updatebidprojectwitherror', ['data'=>$this->data]);
+    }
+
+
+
+
+
+
+
+
 
 
 

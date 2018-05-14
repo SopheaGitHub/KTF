@@ -109,9 +109,12 @@
 					<div>
                         <?php
                         $arr = explode(",",$items->user_skill);
-                        foreach ($arr as $item) { ?>
+                        foreach ($arr as $item) {
+							if(isset(preg_split('/\--/', $item)[1])){  ?>
 						<a href="#" class="btn btn-xs btn-default"><?php echo preg_split('/\--/', $item)[1] ?></a>
-                        <?php }  ?>
+                        <?php }else{  ?>
+							<span class="btn btn-xs btn-danger">No skill !!</span>
+						<?php } } ?>
 					</div>
 					<div style="margin: 10px 0px;">
 						<span style="padding: 3px; background:#5cb85c; color:#fff;">4.0</span>&nbsp;
@@ -163,14 +166,4 @@
 
 	<br />
 
-	<script>
-        $(document).ready(
-            function(){
-                var stataus_value = $('#status_id').val();
-                $("#status option[value="+stataus_value+"]").attr('selected',true);
-                var budget_id_value = $('#budget_id').val();
-                var str = budget_id_value.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g, '');
-                $("#"+str+"").prop('selected',true);
-            });
-	</script>
 @endsection

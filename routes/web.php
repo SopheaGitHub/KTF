@@ -52,7 +52,22 @@ Route::get('/profile/{id}', 'ProfileController@index');
 
 Route::get('/freelancer/project_detail_open/{id}','Freelancer\ProjectDetailOpenController@index');
 Route::POST('freelancer/bid_project/store','Freelancer\ProjectDetailOpenController@store');
+Route::POST('freelancer/bid_project/update','Freelancer\ProjectDetailOpenController@update');
+Route::POST('freelancer/bid_project/close','Freelancer\ProjectDetailOpenController@close');
 
+
+Route::get('/load-project-list','ProfileController@loadProjectList');
+Route::get('/load-bid-list','ProfileController@loadBidList');
+Route::get('/load-review-list','ProfileController@loadReviewList');
+Route::get('/freelancer/post_project_form/edit/{project_id}','Freelancer\PostProjectController@edit');
+
+Route::post('/freelancer/postproject/update','Freelancer\PostProjectController@update');
+
+
+Route::post('/freelancer/profile_bid_project/update/','ProfileController@updateBidProject');
+
+
+Route::get('/edit_bid_project_error','ProfileController@updateBidProjectWithError');
 
 
 

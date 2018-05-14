@@ -16,113 +16,269 @@
 	    <br /><hr />
 	    <div class="row">
 	    	<div class="col-md-6">
-	   <form class="form-horizontal"  method="POST"  action="<?php echo $data->url_store; ?>" enctype="multipart/form-data" >
+	   <form class="form-horizontal"  method="POST"  action="<?php if(isset($data->data_project_list)){ echo $data->url_update; }else{ echo $data->url_store; } ?>" enctype="multipart/form-data" >
 
 					<input type="hidden" name="_token" value="{{ csrf_token() }}" >
-	    			
-				    <div class="form-group{{ $errors->has('txt_project_name') ? ' has-error' : '' }}">
-				    	 <label for="" class="col-sm-4 control-label"><?php echo trans('project.enter_project_name_label') ?></label>
-                       
-                            <div class="col-md-8">
-                                <input id="txt_project_name" type="text" class="form-control" name="txt_project_name" value="{{ old('txt_project_name') }}"   placeholder="e.g. Design a logo for me" autofocus>
 
-                                @if ($errors->has('txt_project_name'))
-                                    <span hidden class="help-block">
-                                        <strong>{{ $errors->first('txt_project_name') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                    </div>
+           <?php
+             if(isset($data->data_project_list)){
+		      foreach ($data->data_project_list as $key => $items) { ?>
+		         <input type="hidden" name="project_id" value="<?php echo $items->id; ?>" >
+			<?php }} ?>
 
-		            <div class="form-group{{ $errors->has('txt_project_desc') ? ' has-error' : '' }}">
-						   <label for="" class="col-sm-4 control-label"><?php echo trans('project.description_about_your_project'); ?></label>
-						   <div class="col-sm-8">
-							   <textarea class="form-control" id="txt_project_desc" name="txt_project_desc" placeholder="<?php echo trans('project.your_text_here') ?>" style="min-height:150px;max-height:150px;min-width:100%;max-width:100%;"><?php echo old('txt_project_desc'); ?></textarea>
-							   @if ($errors->has('txt_project_desc'))
-								   <span class="help-block">
-												<strong>{{ $errors->first('txt_project_desc') }}</strong>
-											</span>
-							   @endif
-						   </div>
+           <?php if(count($errors) > 0 || !isset($data->data_project_list)) {    ?>
+
+
+		   <div class="form-group{{ $errors->has('txt_project_name') ? ' has-error' : '' }}">
+			   <label for="" class="col-sm-4 control-label"><?php echo trans('project.enter_project_name_label') ?></label>
+
+			   <div class="col-md-8">
+
+				   <input id="txt_project_name" type="text" class="form-control" name="txt_project_name" value="{{ old('txt_project_name') }}"   placeholder="e.g. Design a logo for me" autofocus>
+				   @if ($errors->has('txt_project_name'))
+					   <span hidden class="help-block">
+						   <strong>{{ $errors->first('txt_project_name') }}</strong>
+					   </span>
+				   @endif
+			   </div>
+		   </div>
+
+		   <div class="form-group{{ $errors->has('txt_project_desc') ? ' has-error' : '' }}">
+			   <label for="" class="col-sm-4 control-label"><?php echo trans('project.description_about_your_project'); ?></label>
+			   <div class="col-sm-8">
+				   <textarea class="form-control" id="txt_project_desc" name="txt_project_desc" placeholder="<?php echo trans('project.your_text_here') ?>" style="min-height:150px;max-height:150px;min-width:100%;max-width:100%;"><?php echo old('txt_project_desc'); ?></textarea>
+				   @if ($errors->has('txt_project_desc'))
+					   <span class="help-block">
+						   <strong>{{ $errors->first('txt_project_desc') }}</strong>
+					   </span>
+				   @endif
+			   </div>
+		   </div>
+
+		   <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+			   <label for="" class="col-sm-4 control-label"><?php echo trans('project.upload_file')  ?></label>
+			   <div class="col-md-8">
+
+				   <input type="file" name="image" id="image"  class="form-control" value="{{ old('image') }}" placeholder="Image"/>
+				   @if ($errors->has('image'))
+					   <span class="help-block">
+						   <strong>{{ $errors->first('image') }}</strong>
+					   </span>
+				   @endif
+			   </div>
+		   </div>
+
+		   <div class="form-group">
+			   <label for="input-skill" class="col-sm-4 control-label"><span data-toggle="tooltip" title=""><?php echo trans('project.what_skill_are_required'); ?></span></label>
+			   <div class="col-sm-8">
+
+				   <input type="text" name="skill" id="input-skill" value="" placeholder="<?php echo trans('project.what_skill_are_required'); ?>" id="input-skill" class="form-control" />
+
+				   <ul class="dropdown-menu"></ul>
+
+				   <div id="post-skill" class="well well-sm" style="height: auto;  width:100%; min-height: 120px;">
+                       <?php
+                       if(count(old('post_skill')) > 0) {
+                       $skill_arr = $data->data_skill;
+                       foreach (old('post_skill') as $key => $value) { ?>
+					   <div id="post-skill<?php echo $value; ?>">
+						   <i class="fa fa-minus-circle"></i>
+                           <?php	foreach( $skill_arr as $item) {
+                               if($item->skill_id==$value){
+                                   echo $item->skill_title;
+                               }
+                           }?>
+						   <input type="hidden" name="post_skill[]" value="<?php echo $value; ?>" /></div>
+                       <?php
+                       }
+                       }
+                       ?>
+				   </div>
+			   </div>
+		   </div>
+		   <div class="form-group">
+			   <label for="" class="col-sm-4 control-label"><?php echo trans('project.what_is_your_estimated_budget'); ?></label>
+			   <div class="col-sm-8">
+				   <div class="row">
+					   <div class="col-md-3">
+						   <select class="form-control" id="currency" name="currency[]" >
+                               <?php
+                               foreach ($data->data_currency as $key => $value) { ?>
+							   <option value="<?php echo $value->currency_id; ?>"><?php echo $value->currency_name; ?></option>
+                               <?php } ?>
+						   </select>
 					   </div>
+					   <div class="col-md-9">
+						   <select class="form-control" id="curency_range" name="curency_range">
+                               <?php
+                               foreach ($data->data_budget_range as $key => $value) {
+                               if($value->currency_id==1){
+                               ?>
+							   <option  id="<?php echo $value->budget_range_id; ?>" value="<?php echo $value->budget_range_id; ?>">  <?php echo  '$'.$value->min .'- $'. $value->max; ?>
+							   </option>
+                               <?php  }else{    ?>
+							   <option  id="<?php echo $value->budget_range_id; ?>" value="<?php echo $value->budget_range_id; ?>">  <?php echo $value->min .'R -'. $value->max.'R'; ?>
+							   </option>
 
-				  	 <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
-				    	 <label for="" class="col-sm-4 control-label"><?php echo trans('project.upload_file')  ?></label>
-                            <div class="col-md-8">
-                            <input type="file" name="image" id="image"  class="form-control" value="{{ old('image') }}" placeholder="Image"/>
-                                @if ($errors->has('image'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('image') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                    </div>
-
-				  	<div class="form-group">
-		              	<label for="input-skill" class="col-sm-4 control-label"><span data-toggle="tooltip" title=""><?php echo trans('project.what_skill_are_required'); ?></span></label>
-		              	<div class="col-sm-8">
+                               <?php
+                               }
+                               }
+                               ?>
+						   </select>
+					   </div>
+				   </div>
+			   </div>
+		   </div>
 
 
 
-					     <input type="text" name="skill" id="input-skill" value="" placeholder="<?php echo trans('project.what_skill_are_required'); ?>" id="input-skill" class="form-control" />
+
+		<?php }else if(isset($data->data_project_list)) {  ?>
 
 
-					      <ul class="dropdown-menu"></ul>
 
-			              	<div id="post-skill" class="well well-sm" style="height: auto;  width:100%; min-height: 120px;">
-                                <?php
-									if(count(old('post_skill')) > 0) {
-									    $skill_arr = $data->data_skill;
-									    foreach (old('post_skill') as $key => $value) { ?>
-											<div id="post-skill<?php echo $value; ?>">
-												<i class="fa fa-minus-circle"></i>
-											<?php	foreach( $skill_arr as $item) {
-											    if($item->skill_id==$value){
-                                                    echo $item->skill_title;
-												}
-											}?>
-									<input type="hidden" name="post_skill[]" value="<?php echo $value; ?>" /></div>
-									 <?php   }
-									}
-								?>
-			                </div>
-					    </div>
-		            </div>
-				  	<div class="form-group">
-				    <label for="" class="col-sm-4 control-label"><?php echo trans('project.what_is_your_estimated_budget'); ?></label>
-				    <div class="col-sm-8">
-				      <div class="row">
-				      	<div class="col-md-3">
-				      		<select class="form-control" id="currency" name="currency[]">
-							      			<?php
-								    	         foreach ($data->data_currency as $key => $value) { ?>
-							      			<option value="<?php echo $value->currency_id; ?>"><?php echo $value->currency_name; ?></option>
-							      			<?php } ?>
-							       </select>
-				      	</div>
-				      	<div class="col-md-9">
-				      		<select class="form-control" id="curency_range" name="curency_range">
+		<?php   foreach ($data->data_project_list as $key => $items) { ?>
 
-							      			<?php
-								    	      foreach ($data->data_budget_range as $key => $value) { 
-								      		 if($value->currency_id==1){ 
-		?>
-	     <option value="<?php echo $value->budget_range_id; ?>">  <?php echo  '$'.$value->min .'- $'. $value->max; ?>
-	</option>
-	<?php  }else{    ?>
-				<option value="<?php echo $value->budget_range_id; ?>">  <?php echo $value->min .'R -'. $value->max.'R'; ?>
-	</option>
-		?>  
-							      			
-							      			<?php 
-							      			}  
-							      				 }  
-							      		    ?>
-							      		</select>
-				      	</div>
-				      </div>
-				    </div>
-				  	</div>
+
+
+
+		   <div class="form-group{{ $errors->has('txt_project_name') ? ' has-error' : '' }}">
+			   <label for="" class="col-sm-4 control-label"><?php echo trans('project.enter_project_name_label') ?></label>
+
+			   <div class="col-md-8">
+                   <?php  if(isset($data->data_project_list )){  ?>
+				   <input id="txt_project_name" type="text" class="form-control" name="txt_project_name" value="<?php echo $items->name; ?>"   placeholder="e.g. Design a logo for me" autofocus>
+                   <?php }else{ ?>
+				   <input id="txt_project_name" type="text" class="form-control" name="txt_project_name" value="{{ old('txt_project_name') }}"   placeholder="e.g. Design a logo for me" autofocus>
+                   <?php } ?>
+				   @if ($errors->has('txt_project_name'))
+					   <span hidden class="help-block">
+						<strong>{{ $errors->first('txt_project_name') }}</strong>
+						</span>
+				   @endif
+			   </div>
+		   </div>
+
+
+		   <div class="form-group{{ $errors->has('txt_project_desc') ? ' has-error' : '' }}">
+			   <label for="" class="col-sm-4 control-label"><?php echo trans('project.description_about_your_project'); ?></label>
+			   <div class="col-sm-8">
+                   <?php  if(isset($data->data_project_list )){  ?>
+				   <textarea class="form-control" id="txt_project_desc" name="txt_project_desc" placeholder="<?php echo trans('project.your_text_here') ?>" style="min-height:150px;max-height:150px;min-width:100%;max-width:100%;"><?php echo $items->desc; ?></textarea>
+                   <?php }else{ ?>
+				   <textarea class="form-control" id="txt_project_desc" name="txt_project_desc" placeholder="<?php echo trans('project.your_text_here') ?>" style="min-height:150px;max-height:150px;min-width:100%;max-width:100%;"><?php echo old('txt_project_desc'); ?></textarea>
+                   <?php } ?>
+				   @if ($errors->has('txt_project_desc'))
+					   <span class="help-block">
+																<strong>{{ $errors->first('txt_project_desc') }}</strong>
+												   </span>
+				   @endif
+			   </div>
+		   </div>
+
+		   <div class="form-group{{ $errors->has('image') ? ' has-error' : '' }}">
+			   <label for="" class="col-sm-4 control-label"><?php echo trans('project.upload_file')  ?></label>
+			   <div class="col-md-8">
+
+				   <input type="hidden" name="file_path" value="<?php echo $items->path_and_file_name; ?>">
+				   <input type="file" name="image" id="image"  class="form-control" value="{{ old('image') }}" placeholder="Image"/>
+
+				   @if ($errors->has('image'))
+					   <span class="help-block">
+														<strong>{{ $errors->first('image') }}</strong>
+													</span>
+				   @endif
+			   </div>
+		   </div>
+
+		   <div class="form-group">
+			   <label for="input-skill" class="col-sm-4 control-label"><span data-toggle="tooltip" title=""><?php echo trans('project.what_skill_are_required'); ?></span></label>
+			   <div class="col-sm-8">
+
+				   <input type="text" name="skill" id="input-skill" value="" placeholder="<?php echo trans('project.what_skill_are_required'); ?>" id="input-skill" class="form-control" />
+
+				   <ul class="dropdown-menu"></ul>
+
+				   <div id="post-skill" class="well well-sm" style="height: auto;  width:100%; min-height: 120px;">
+                       <?php
+                       //													print_r(old('post_skill'));
+                       $old_skill = explode(',', $items->p_skill_id);
+                       //													print_r($old_skill);
+                       if(count(old('post_skill')) > 0) {
+                       $skill_arr = $data->data_skill;
+                       foreach (old('post_skill') as $key => $value) { ?>
+					   <div id="post-skill<?php echo $value; ?>">
+						   <i class="fa fa-minus-circle"></i>
+                           <?php	foreach( $skill_arr as $item) {
+                               if($item->skill_id==$value){
+                                   echo $item->skill_title;
+                               }
+                           }?>
+						   <input type="hidden" name="post_skill[]" value="<?php echo $value; ?>" /></div>
+                       <?php
+                       }
+                       }else if(($old_skill > 0) && !empty($old_skill[0])) {
+                       foreach ($old_skill as $key => $value) {
+                       $skill_ar = $data->data_skill   ?>
+					   <div id="post-skill<?php echo $value; ?>">
+						   <i class="fa fa-minus-circle"></i>
+                           <?php
+                           foreach( $skill_ar as $item) {
+                               if($item->skill_id==$value){
+                                   echo $item->skill_title;
+                               }
+                           }?>
+						   <input type="hidden" name="post_skill[]" value="<?php echo $value; ?>" /></div>
+                       <?php }
+                       }
+                       ?>
+				   </div>
+			   </div>
+		   </div>
+		   <div class="form-group">
+
+			   <label for="" class="col-sm-4 control-label"><?php echo trans('project.what_is_your_estimated_budget'); ?></label>
+			   <div class="col-sm-8">
+				   <div class="row">
+					   <div class="col-md-3">
+						   <input type="hidden" value="<?php echo $items->currency_id; ?>" id="currency_id"/>
+						   <select class="form-control" id="currency" name="currency[]" >
+                               <?php
+                               foreach ($data->data_currency as $key => $value) { ?>
+							   <option value="<?php echo $value->currency_id; ?>"><?php echo $value->currency_name; ?></option>
+                               <?php } ?>
+						   </select>
+					   </div>
+					   <div class="col-md-9">
+						   <input type="hidden" value="<?php echo $items->budget_range_id; ?>" id="budget_id"/>
+						   <select class="form-control" id="curency_range" name="curency_range">
+
+                               <?php
+                               foreach ($data->data_budget_range as $key => $value) {
+                               if($value->currency_id==1){
+                               ?>
+							   <option  id="<?php echo $value->budget_range_id; ?>" value="<?php echo $value->budget_range_id; ?>">  <?php echo  '$'.$value->min .'- $'. $value->max; ?>
+							   </option>
+                               <?php  }else{    ?>
+							   <option  id="<?php echo $value->budget_range_id; ?>" value="<?php echo $value->budget_range_id; ?>">  <?php echo $value->min .'R -'. $value->max.'R'; ?>
+							   </option>
+							   ?>
+
+                               <?php
+                               }
+                               }
+                               ?>
+						   </select>
+					   </div>
+				   </div>
+			   </div>
+
+		   </div>
+
+
+
+           <?php  } } ?>
+
 
 				  	<div class="form-group">
 				    <div class="col-sm-offset-4 col-sm-8">
@@ -130,8 +286,6 @@
 				    </div>
 				  	</div>
 				</form>
-
-
 	    	</div>
 	    </div>
 	</div>
@@ -156,6 +310,49 @@
 
 
 <script type="text/javascript">
+
+    $(document).ready(
+        function(){
+
+            //----auto select currency
+            var currency_id_value = $('#currency_id').val();
+            $("#currency option[value="+currency_id_value+"]").attr('selected',true);
+
+            //------------begin auto load budget range by currency ---------------
+            var currency = $('#currency').val();
+            var url = '/currency_range?currency_id='+currency;
+            $.ajax({
+                type: "GET",
+                url: url,
+                beforeSend: function () {
+                    // before send
+                },
+                complete: function () {
+                    // completed
+                },
+                success: function (html) {
+                    $('#curency_range').html(html).show();
+                    console.log(html);
+                },
+                error: function (request, status, error) {
+                    var msg = '';
+                    msg += '<div class="alert alert-warning" id="warning">';
+                    msg += '<button type="button" class="close" data-dismiss="alert">&times;</button>';
+                    msg += '<b><i class="fa fa-info-circle"></i> '+error+' </b><br />';
+                    msg += '</div>';
+                    $('#curency_range').html(msg).show();
+                }
+            });
+
+            //------------end auto load budget range by currency ---------------
+
+            //------auto select budget after load budget by currency id
+            var budget_id_value = $('#budget_id').val();
+            //alert('Work only when alert = '+budget_id_value);
+            $("#curency_range option[value="+budget_id_value+"]").attr('selected',true);
+        });
+
+
 	$(document).ready(function() {
 
 	$('input[name=\'skill\']').autocomplete({
@@ -183,10 +380,16 @@
   }
 });
 
+
+
+
+
 $('#post-skill').delegate('.fa-minus-circle', 'click', function() {
   $(this).parent().remove();
 });
-			$(document).on('change', '#currency', function(e) {
+
+
+$(document).on('change', '#currency', function(e) {
 				e.preventDefault();
 				var currency = $(this).val();
 				var url = '/currency_range?currency_id='+currency;

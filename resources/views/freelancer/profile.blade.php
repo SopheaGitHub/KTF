@@ -34,9 +34,6 @@
 
 </style>
 
-
-
-
 <div class="col-md-8">
 	<div class="profile clearfix">
         <div class="image">
@@ -119,21 +116,13 @@ thank you.</p>
 	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	      <ul class="nav navbar-nav navbar-right">
-	        <li class="active li-file-menu" id="overview"><a href="#" class="profile-menu" data-menu="overview">Overview</a></li>
-	        <li class="li-file-menu" id="project"><a href="#" class="profile-menu" data-menu="project">Project</a></li>
-	        <li class="li-file-menu" id="bid"><a href="#" class="profile-menu" data-menu="bid">Bid</a></li>
-	        <li class="li-file-menu" id="showcase"><a href="#" class="profile-menu" data-menu="showcase">Showcase</a></li>
-	        <!-- <li class="dropdown">
-	          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-	          <ul class="dropdown-menu">
-	            <li><a href="#">Action</a></li>
-	            <li><a href="#">Another action</a></li>
-	            <li><a href="#">Something else here</a></li>
-	            <li role="separator" class="divider"></li>
-	            <li><a href="#">Separated link</a></li>
-	          </ul>
-	        </li> -->
-	      </ul>
+
+	          <li class="active li-file-menu" id="overview"><a href="#" onclick="return loadingListReview('/load-review-list')" class="" data-menu="overview">Overview</a></li>
+              <li class="li-file-menu" id="project"><a href="#" onclick="return loadingListProject('/load-project-list')" class="" data-menu="project">Project</a></li>
+              <li class="li-file-menu" id="bid"><a href="#" onclick="return loadingListBid('/load-bid-list')" class="" data-menu="bid">Bid</a></li>
+	          <li class="li-file-menu" id="showcase"><a href="#" class="profile-menu" data-menu="showcase">Showcase</a></li>
+
+          </ul>
 	    </div><!-- /.navbar-collapse -->
 	  </div><!-- /.container-fluid -->
 	</nav>
@@ -365,6 +354,90 @@ thank you.</p>
         });
 
 	//===============>END CROP <=============================
+
+
+    function loadingListProject(requestAction) {
+       var id = 'project';
+        $.ajax({
+            type: "GET",
+            url: requestAction,
+            beforeSend:function() {
+                console.log('beforeSend');
+                $('#block-loader').show();
+            },
+            complete:function() {
+                $('.li-file-menu').removeClass( "active" );
+                $('#'+id).addClass( "active" );
+                console.log('complete');
+                $('#block-loader').hide();
+            },
+            success:function(html) {
+                $('#load-page').html(html).show();
+            },
+            error:function(request, status, error) {
+                $('#load-page').html('').show();
+            }
+        });
+        return false;
+    }
+
+
+
+
+    function loadingListBid(requestAction) {
+        var id = 'bid';
+        $.ajax({
+            type: "GET",
+            url: requestAction,
+            beforeSend:function() {
+                console.log('beforeSend');
+                $('#block-loader').show();
+            },
+            complete:function() {
+                $('.li-file-menu').removeClass( "active" );
+                $('#'+id).addClass( "active" );
+                console.log('complete');
+                $('#block-loader').hide();
+            },
+            success:function(html) {
+                $('#load-page').html(html).show();
+            },
+            error:function(request, status, error) {
+                $('#load-page').html('').show();
+            }
+        });
+        return false;
+    }
+
+
+
+    function loadingListReview(requestAction) {
+        var id = 'overview';
+        $.ajax({
+            type: "GET",
+            url: requestAction,
+            beforeSend:function() {
+                console.log('beforeSend');
+                $('#block-loader').show();
+            },
+            complete:function() {
+                $('.li-file-menu').removeClass( "active" );
+                $('#'+id).addClass( "active" );
+                console.log('complete');
+                $('#block-loader').hide();
+            },
+            success:function(html) {
+                $('#load-page').html(html).show();
+            },
+            error:function(request, status, error) {
+                $('#load-page').html('').show();
+            }
+        });
+        return false;
+    }
+
+
+
 </script>
 
 @endsection
